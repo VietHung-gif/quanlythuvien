@@ -139,6 +139,17 @@
     
     $categoryTag = !empty($catName) ? mb_strtoupper($catName, 'UTF-8') : 'HỌC THUẬT';
     $uniqueId = 'cov-' . $bookIdNum . '-' . substr(md5($title . $bookIdNum), 0, 4);
+
+    // 4. XÁC ĐỊNH URL ẢNH BÌA THẬT (HTTP/HTTPS từ API hoặc Local Storage)
+    $rawCover = is_object($bookObj) ? ($bookObj->cover_image ?? null) : ($bookObj['cover_image'] ?? null);
+    $hasRealCover = !empty($rawCover) && !str_contains($rawCover, 'placehold.co');
+    
+    $resolvedCoverUrl = null;
+    if ($hasRealCover) {
+        $resolvedCoverUrl = \Illuminate\Support\Str::startsWith($rawCover, ['http://', 'https://'])
+            ? $rawCover
+            : asset('storage/' . ltrim($rawCover, '/'));
+    }
 @endphp
 
 @if($isAlpine)
@@ -233,9 +244,22 @@
     </div>
 @else
     {{-- ========================================================================= --}}
-    {{-- PHIÊN BẢN BLADE VECTOR BOOK COVER ĐỘC LẬP (100% VECTOR - RENDER TỨC THÌ) --}}
+    {{-- PHIÊN BẢN HIỂN THỊ BÌA SÁCH: ẢNH THẬT (URL/STORAGE) HOẶC VECTOR DỰ PHÒNG   --}}
     {{-- ========================================================================= --}}
-    <div {{ $attributes->merge(['class' => 'relative aspect-[3/4] w-full h-full overflow-hidden rounded-xl border-l-4 border-black/35 shadow-md hover:shadow-xl transition-all duration-300 bg-gradient-to-br ' . $palette['bg'] . ' text-white select-none ' . $class]) }}>
+    <div {{ $attributes->merge(['class' => 'relative aspect-[3/4] w-full h-full overflow-hidden rounded-xl border border-slate-200/80 bg-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 ' . $class]) }}>
+        
+        @if($resolvedCoverUrl)
+            <!-- ẢNH BÌA THỰC TẾ (TỰ ĐỘNG CHỌN URL HTTP HOẶC FILE LOCAL STORAGE) -->
+            <img src="{{ $resolvedCoverUrl }}"
+                 alt="{{ $title }}"
+                 class="w-full h-full object-cover transition-transform duration-300 {{ $imgClass }}"
+                 style="transform: translateZ(0); backface-visibility: hidden;"
+                 loading="lazy"
+                 onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+        @endif
+
+        <!-- LỚP VECTOR COVER NGHỆ THUẬT (HIỂN THỊ KHI CHƯA CÓ ẢNH HOẶC KHI LINK ẢNH BỊ LỖI) -->
+        <div class="{{ $resolvedCoverUrl ? 'hidden ' : '' }}w-full h-full relative aspect-[3/4] overflow-hidden rounded-xl border-l-4 border-black/35 shadow-md bg-gradient-to-br {{ $palette['bg'] }} text-white select-none">
         
         <!-- 1. Hiệu ứng gáy sách vật lý (Book Spine Shadow & Crease Depth) -->
         <div class="absolute inset-y-0 left-0 w-3.5 sm:w-4 bg-gradient-to-r from-black/60 via-black/25 to-transparent pointer-events-none z-20 border-r border-white/5"></div>
@@ -402,4 +426,6 @@
         </div>
 
     </div>
+
+</div>
 @endif

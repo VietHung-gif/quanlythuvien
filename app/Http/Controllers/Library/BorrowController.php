@@ -10,7 +10,6 @@ use App\Models\BorrowRecord;
 use App\Models\LibraryFund;
 use App\Models\Transaction;
 use App\Models\User;
-use App\Models\Wallet;
 use App\Services\AuditLogger;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -45,22 +44,22 @@ class BorrowController extends Controller
                     }
 
                     $q->orWhere('borrower_name', 'like', "%{$cleanSearch}%")
-                      ->orWhere('borrower_phone', 'like', "%{$cleanSearch}%")
-                      ->orWhere('borrower_email', 'like', "%{$cleanSearch}%")
-                      ->orWhereHas('book', function ($b) use ($cleanSearch) {
-                          $b->where('title', 'like', "%{$cleanSearch}%")
-                            ->orWhere('author', 'like', "%{$cleanSearch}%")
-                            ->orWhere('isbn', 'like', "%{$cleanSearch}%");
-                      });
+                        ->orWhere('borrower_phone', 'like', "%{$cleanSearch}%")
+                        ->orWhere('borrower_email', 'like', "%{$cleanSearch}%")
+                        ->orWhereHas('book', function ($b) use ($cleanSearch) {
+                            $b->where('title', 'like', "%{$cleanSearch}%")
+                                ->orWhere('author', 'like', "%{$cleanSearch}%")
+                                ->orWhere('isbn', 'like', "%{$cleanSearch}%");
+                        });
                 });
             })
             ->when($status !== 'all', function ($query) use ($status) {
                 if ($status === 'overdue') {
                     $query->where('status', 'borrowing')
-                          ->where('due_date', '<', Carbon::now()->toDateString());
+                        ->where('due_date', '<', Carbon::now()->toDateString());
                 } elseif ($status === 'renewal_pending') {
                     $query->where('status', 'borrowing')
-                          ->where('renewal_status', 'pending');
+                        ->where('renewal_status', 'pending');
                 } else {
                     $query->where('status', $status);
                 }
@@ -156,11 +155,11 @@ class BorrowController extends Controller
             if ($targetUser && $targetUser->unpaid_fine > 0) {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', "Tài khoản của bạn đang có tiền phạt chưa thanh toán (" . number_format($targetUser->unpaid_fine, 0, ',', '.') . " VNĐ). Vui lòng gặp thủ thư thanh toán đủ tiền phạt để tiếp tục mượn sách!");
+                    ->with('error', 'Tài khoản của bạn đang có tiền phạt chưa thanh toán ('.number_format($targetUser->unpaid_fine, 0, ',', '.').' VNĐ). Vui lòng gặp thủ thư thanh toán đủ tiền phạt để tiếp tục mượn sách!');
             }
         }
 
-        return DB::transaction(function () use ($validated, $request, $targetUserId) {
+        return DB::transaction(function () use ($validated, $targetUserId) {
             // Khóa dòng để tránh tranh chấp số lượng tồn kho (Race Condition)
             $book = Book::lockForUpdate()->findOrFail($validated['book_id']);
             $borrowQuantity = (int) ($validated['quantity'] ?? 1);
@@ -189,7 +188,7 @@ class BorrowController extends Controller
                                 amount: $depositAmount,
                                 type: 'book_deposit_hold',
                                 description: "Tạm giữ tiền cọc mượn {$borrowQuantity} cuốn \"{$book->title}\"",
-                                referenceId: 'HOLD_' . time()
+                                referenceId: 'HOLD_'.time()
                             );
                         }
                     }
@@ -222,7 +221,8 @@ class BorrowController extends Controller
                 }
             }
 
-            $depositMsg = $depositAmount > 0 ? " Đã tạm giữ " . number_format($depositAmount, 0, ',', '.') . "đ tiền cọc sách." : " (Gói VIP miễn cọc sách).";
+            $depositMsg = $depositAmount > 0 ? ' Đã tạm giữ '.number_format($depositAmount, 0, ',', '.').'đ tiền cọc sách.' : ' (Gói VIP miễn cọc sách).';
+
             return redirect()->route('borrows.index')
                 ->with('success', "Mượn sách thành công ({$borrowQuantity} cuốn)!{$depositMsg} Công lực của bạn tăng thêm +50 EXP!");
         });
@@ -274,7 +274,7 @@ class BorrowController extends Controller
             // Cập nhật ghi chú nếu có
             $notes = $borrow->notes;
             if ($request->filled('return_notes')) {
-                $notes = $notes ? $notes . "\n[Lúc trả]: " . $request->input('return_notes') : $request->input('return_notes');
+                $notes = $notes ? $notes."\n[Lúc trả]: ".$request->input('return_notes') : $request->input('return_notes');
             }
 
             // TIẾN HÀNH ĐỐI SOÁT TÀI CHÍNH (TIỀN CỌC & PHÍ PHẠT TRỄ HẠN)
@@ -305,9 +305,9 @@ class BorrowController extends Controller
                             'description' => "Hoàn trả 100% tiền cọc mượn cuốn \"{$borrow->book->title}\" (Phiếu #PKM{$borrow->id})",
                             'reference_id' => "REFUND_PKM{$borrow->id}",
                         ]);
-                        $financialLog = "Đã hoàn trả 100% tiền cọc (" . number_format($depositAmount, 0, ',', '.') . " đ) về ví.";
+                        $financialLog = 'Đã hoàn trả 100% tiền cọc ('.number_format($depositAmount, 0, ',', '.').' đ) về ví.';
                     } else {
-                        $financialLog = "Đặc quyền Scholar VIP: Miễn cọc 0đ.";
+                        $financialLog = 'Đặc quyền Scholar VIP: Miễn cọc 0đ.';
                     }
                 } else {
                     // 2. Quá hạn: Khấu trừ tiền phạt vào tiền cọc (nếu có cọc)
@@ -352,7 +352,7 @@ class BorrowController extends Controller
                         $fineStatus = 'paid';
                         $isFinePaid = true;
                         $finePaidAt = Carbon::now();
-                        $financialLog = "Đã khấu trừ phạt " . number_format($fineAmount, 0, ',', '.') . " đ từ cọc, hoàn phần dư " . number_format($refundRemainder, 0, ',', '.') . " đ về ví.";
+                        $financialLog = 'Đã khấu trừ phạt '.number_format($fineAmount, 0, ',', '.').' đ từ cọc, hoàn phần dư '.number_format($refundRemainder, 0, ',', '.').' đ về ví.';
                     } elseif ($depositAmount > 0) {
                         // Tiền cọc không đủ bù phạt
                         $remainingFine = $fineAmount - $depositAmount;
@@ -375,12 +375,12 @@ class BorrowController extends Controller
                         $fineStatus = 'unpaid';
                         $isFinePaid = false;
                         $fineAmount = $remainingFine;
-                        $financialLog = "Đã trừ hết cọc " . number_format($depositAmount, 0, ',', '.') . " đ vào phạt. Còn thiếu " . number_format($remainingFine, 0, ',', '.') . " đ chưa thu.";
+                        $financialLog = 'Đã trừ hết cọc '.number_format($depositAmount, 0, ',', '.').' đ vào phạt. Còn thiếu '.number_format($remainingFine, 0, ',', '.').' đ chưa thu.';
                     } else {
                         // VIP được miễn cọc 0đ, toàn bộ tiền phạt ghi nợ vào tài khoản
                         $fineStatus = 'unpaid';
                         $isFinePaid = false;
-                        $financialLog = "Độc giả Scholar VIP (miễn cọc) quá hạn {$overdueDays} ngày. Phí phạt " . number_format($fineAmount, 0, ',', '.') . " đ ghi nhận chưa thanh toán.";
+                        $financialLog = "Độc giả Scholar VIP (miễn cọc) quá hạn {$overdueDays} ngày. Phí phạt ".number_format($fineAmount, 0, ',', '.').' đ ghi nhận chưa thanh toán.';
                     }
                 }
             } else {
@@ -389,7 +389,7 @@ class BorrowController extends Controller
 
             $finalNotes = $notes;
             if ($financialLog) {
-                $finalNotes = $finalNotes ? $finalNotes . "\n[Tài chính]: " . $financialLog : "[Tài chính]: " . $financialLog;
+                $finalNotes = $finalNotes ? $finalNotes."\n[Tài chính]: ".$financialLog : '[Tài chính]: '.$financialLog;
             }
 
             $borrow->update([
@@ -432,10 +432,10 @@ class BorrowController extends Controller
                 }
             }
 
-            $formattedFine = number_format($fineAmount, 0, ',', '.') . ' đ';
+            $formattedFine = number_format($fineAmount, 0, ',', '.').' đ';
 
             // Ghi AuditLog hoạt động trả sách
-            $fineNote = $overdueDays > 0 ? " (Quá hạn {$overdueDays} ngày, phạt {$formattedFine})" : " (Đúng hạn)";
+            $fineNote = $overdueDays > 0 ? " (Quá hạn {$overdueDays} ngày, phạt {$formattedFine})" : ' (Đúng hạn)';
             AuditLogger::log(
                 action: 'RETURN_BOOK',
                 description: "Thủ thư {$request->user()->name} đã xác nhận trả cuốn \"{$borrow->book->title}\" (SL: {$borrowQuantity} cuốn) từ độc giả \"{$borrow->borrower_name}\"{$fineNote}. {$financialLog}",
@@ -458,7 +458,8 @@ class BorrowController extends Controller
                     ->with('success', "Xác nhận trả sách \"{$borrow->book->title}\" thành công! {$financialLog}");
             }
 
-            $bonusExpText = $borrow->user_id ? " Độc giả được thưởng +50 EXP vì hoàn trả đúng hạn!" : "";
+            $bonusExpText = $borrow->user_id ? ' Độc giả được thưởng +50 EXP vì hoàn trả đúng hạn!' : '';
+
             return redirect()->route('borrows.index')
                 ->with('success', "Trả cuốn sách \"{$borrow->book->title}\" đúng hạn thành công! {$financialLog}{$bonusExpText}");
         });
@@ -475,7 +476,7 @@ class BorrowController extends Controller
         $unpaidFine = $user->unpaid_fine;
         if ($unpaidFine > 0) {
             return redirect()->back()
-                ->with('error', "Tài khoản của bạn đang có tiền phạt chưa thanh toán (" . number_format($unpaidFine, 0, ',', '.') . " VNĐ). Vui lòng gặp thủ thư thanh toán đủ tiền phạt để tiếp tục mượn sách!");
+                ->with('error', 'Tài khoản của bạn đang có tiền phạt chưa thanh toán ('.number_format($unpaidFine, 0, ',', '.').' VNĐ). Vui lòng gặp thủ thư thanh toán đủ tiền phạt để tiếp tục mượn sách!');
         }
 
         $borrowQuantity = max(1, (int) $request->input('quantity', 1));
@@ -511,6 +512,7 @@ class BorrowController extends Controller
                     return redirect()->back()
                         ->with('error', "Bạn đã gửi yêu cầu mượn cuốn sách \"{$lockedBook->title}\" trước đó và đang chờ Admin duyệt!");
                 }
+
                 return redirect()->back()
                     ->with('error', "Bạn hiện đang mượn cuốn sách \"{$lockedBook->title}\" và chưa hoàn trả!");
             }
@@ -536,7 +538,7 @@ class BorrowController extends Controller
             $user->awardExp(50);
 
             return redirect()->route('borrows.my')
-                ->with('success', "Gửi yêu cầu mượn sách thành công! Công lực của bạn tăng thêm +50 EXP!");
+                ->with('success', 'Gửi yêu cầu mượn sách thành công! Công lực của bạn tăng thêm +50 EXP!');
         });
     }
 
@@ -546,7 +548,7 @@ class BorrowController extends Controller
     public function cancelRequest(Request $request, BorrowRecord $borrow): RedirectResponse
     {
         // Chỉ người tạo yêu cầu hoặc Admin mới có quyền hủy
-        if ($borrow->user_id !== $request->user()->id && !in_array($request->user()->role, ['admin', 'librarian'])) {
+        if ($borrow->user_id !== $request->user()->id && ! in_array($request->user()->role, ['admin', 'librarian'])) {
             abort(403, 'Bạn không có quyền hủy yêu cầu này.');
         }
 
@@ -581,12 +583,12 @@ class BorrowController extends Controller
                    ?? BorrowRecord::find($borrow);
         }
 
-        if (!$record) {
+        if (! $record) {
             abort(404, 'Không tìm thấy phiếu mượn hợp lệ.');
         }
 
         // Phân quyền: Chỉ chủ sở hữu phiếu mượn hoặc Admin/Thủ thư mới được gửi yêu cầu
-        if ($record->user_id && $record->user_id !== $user->id && !in_array($user->role, ['admin', 'librarian'])) {
+        if ($record->user_id && $record->user_id !== $user->id && ! in_array($user->role, ['admin', 'librarian'])) {
             abort(403, 'Bạn không có quyền thao tác trên phiếu mượn này.');
         }
 
@@ -594,8 +596,9 @@ class BorrowController extends Controller
         $isBorrowing = in_array($record->status, ['borrowing', 'approved'])
                     || (isset($record->borrow_status) && $record->borrow_status === 'Đã mượn');
 
-        if (!$isBorrowing || $record->status === 'returned' || $record->status === 'rejected') {
+        if (! $isBorrowing || $record->status === 'returned' || $record->status === 'rejected') {
             $msg = 'Chỉ có thể xin gia hạn cho sách đang trong thời hạn mượn!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -603,6 +606,7 @@ class BorrowController extends Controller
 
         if (isset($record->borrow_status) && $record->borrow_status === 'Chưa mượn') {
             $msg = 'Phiếu mượn chưa được nhận sách tại thư viện, chưa thể xin gia hạn!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -618,6 +622,7 @@ class BorrowController extends Controller
 
         if ($isOverdue) {
             $msg = 'Sách đã quá hạn trả! Vui lòng mang sách đến quầy thư viện để hoàn trả và thanh toán phí phạt.';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -626,6 +631,7 @@ class BorrowController extends Controller
         // 4. Kiểm tra xem đã được gia hạn trước đó chưa (tối đa 1 lần)
         if (($record->renewed_times ?? 0) >= 1 || $record->renewal_status === 'approved' || str_contains($record->notes ?? '', '[Đồng ý gia hạn]') || str_contains($record->notes ?? '', '[Gia hạn]')) {
             $msg = 'Mỗi lượt mượn chỉ được phép gia hạn tối đa 1 lần (+7 ngày)!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -634,6 +640,7 @@ class BorrowController extends Controller
         // 5. Kiểm tra nếu đang có yêu cầu chờ duyệt
         if ($record->renewal_status === 'pending') {
             $msg = 'Yêu cầu gia hạn của bạn đang chờ Admin / Thủ thư xét duyệt!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -644,7 +651,7 @@ class BorrowController extends Controller
         $record->update([
             'renewal_status' => 'pending',
             'renewal_requested_at' => $now,
-            'notes' => ($record->notes ? $record->notes . "\n" : '') . "[Yêu cầu gia hạn]: Độc giả {$user->name} đã gửi yêu cầu gia hạn +7 ngày lúc " . $now->format('d/m/Y H:i'),
+            'notes' => ($record->notes ? $record->notes."\n" : '')."[Yêu cầu gia hạn]: Độc giả {$user->name} đã gửi yêu cầu gia hạn +7 ngày lúc ".$now->format('d/m/Y H:i'),
         ]);
 
         // Đồng bộ sang bảng đối ứng nếu có
@@ -659,7 +666,7 @@ class BorrowController extends Controller
         } elseif ($record instanceof BorrowRecord && $record->user_id) {
             Borrow::where('user_id', $record->user_id)
                 ->whereIn('status', ['approved', 'borrowing'])
-                ->whereHas('details', fn($q) => $q->where('book_id', $record->book_id))
+                ->whereHas('details', fn ($q) => $q->where('book_id', $record->book_id))
                 ->update([
                     'renewal_status' => 'pending',
                     'renewal_requested_at' => $now,
@@ -667,7 +674,7 @@ class BorrowController extends Controller
         }
 
         // Ghi AuditLog
-        $bookTitle = $record instanceof BorrowRecord ? ($record->book->title ?? 'Sách') : ($record->code ?? 'Phiếu mượn #' . $record->id);
+        $bookTitle = $record instanceof BorrowRecord ? ($record->book->title ?? 'Sách') : ($record->code ?? 'Phiếu mượn #'.$record->id);
         AuditLogger::log(
             action: 'REQUEST_RENEWAL',
             description: "Độc giả {$user->name} đã gửi yêu cầu gia hạn thêm 7 ngày cho \"{$bookTitle}\".",
@@ -678,6 +685,7 @@ class BorrowController extends Controller
         );
 
         $msg = 'Đã gửi yêu cầu gia hạn (+7 ngày) đến Ban Quản Trị thành công!';
+
         return $request->wantsJson() || $request->ajax()
             ? response()->json(['success' => true, 'message' => $msg, 'renewal_status' => 'pending', 'borrow_id' => $record->id])
             : redirect()->back()->with('success', $msg);
@@ -690,7 +698,7 @@ class BorrowController extends Controller
     public function approveRenewal(Request $request, $borrow): JsonResponse|RedirectResponse
     {
         $admin = $request->user();
-        if (!in_array($admin->role, ['admin', 'librarian'])) {
+        if (! in_array($admin->role, ['admin', 'librarian'])) {
             abort(403, 'Chỉ Quản trị viên và Thủ thư mới có quyền phê duyệt gia hạn.');
         }
 
@@ -703,6 +711,7 @@ class BorrowController extends Controller
 
         if ($record->status !== 'borrowing' || $record->renewal_status !== 'pending') {
             $msg = 'Phiếu mượn này không có yêu cầu gia hạn đang chờ duyệt!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -716,14 +725,14 @@ class BorrowController extends Controller
             'due_date' => $newDueDate->toDateString(),
             'renewal_status' => 'approved',
             'renewed_times' => ($record->renewed_times ?? 0) + 1,
-            'notes' => ($record->notes ? $record->notes . "\n" : '') . "[Đồng ý gia hạn]: Thủ thư {$admin->name} đã duyệt gia hạn thêm 7 ngày đến " . $newDueDate->format('d/m/Y') . " lúc " . $now->format('d/m/Y H:i'),
+            'notes' => ($record->notes ? $record->notes."\n" : '')."[Đồng ý gia hạn]: Thủ thư {$admin->name} đã duyệt gia hạn thêm 7 ngày đến ".$newDueDate->format('d/m/Y').' lúc '.$now->format('d/m/Y H:i'),
         ]);
 
         // Đồng bộ sang bảng borrows mẹ nếu có
         if ($record instanceof BorrowRecord && $record->user_id) {
             Borrow::where('user_id', $record->user_id)
                 ->whereIn('status', ['approved', 'borrowing'])
-                ->whereHas('details', fn($q) => $q->where('book_id', $record->book_id))
+                ->whereHas('details', fn ($q) => $q->where('book_id', $record->book_id))
                 ->update([
                     'due_date' => $newDueDate->toDateString(),
                     'renewal_status' => 'approved',
@@ -749,7 +758,8 @@ class BorrowController extends Controller
             newValues: ['renewal_status' => 'approved', 'due_date' => $newDueDate->toDateString(), 'renewed_times' => 1]
         );
 
-        $msg = "Đồng ý gia hạn thành công! Hạn trả mới của cuốn sách là ngày " . $newDueDate->format('d/m/Y') . " (+7 ngày). Độc giả nhận được +15 EXP!";
+        $msg = 'Đồng ý gia hạn thành công! Hạn trả mới của cuốn sách là ngày '.$newDueDate->format('d/m/Y').' (+7 ngày). Độc giả nhận được +15 EXP!';
+
         return $request->wantsJson() || $request->ajax()
             ? response()->json([
                 'success' => true,
@@ -768,7 +778,7 @@ class BorrowController extends Controller
     public function rejectRenewal(Request $request, $borrow): JsonResponse|RedirectResponse
     {
         $admin = $request->user();
-        if (!in_array($admin->role, ['admin', 'librarian'])) {
+        if (! in_array($admin->role, ['admin', 'librarian'])) {
             abort(403, 'Chỉ Quản trị viên và Thủ thư mới có quyền từ chối gia hạn.');
         }
 
@@ -781,6 +791,7 @@ class BorrowController extends Controller
 
         if ($record->renewal_status !== 'pending') {
             $msg = 'Phiếu mượn này không có yêu cầu gia hạn đang chờ duyệt!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -791,14 +802,14 @@ class BorrowController extends Controller
 
         $record->update([
             'renewal_status' => 'rejected',
-            'notes' => ($record->notes ? $record->notes . "\n" : '') . "[Từ chối gia hạn]: Thủ thư {$admin->name} đã từ chối yêu cầu gia hạn (Lý do: {$reason}) lúc " . $now->format('d/m/Y H:i'),
+            'notes' => ($record->notes ? $record->notes."\n" : '')."[Từ chối gia hạn]: Thủ thư {$admin->name} đã từ chối yêu cầu gia hạn (Lý do: {$reason}) lúc ".$now->format('d/m/Y H:i'),
         ]);
 
         // Đồng bộ sang bảng borrows mẹ nếu có
         if ($record instanceof BorrowRecord && $record->user_id) {
             Borrow::where('user_id', $record->user_id)
                 ->whereIn('status', ['approved', 'borrowing'])
-                ->whereHas('details', fn($q) => $q->where('book_id', $record->book_id))
+                ->whereHas('details', fn ($q) => $q->where('book_id', $record->book_id))
                 ->update(['renewal_status' => 'rejected']);
         }
 
@@ -813,6 +824,7 @@ class BorrowController extends Controller
         );
 
         $msg = "Đã từ chối yêu cầu gia hạn cho cuốn \"{$bookTitle}\" của độc giả \"{$record->borrower_name}\".";
+
         return $request->wantsJson() || $request->ajax()
             ? response()->json([
                 'success' => true,
@@ -836,9 +848,10 @@ class BorrowController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Phiếu mượn này không ở trạng thái chờ duyệt!'
+                    'message' => 'Phiếu mượn này không ở trạng thái chờ duyệt!',
                 ], 422);
             }
+
             return redirect()->back()
                 ->with('error', 'Phiếu mượn này không ở trạng thái chờ duyệt!');
         }
@@ -853,9 +866,10 @@ class BorrowController extends Controller
                 if ($request->ajax() || $request->wantsJson()) {
                     return response()->json([
                         'success' => false,
-                        'message' => $errorMsg
+                        'message' => $errorMsg,
                     ], 422);
                 }
+
                 return redirect()->back()->with('error', $errorMsg);
             }
 
@@ -868,7 +882,7 @@ class BorrowController extends Controller
                 'borrow_date' => Carbon::now()->toDateString(),
                 'due_date' => Carbon::now()->addDays($borrowDays)->toDateString(),
                 'status' => 'borrowing',
-                'notes' => $borrow->notes ? $borrow->notes . "\n[Duyệt bởi]: " . $request->user()->name : '[Duyệt bởi]: ' . $request->user()->name,
+                'notes' => $borrow->notes ? $borrow->notes."\n[Duyệt bởi]: ".$request->user()->name : '[Duyệt bởi]: '.$request->user()->name,
             ]);
 
             // Cập nhật chi tiết tương ứng trong bảng borrow_details và borrows mẹ nếu có
@@ -886,7 +900,7 @@ class BorrowController extends Controller
                     ->get();
                 foreach ($parentBorrows as $pBorrow) {
                     $hasPending = $pBorrow->details()->where('status', 'pending')->exists();
-                    if (!$hasPending) {
+                    if (! $hasPending) {
                         $pBorrow->update([
                             'status' => 'approved',
                             'borrow_status' => 'Đã mượn',
@@ -918,7 +932,7 @@ class BorrowController extends Controller
                     'borrow_id' => $borrow->id,
                     'book_title' => $book->title,
                     'borrow_quantity' => $borrowQuantity,
-                    'borrower_name' => $borrow->borrower_name
+                    'borrower_name' => $borrow->borrower_name,
                 ]);
             }
 
@@ -935,6 +949,7 @@ class BorrowController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json(['success' => false, 'message' => 'Phiếu mượn không ở trạng thái chờ duyệt!'], 422);
             }
+
             return redirect()->back()->with('error', 'Phiếu mượn không ở trạng thái chờ duyệt!');
         }
 
@@ -943,12 +958,13 @@ class BorrowController extends Controller
             foreach ($borrow->details as $detail) {
                 $book = Book::lockForUpdate()->find($detail->book_id);
                 $borrowQuantity = $detail->quantity ?? 1;
-                if (!$book || $book->available_copies < $borrowQuantity) {
+                if (! $book || $book->available_copies < $borrowQuantity) {
                     $available = $book ? $book->available_copies : 0;
                     $msg = "Không đủ sách trong kho để duyệt yêu cầu này (cần {$borrowQuantity}, chỉ còn {$available})!";
                     if ($request->ajax() || $request->wantsJson()) {
                         return response()->json(['success' => false, 'message' => $msg], 422);
                     }
+
                     return redirect()->back()->with('error', $msg);
                 }
             }
@@ -994,6 +1010,7 @@ class BorrowController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json(['success' => true, 'message' => $msg]);
             }
+
             return redirect()->back()->with('success', $msg);
         });
     }
@@ -1008,9 +1025,10 @@ class BorrowController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Phiếu mượn này không ở trạng thái chờ duyệt!'
+                    'message' => 'Phiếu mượn này không ở trạng thái chờ duyệt!',
                 ], 422);
             }
+
             return redirect()->back()
                 ->with('error', 'Phiếu mượn này không ở trạng thái chờ duyệt!');
         }
@@ -1019,7 +1037,7 @@ class BorrowController extends Controller
 
         $borrow->update([
             'status' => 'rejected',
-            'notes' => $borrow->notes ? $borrow->notes . "\n[Lý do từ chối]: " . $reason : "[Lý do từ chối]: " . $reason,
+            'notes' => $borrow->notes ? $borrow->notes."\n[Lý do từ chối]: ".$reason : '[Lý do từ chối]: '.$reason,
         ]);
 
         $remainingCount = BorrowRecord::where('status', 'pending')->count();
@@ -1042,7 +1060,7 @@ class BorrowController extends Controller
                 'remaining_pending' => $remainingCount,
                 'borrow_id' => $borrow->id,
                 'book_title' => $borrow->book->title ?? '',
-                'borrower_name' => $borrow->borrower_name
+                'borrower_name' => $borrow->borrower_name,
             ]);
         }
 
@@ -1060,19 +1078,20 @@ class BorrowController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Phiếu mượn này không có tiền phạt cần thanh toán hoặc đã được nộp phạt!'
+                    'message' => 'Phiếu mượn này không có tiền phạt cần thanh toán hoặc đã được nộp phạt!',
                 ], 422);
             }
+
             return redirect()->back()->with('error', 'Phiếu mượn này không có tiền phạt cần thanh toán hoặc đã được nộp phạt!');
         }
 
         $borrow->update([
             'fine_status' => 'paid',
             'fine_paid_at' => Carbon::now(),
-            'notes' => $borrow->notes ? $borrow->notes . "\n[Thu phạt]: Đã thu " . number_format($borrow->fine_amount, 0, ',', '.') . " VNĐ lúc " . Carbon::now()->format('d/m/Y H:i') . " bởi " . $request->user()->name : "[Thu phạt]: Đã thu " . number_format($borrow->fine_amount, 0, ',', '.') . " VNĐ lúc " . Carbon::now()->format('d/m/Y H:i') . " bởi " . $request->user()->name,
+            'notes' => $borrow->notes ? $borrow->notes."\n[Thu phạt]: Đã thu ".number_format($borrow->fine_amount, 0, ',', '.').' VNĐ lúc '.Carbon::now()->format('d/m/Y H:i').' bởi '.$request->user()->name : '[Thu phạt]: Đã thu '.number_format($borrow->fine_amount, 0, ',', '.').' VNĐ lúc '.Carbon::now()->format('d/m/Y H:i').' bởi '.$request->user()->name,
         ]);
 
-        $formattedFine = number_format($borrow->fine_amount, 0, ',', '.') . ' VNĐ';
+        $formattedFine = number_format($borrow->fine_amount, 0, ',', '.').' VNĐ';
         $message = "Đã xác nhận thu {$formattedFine} tiền phạt từ độc giả \"{$borrow->borrower_name}\" thành công! Tài khoản độc giả đã được mở khóa quyền mượn sách.";
 
         // Ghi AuditLog thu tiền phạt
@@ -1134,7 +1153,7 @@ class BorrowController extends Controller
         // Chế độ 1: THEO PHIẾU MƯỢN
         if ($mode === 'slip') {
             $query = Borrow::with(['details.book.category', 'user'])
-                ->when(!$isAdmin, function ($q) use ($user) {
+                ->when(! $isAdmin, function ($q) use ($user) {
                     $q->where('user_id', $user->id);
                 })
                 ->when($status !== 'all', function ($q) use ($status) {
@@ -1148,7 +1167,7 @@ class BorrowController extends Controller
                         $q->where('borrow_status', 'Chưa mượn');
                     } elseif ($status === 'overdue') {
                         $q->where('status', 'borrowing')
-                          ->where('due_date', '<', Carbon::now()->toDateString());
+                            ->where('due_date', '<', Carbon::now()->toDateString());
                     }
                 })
                 ->latest();
@@ -1158,7 +1177,7 @@ class BorrowController extends Controller
         } else {
             // Chế độ 2: THEO ĐẦU SÁCH
             $query = BorrowDetail::with(['book.category', 'borrow.user'])
-                ->when(!$isAdmin, function ($q) use ($user) {
+                ->when(! $isAdmin, function ($q) use ($user) {
                     $q->whereHas('borrow', function ($b) use ($user) {
                         $b->where('user_id', $user->id);
                     });
@@ -1175,7 +1194,7 @@ class BorrowController extends Controller
                             $b->where('borrow_status', 'Chưa mượn');
                         } elseif ($status === 'overdue') {
                             $b->where('status', 'borrowing')
-                              ->where('due_date', '<', Carbon::now()->toDateString());
+                                ->where('due_date', '<', Carbon::now()->toDateString());
                         }
                     });
                 })
@@ -1186,7 +1205,7 @@ class BorrowController extends Controller
         }
 
         // Thống kê nhanh
-        $baseBorrowCount = Borrow::when(!$isAdmin, fn($q) => $q->where('user_id', $user->id));
+        $baseBorrowCount = Borrow::when(! $isAdmin, fn ($q) => $q->where('user_id', $user->id));
         $totalAll = (clone $baseBorrowCount)->count();
         $totalPending = (clone $baseBorrowCount)->where('status', 'pending')->count();
         $totalApproved = (clone $baseBorrowCount)->whereIn('status', ['approved', 'borrowing'])->count();
@@ -1213,7 +1232,7 @@ class BorrowController extends Controller
     public function slipDetail(Borrow $borrow): JsonResponse
     {
         $user = auth()->user();
-        if ($user && !in_array($user->role, ['admin', 'librarian']) && (int) $borrow->user_id !== (int) $user->id) {
+        if ($user && ! in_array($user->role, ['admin', 'librarian']) && (int) $borrow->user_id !== (int) $user->id) {
             return response()->json([
                 'success' => false,
                 'message' => 'Bạn không có quyền xem chi tiết phiếu mượn này!',
@@ -1224,6 +1243,7 @@ class BorrowController extends Controller
 
         $items = $borrow->details->map(function ($detail) {
             $book = $detail->book;
+
             return [
                 'id' => $book->id,
                 'title' => $book->title,
@@ -1239,7 +1259,7 @@ class BorrowController extends Controller
 
         $isOverdue = $borrow->due_date ? Carbon::parse($borrow->due_date)->startOfDay()->isPast() : false;
         $isBorrowing = in_array($borrow->status, ['borrowing', 'approved']) || $borrow->borrow_status === 'Đã mượn';
-        $canRenew = $isBorrowing && $borrow->borrow_status !== 'Chưa mượn' && !$isOverdue && ($borrow->renewal_status ?? 'none') === 'none' && ($borrow->renewed_times ?? 0) < 1;
+        $canRenew = $isBorrowing && $borrow->borrow_status !== 'Chưa mượn' && ! $isOverdue && ($borrow->renewal_status ?? 'none') === 'none' && ($borrow->renewed_times ?? 0) < 1;
 
         return response()->json([
             'success' => true,
@@ -1258,5 +1278,126 @@ class BorrowController extends Controller
             'items' => $items,
         ]);
     }
-}
 
+    /**
+     * Xử lý đăng ký mượn tất cả các cuốn sách từ Giỏ hàng (Session Cart) - BƯỚC 2.
+     */
+    public function createBorrowFromCart(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        if (! $user) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiến hành mượn sách!');
+        }
+
+        $cart = session()->get('cart', []);
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Giỏ sách của bạn đang trống! Vui lòng chọn sách vào giỏ trước.');
+        }
+
+        // 1. Kiểm tra tiền phạt chưa thanh toán
+        if ($user->unpaid_fine > 0) {
+            return redirect()->route('cart.index')->with('error', 'Tài khoản của bạn đang có tiền phạt chưa thanh toán ('.number_format($user->unpaid_fine, 0, ',', '.').' VNĐ). Vui lòng thanh toán đủ tiền phạt để tiếp tục mượn sách!');
+        }
+
+        $totalBooks = 0;
+        foreach ($cart as $item) {
+            $totalBooks += (int) ($item['quantity'] ?? 1);
+        }
+
+        // 2. Kiểm tra hạn mức mượn
+        $maxLimit = method_exists($user, 'maxBorrowLimit') ? $user->maxBorrowLimit() : 3;
+        if ($totalBooks > $maxLimit) {
+            return redirect()->route('cart.index')->with('error', "Bạn đang chọn {$totalBooks} cuốn, vượt quá hạn mức tối đa ({$maxLimit} cuốn) của gói hội viên!");
+        }
+
+        $isVip = method_exists($user, 'isVip') ? $user->isVip() : false;
+        $borrowDays = method_exists($user, 'borrowDurationDays') ? $user->borrowDurationDays() : 14;
+        $dueDate = Carbon::now()->addDays($borrowDays)->toDateString();
+        $depositFee = $isVip ? 0.00 : (float) ($totalBooks * 50000);
+        $phone = $request->input('phone') ?: ($user->phone_number ?: ($user->phone ?? '0123456789'));
+        $notes = $request->input('notes') ?: 'Đăng ký mượn trực tuyến từ Giỏ Sách';
+
+        return DB::transaction(function () use ($cart, $user, $totalBooks, $isVip, $dueDate, $depositFee, $phone, $notes) {
+            // Kiểm tra tồn kho của từng cuốn sách trong CSDL với khóa hàng
+            $itemsToBorrow = [];
+            foreach ($cart as $item) {
+                $bookId = $item['id'] ?? $item['book_id'];
+                $qty = (int) ($item['quantity'] ?? 1);
+                $book = Book::lockForUpdate()->find($bookId);
+                if (! $book || $book->available_copies < $qty) {
+                    $title = $book ? $book->title : ($item['title'] ?? 'Một cuốn sách');
+
+                    return redirect()->route('cart.index')->with('error', "Rất tiếc! Cuốn sách \"{$title}\" hiện không còn đủ số lượng khả dụng trong kho.");
+                }
+                $itemsToBorrow[] = [
+                    'book' => $book,
+                    'quantity' => $qty,
+                ];
+            }
+
+            // Sinh mã phiếu mượn
+            $code = method_exists(Borrow::class, 'generateCode') ? Borrow::generateCode() : 'PKM'.date('ymd').rand(1000, 9999);
+
+            // 1. Tạo phiếu mượn tổng trong bảng borrows
+            $borrow = Borrow::create([
+                'code' => $code,
+                'user_id' => $user->id,
+                'borrower_name' => $user->name,
+                'borrower_phone' => $phone,
+                'borrower_email' => $user->email,
+                'borrow_date' => Carbon::now()->toDateString(),
+                'due_date' => $dueDate,
+                'status' => 'pending',
+                'borrow_status' => 'Chưa mượn',
+                'delivery_method' => 'counter_normal',
+                'deposit_fee' => $depositFee,
+                'deposit_amount' => $depositFee,
+                'total_quantity' => $totalBooks,
+                'notes' => "[Phiếu {$code}] {$notes}",
+            ]);
+
+            // 2. Tạo chi tiết mượn trong borrow_details và đồng bộ sang borrow_records
+            foreach ($itemsToBorrow as $entry) {
+                $book = $entry['book'];
+                $qty = $entry['quantity'];
+
+                BorrowDetail::create([
+                    'borrow_id' => $borrow->id,
+                    'book_id' => $book->id,
+                    'quantity' => $qty,
+                    'status' => 'pending',
+                ]);
+
+                BorrowRecord::create([
+                    'book_id' => $book->id,
+                    'user_id' => $user->id,
+                    'borrower_name' => $user->name,
+                    'borrower_email' => $user->email,
+                    'borrower_phone' => $phone,
+                    'quantity' => $qty,
+                    'borrow_date' => Carbon::now()->toDateString(),
+                    'due_date' => $dueDate,
+                    'status' => 'pending',
+                    'delivery_method' => 'counter_normal',
+                    'deposit_fee' => $isVip ? 0 : ($qty * 50000),
+                    'deposit_amount' => $isVip ? 0 : ($qty * 50000),
+                    'notes' => "[Phiếu {$code}] Đăng ký mượn từ Giỏ sách",
+                    'fine_amount' => 0,
+                    'fine_status' => 'none',
+                ]);
+            }
+
+            // 3. Tặng thưởng kinh nghiệm EXP
+            if (method_exists($user, 'awardExp')) {
+                $user->awardExp(50);
+            }
+
+            // 4. DỌN DẸP SẠCH GIỎ HÀNG TRONG SESSION
+            session()->forget('cart');
+
+            $successMsg = "Đăng ký mượn thành công {$totalBooks} cuốn sách (Mã phiếu: {$code})! Yêu cầu của bạn đã được chuyển tới Thủ thư để kiểm tra & bàn giao sách.";
+
+            return redirect()->route('cart.index')->with('success', $successMsg);
+        });
+    }
+}

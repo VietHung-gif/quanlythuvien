@@ -1,76 +1,94 @@
 @props(['book'])
 
-<div class="group relative flex flex-col h-full rounded-2xl bg-white hover:bg-white border border-slate-200/80 hover:border-slate-300/90 transition-all duration-300 shadow-sm hover:shadow-lg hover:-translate-y-1 p-3.5">
-    
-    <!-- 1. Bìa sách với tỉ lệ chuẩn 3:4 & Badge trạng thái tồn kho -->
-    <div class="relative w-full aspect-[3/4] overflow-hidden rounded-xl bg-slate-100 shrink-0">
-        <x-book-cover :book="$book" class="w-full h-full rounded-none shadow-none group-hover:scale-105 transition-transform duration-300" />
-        
-        <!-- Gradient mờ nhẹ tăng chiều sâu chân ảnh -->
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition pointer-events-none"></div>
+@php
+    $copies = (int) ($book->available_copies ?? $book->quantity ?? 0);
+    $isOutOfStock = $copies <= 0;
+    $isLowStock = $copies > 0 && $copies <= 10;
+    $canSeeStock = Auth::check() && in_array(Auth::user()->role, ['admin', 'librarian']);
+@endphp
 
-        <!-- Badge Tồn kho: Nền trắng mờ nhạt, text màu ngữ nghĩa thanh lịch -->
-        <div class="absolute top-2.5 right-2.5 z-10">
-            @if($book->quantity > 0)
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/95 backdrop-blur-md text-emerald-700 border border-emerald-200/60 shadow-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Còn {{ $book->quantity }}
-                </span>
-            @else
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/95 backdrop-blur-md text-rose-700 border border-rose-200/60 shadow-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                    Tạm hết
-                </span>
-            @endif
+<div class="{{ $isOutOfStock ? 'bg-slate-50/90 border border-dashed border-slate-300 rounded-xl overflow-hidden shadow-none opacity-45 grayscale-[50%] select-none cursor-not-allowed' : 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md' }} transition-all duration-300 flex flex-col group h-full relative">
+    
+    <!-- 1. PHẦN HÌNH ẢNH BÌA SÁCH (TỈ LỆ DỌC CHUẨN PORTRAIT TRÊN NỀN SLATE-50) -->
+    <a href="{{ $isOutOfStock ? 'javascript:void(0)' : route('books.show', $book->id) }}" 
+       class="relative bg-slate-50 aspect-[3/4] p-4 flex items-center justify-center border-b border-slate-100 overflow-hidden block group/cover {{ $isOutOfStock ? 'cursor-not-allowed pointer-events-none' : 'cursor-pointer' }}" 
+       title="{{ $book->title }}">
+        
+        <img src="{{ Str::startsWith($book->cover_image, ['http://', 'https://']) ? $book->cover_image : ($book->cover_image ? asset('storage/' . ltrim($book->cover_image, '/')) : asset('images/covers/default.jpg')) }}" 
+             alt="{{ $book->title }}" 
+             loading="lazy"
+             onerror="this.onerror=null; this.src='{{ asset('images/covers/default.jpg') }}';"
+             style="transform: translateZ(0); backface-visibility: hidden;"
+             class="w-auto h-full max-h-full object-contain rounded-sm shadow-md {{ $isOutOfStock ? 'opacity-60' : 'group-hover/cover:scale-105' }} transition-transform duration-300" />
+
+        <!-- Tag thể loại góc trên bên trái -->
+        @if($book->category)
+            <span class="absolute top-3 left-3 px-2 py-0.5 rounded text-[11px] font-semibold bg-white/95 backdrop-blur-xs text-slate-700 border border-slate-200/80 shadow-2xs truncate max-w-[75%]">
+                {{ $book->category->name }}
+            </span>
+        @endif
+
+        <!-- Tình trạng tồn kho góc trên bên phải (Chỉ Admin mới thấy số sách còn lại) -->
+        @if($copies > 10)
+            <span class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-2xs flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Còn sách{{ $canSeeStock ? " ({$copies})" : '' }}</span>
+            </span>
+        @elseif($copies > 0)
+            <span class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/80 shadow-2xs flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                <span>Sắp hết{{ $canSeeStock ? " ({$copies})" : '' }}</span>
+            </span>
+        @else
+            <span class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-200/90 text-slate-500 border border-slate-300 shadow-2xs flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                <span>Hết sách{{ $canSeeStock ? ' (0)' : '' }}</span>
+            </span>
+        @endif
+    </a>
+
+    <!-- 2. PHẦN THÔNG TIN CHI TIẾT (EDITORIAL LIGHT CONTENT) -->
+    <div class="p-4 flex-1 flex flex-col">
+        <!-- Tiêu đề sách: Rõ nét, chữ đậm vừa phải, giới hạn 2 dòng (line-clamp-2) -->
+        <h3 class="font-semibold {{ $isOutOfStock ? 'text-slate-400' : 'text-slate-800 group-hover:text-indigo-600' }} text-base leading-snug mb-1 line-clamp-2 min-h-[2.5rem] transition-colors" title="{{ $book->title }}">
+            <a href="{{ $isOutOfStock ? 'javascript:void(0)' : route('books.show', $book->id) }}" class="{{ $isOutOfStock ? 'cursor-not-allowed' : '' }}">
+                {{ $book->title }}
+            </a>
+        </h3>
+
+        <!-- Tác giả: Chữ nhỏ, màu xám nhạt, có icon User -->
+        <p class="text-sm text-slate-400 mb-2.5 flex items-center gap-1.5 line-clamp-1">
+            <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+            <span class="truncate">{{ $book->author }}</span>
+        </p>
+
+        <!-- Thông tin bổ trợ: Mã ấn bản & NXB -->
+        <div class="mt-auto pt-2.5 flex items-center justify-between text-xs text-slate-400 border-t border-slate-100">
+            <span class="font-mono">#{{ str_pad($book->id, 3, '0', STR_PAD_LEFT) }}</span>
+            <span class="truncate max-w-[60%] text-right text-slate-400">{{ $book->publisher ?: 'NXB Tri Thức' }}</span>
         </div>
     </div>
 
-    <!-- 2. Phần nội dung giữa: Thể loại, Tiêu đề, Tác giả -->
-    <div class="pt-3 flex-1 flex flex-col">
-        <!-- Tag thể loại bo góc thanh thoát -->
-        @if($book->category)
-            <div class="mb-2">
-                <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200/60 truncate max-w-full">
-                    {{ $book->category->name }}
-                </span>
-            </div>
-        @endif
-
-        <!-- Tiêu đề sách: slate-900 đậm đà tương phản cao, hover sang indigo -->
-        <h3 class="text-sm sm:text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 min-h-[2.75rem] leading-snug" title="{{ $book->title }}">
-            {{ $book->title }}
-        </h3>
-
-        <!-- Tác giả: slate-500 dịu mắt -->
-        <p class="mt-1 text-xs text-slate-500 flex items-center gap-1.5 line-clamp-1">
-            <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            <span>{{ $book->author }}</span>
-        </p>
-    </div>
-
-    <!-- 3. Nút Thao Tác (Action Button): Nút Thêm vào giỏ Deep Indigo chuẩn Stripe/Linear -->
-    <div class="pt-3 mt-auto border-t border-slate-100 flex items-center justify-between gap-2">
-        <span class="text-xs text-slate-400 font-mono">
-            #{{ str_pad($book->id, 3, '0', STR_PAD_LEFT) }}
-        </span>
-
-        @if($book->quantity > 0)
+    <!-- 3. PHẦN NÚT TƯƠNG TÁC (ACTION BUTTON Ở CHÂN THẺ) -->
+    <div class="p-4 pt-0 mt-auto {{ $isOutOfStock ? 'bg-transparent' : 'bg-white' }}">
+        @if(!$isOutOfStock)
             <button type="button" 
-                    onclick="window.addToCart && window.addToCart({{ $book->id }})"
-                    class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] border border-indigo-600 shadow-sm hover:shadow transition-all duration-150 cursor-pointer">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    class="btn-add-to-cart w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors text-sm shadow-xs active:scale-[0.98] cursor-pointer"
+                    data-book-id="{{ $book->id }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
-                <span>Thêm vào giỏ</span>
+                <span>Thêm vào giỏ mượn</span>
             </button>
         @else
-            <button type="button" 
-                    disabled
-                    class="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium text-slate-400 bg-slate-100 border border-slate-200 cursor-not-allowed">
-                <span>Hết sách</span>
-            </button>
+            <div class="w-full py-2.5 px-4 rounded-lg bg-slate-200/70 border border-slate-300 text-slate-400 font-semibold flex items-center justify-center gap-2 text-xs select-none cursor-not-allowed pointer-events-none">
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                </svg>
+                <span>Hết hàng (Không thể chọn)</span>
+            </div>
         @endif
     </div>
 </div>

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         // 1. Thêm cột exp và title_badge vào bảng users
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'exp')) {
+            if (! Schema::hasColumn('users', 'exp')) {
                 $table->unsignedInteger('exp')->default(0)->after('role');
             }
-            if (!Schema::hasColumn('users', 'title_badge')) {
+            if (! Schema::hasColumn('users', 'title_badge')) {
                 $table->string('title_badge')->default('Tân Binh Giang Hồ')->after('exp');
             }
         });

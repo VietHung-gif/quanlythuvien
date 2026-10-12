@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,13 +21,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $quantity
  * @property int $available_copies
  * @property string|null $isbn
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read string $category_slug
  * @property-read string $local_cover_url
  * @property-read string $cover_url
- * @property-read \App\Models\Category|null $category
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BorrowRecord> $borrowRecords
+ * @property-read Category|null $category
+ * @property-read Collection<int, BorrowRecord> $borrowRecords
  */
 class Book extends Model
 {
@@ -53,24 +55,87 @@ class Book extends Model
     }
 
     /**
+     * Trạng thái tồn kho: 'in_stock' (>10), 'low_stock' (1..10), 'out_of_stock' (<=0)
+     */
+    public function getStockStatusAttribute(): string
+    {
+        $copies = $this->available_copies;
+        if ($copies > 10) {
+            return 'in_stock';
+        }
+        if ($copies > 0) {
+            return 'low_stock';
+        }
+
+        return 'out_of_stock';
+    }
+
+    /**
+     * Nhãn trạng thái hiển thị (ẩn số lượng cụ thể): 'Còn sách', 'Sắp hết', 'Hết sách'
+     */
+    public function getStockStatusLabelAttribute(): string
+    {
+        return match ($this->stock_status) {
+            'in_stock' => 'Còn sách',
+            'low_stock' => 'Sắp hết',
+            default => 'Hết sách',
+        };
+    }
+
+    /**
+     * Kiểm tra sách có thể mượn được hay không
+     */
+    public function getCanBorrowAttribute(): bool
+    {
+        return $this->available_copies > 0;
+    }
+
+    /**
      * Xác định slug thể loại để tải ảnh bìa cục bộ (Tầng 2)
      */
     public function getCategorySlugAttribute(): string
     {
         $name = mb_strtolower($this->category?->name ?? '', 'UTF-8');
-        if (str_contains($name, 'lập trình') || str_contains($name, 'phần mềm') || str_contains($name, 'cntt') || str_contains($name, 'công nghệ thông tin')) return 'cntt';
-        if (str_contains($name, 'trí tuệ nhân tạo') || str_contains($name, 'ai') || str_contains($name, 'dữ liệu')) return 'ai-data';
-        if (str_contains($name, 'an toàn thông tin') || str_contains($name, 'hacker') || str_contains($name, 'bảo mật')) return 'an-toan-thong-tin';
-        if (str_contains($name, 'văn học') || str_contains($name, 'tiểu thuyết') || str_contains($name, 'thơ')) return 'van-hoc';
-        if (str_contains($name, 'tâm lý') || str_contains($name, 'bản thân')) return 'tam-ly';
-        if (str_contains($name, 'kinh tế') || str_contains($name, 'tài chính') || str_contains($name, 'đầu tư') || str_contains($name, 'marketing')) return 'kinh-te';
-        if (str_contains($name, 'vũ trụ') || str_contains($name, 'vật lý') || str_contains($name, 'môi trường') || str_contains($name, 'trái đất') || str_contains($name, 'não bộ')) return 'khoa-hoc';
-        if (str_contains($name, 'lịch sử') || str_contains($name, 'quân sự') || str_contains($name, 'chiến lược')) return 'lich-su';
-        if (str_contains($name, 'triết học') || str_contains($name, 'nhân sinh')) return 'triet-hoc';
-        if (str_contains($name, 'y học') || str_contains($name, 'y tế') || str_contains($name, 'sức khỏe') || str_contains($name, 'dinh dưỡng')) return 'y-hoc';
-        if (str_contains($name, 'nghệ thuật') || str_contains($name, 'kiến trúc') || str_contains($name, 'thiết kế') || str_contains($name, 'xây dựng') || str_contains($name, 'ui/ux')) return 'nghe-thuat';
-        if (str_contains($name, 'viễn tưởng') || str_contains($name, 'sci-fi') || str_contains($name, 'cyberpunk')) return 'scifi';
-        if (str_contains($name, 'truyện tranh') || str_contains($name, 'manga') || str_contains($name, 'light novel')) return 'manga';
+        if (str_contains($name, 'lập trình') || str_contains($name, 'phần mềm') || str_contains($name, 'cntt') || str_contains($name, 'công nghệ thông tin')) {
+            return 'cntt';
+        }
+        if (str_contains($name, 'trí tuệ nhân tạo') || str_contains($name, 'ai') || str_contains($name, 'dữ liệu')) {
+            return 'ai-data';
+        }
+        if (str_contains($name, 'an toàn thông tin') || str_contains($name, 'hacker') || str_contains($name, 'bảo mật')) {
+            return 'an-toan-thong-tin';
+        }
+        if (str_contains($name, 'văn học') || str_contains($name, 'tiểu thuyết') || str_contains($name, 'thơ')) {
+            return 'van-hoc';
+        }
+        if (str_contains($name, 'tâm lý') || str_contains($name, 'bản thân')) {
+            return 'tam-ly';
+        }
+        if (str_contains($name, 'kinh tế') || str_contains($name, 'tài chính') || str_contains($name, 'đầu tư') || str_contains($name, 'marketing')) {
+            return 'kinh-te';
+        }
+        if (str_contains($name, 'vũ trụ') || str_contains($name, 'vật lý') || str_contains($name, 'môi trường') || str_contains($name, 'trái đất') || str_contains($name, 'não bộ')) {
+            return 'khoa-hoc';
+        }
+        if (str_contains($name, 'lịch sử') || str_contains($name, 'quân sự') || str_contains($name, 'chiến lược')) {
+            return 'lich-su';
+        }
+        if (str_contains($name, 'triết học') || str_contains($name, 'nhân sinh')) {
+            return 'triet-hoc';
+        }
+        if (str_contains($name, 'y học') || str_contains($name, 'y tế') || str_contains($name, 'sức khỏe') || str_contains($name, 'dinh dưỡng')) {
+            return 'y-hoc';
+        }
+        if (str_contains($name, 'nghệ thuật') || str_contains($name, 'kiến trúc') || str_contains($name, 'thiết kế') || str_contains($name, 'xây dựng') || str_contains($name, 'ui/ux')) {
+            return 'nghe-thuat';
+        }
+        if (str_contains($name, 'viễn tưởng') || str_contains($name, 'sci-fi') || str_contains($name, 'cyberpunk')) {
+            return 'scifi';
+        }
+        if (str_contains($name, 'truyện tranh') || str_contains($name, 'manga') || str_contains($name, 'light novel')) {
+            return 'manga';
+        }
+
         return 'default';
     }
 
@@ -79,7 +144,7 @@ class Book extends Model
      */
     public function getLocalCoverUrlAttribute(): string
     {
-        return asset('images/covers/' . $this->category_slug . '.svg');
+        return asset('images/covers/'.$this->category_slug.'.svg');
     }
 
     /**
@@ -87,11 +152,12 @@ class Book extends Model
      */
     public function getCoverUrlAttribute(): string
     {
-        if (!empty($this->cover_image) && !str_contains($this->cover_image, 'placehold.co')) {
+        if (! empty($this->cover_image) && ! str_contains($this->cover_image, 'placehold.co')) {
             if (str_starts_with($this->cover_image, 'http://') || str_starts_with($this->cover_image, 'https://')) {
                 return $this->cover_image;
             }
-            return asset('storage/' . ltrim($this->cover_image, '/'));
+
+            return asset('storage/'.ltrim($this->cover_image, '/'));
         }
 
         return $this->local_cover_url;

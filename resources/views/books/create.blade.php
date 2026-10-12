@@ -28,7 +28,7 @@
                     </p>
                 </header>
 
-                <form method="POST" action="{{ route('books.store') }}" class="space-y-5">
+                <form method="POST" action="{{ route('books.store') }}" enctype="multipart/form-data" class="space-y-5">
                     @csrf
 
                     <!-- Tên Sách -->
@@ -66,18 +66,17 @@
                         @enderror
                     </div>
 
-                    <!-- Link Ảnh Bìa Sách (URL) -->
+                    <!-- Tải Lên Ảnh Bìa Sách (Cloudinary) -->
                     <div>
                         <label for="cover_image" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
-                            <span>Ảnh bìa sách (URL tùy chọn)</span>
-                            <span class="text-[11px] text-slate-400 font-mono">Unsplash / OpenLibrary</span>
+                            <span>Tải lên ảnh bìa sách (Cloudinary)</span>
+                            <span class="text-[11px] text-slate-400 font-mono">JPG, PNG, WEBP &le; 2MB</span>
                         </label>
                         <input id="cover_image"
                                name="cover_image"
-                               type="url"
-                               class="w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-sm text-slate-800 placeholder-slate-400 py-2.5 px-3.5 transition"
-                               value="{{ old('cover_image') }}"
-                               placeholder="https://images.unsplash.com/... hoặc để trống để dùng ảnh mặc định" />
+                               type="file"
+                               accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
+                               class="w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-sm text-slate-800 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 py-2 px-3 transition cursor-pointer" />
                         @error('cover_image')
                             <p class="text-xs text-rose-600 font-medium mt-1.5">{{ $message }}</p>
                         @enderror
@@ -111,13 +110,48 @@
                             <option value="" class="text-slate-400">-- Chọn thể loại từ danh mục --</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    🏷️ {{ $category->name }}
+                                    {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
                         @error('category_id')
                             <p class="text-xs text-rose-600 font-medium mt-1.5">{{ $message }}</p>
                         @enderror
+                    </div>
+
+                    <!-- Nhà Xuất Bản & Năm Xuất Bản -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="publisher" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Nhà xuất bản
+                            </label>
+                            <input id="publisher"
+                                   name="publisher"
+                                   type="text"
+                                   class="w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-sm text-slate-800 placeholder-slate-400 py-2.5 px-3.5 transition"
+                                   value="{{ old('publisher') }}"
+                                   placeholder="Ví dụ: NXB Trẻ, NXB Kim Đồng..." />
+                            @error('publisher')
+                                <p class="text-xs text-rose-600 font-medium mt-1.5">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="publish_year" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Năm xuất bản
+                            </label>
+                            <input id="publish_year"
+                                   name="publish_year"
+                                   type="number"
+                                   min="1900"
+                                   max="{{ date('Y') + 1 }}"
+                                   class="w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-sm text-slate-800 py-2.5 px-3.5 font-mono transition"
+                                   value="{{ old('publish_year', date('Y')) }}"
+                                   placeholder="{{ date('Y') }}" />
+                            @error('publish_year')
+                                <p class="text-xs text-rose-600 font-medium mt-1.5">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
 
                     <!-- Số Lượng Tồn Kho -->

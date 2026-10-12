@@ -133,7 +133,9 @@
                         <a href="{{ route('borrows.my') }}"
                            class="flex items-center gap-1.5 px-3 py-2 rounded-lg transition text-slate-600 hover:text-indigo-600 hover:bg-slate-200/50"
                            title="Xem danh sách sách đang mượn và xin gia hạn chi tiết">
-                            <span>⚡</span>
+                            <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
                             <span>Sách cá nhân & Gia hạn</span>
                         </a>
                     </div>
@@ -253,16 +255,21 @@
                                         <!-- Tình hình mượn (Đã mượn / Chưa mượn) -->
                                         <td class="px-5 py-4 whitespace-nowrap text-center">
                                             @if($slip->borrow_status === 'Đã mượn' || $slip->status === 'borrowing')
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                                                    📖 Đã mượn
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+                                                    <span>Đã mượn</span>
                                                 </span>
                                             @elseif($slip->status === 'returned')
                                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                                    ✓ Đã trả sách
+                                                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                    <span>Đã trả sách</span>
                                                 </span>
                                             @else
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
-                                                    ⏳ Chưa mượn
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                                    <span>Chưa mượn</span>
                                                 </span>
                                             @endif
                                         </td>
@@ -292,29 +299,39 @@
 
                                             @if($renewStatus === 'pending')
                                                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-300 shadow-2xs animate-pulse" title="Yêu cầu xin gia hạn của bạn đang chờ Admin / Thủ thư duyệt">
-                                                    <span>🔄</span>
+                                                    <svg class="w-3.5 h-3.5 text-amber-700 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                                    </svg>
                                                     <span>Đang chờ duyệt</span>
                                                 </span>
                                             @elseif($renewStatus === 'approved' || ($slip->renewed_times ?? 0) >= 1)
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs" title="Đã được gia hạn (+7 ngày)">
-                                                    <span>✓</span>
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs" title="Đã được gia hạn (+7 ngày)">
+                                                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                    </svg>
                                                     <span>Đã gia hạn (+7 ngày)</span>
                                                 </span>
                                             @elseif($renewStatus === 'rejected')
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Yêu cầu xin gia hạn bị từ chối">
-                                                    <span>✕</span>
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Yêu cầu xin gia hạn bị từ chối">
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
                                                     <span>Từ chối gia hạn</span>
                                                 </span>
                                             @elseif($isOverdue)
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Sách đã quá hạn, vui lòng mang đến quầy thư viện trả và nộp phạt">
-                                                    <span>⚠️</span>
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Sách đã quá hạn, vui lòng mang đến quầy thư viện trả và nộp phạt">
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                                    </svg>
                                                     <span>Quá hạn trả</span>
                                                 </span>
                                             @elseif($canRenew)
                                                 <button type="button"
                                                         @click="requestSlipRenewal({{ $slip->id }}, '{{ $slip->code }}')"
                                                         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-indigo-700 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-800 border border-indigo-200 hover:border-indigo-300 transition shadow-2xs active:scale-95 cursor-pointer whitespace-nowrap">
-                                                    <span>⚡</span>
+                                                    <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                    </svg>
                                                     <span>Gia hạn (+7 ngày)</span>
                                                 </button>
                                             @elseif($slip->status === 'returned')
@@ -492,29 +509,39 @@
 
                                             @if($renewStatus === 'pending')
                                                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-300 shadow-2xs animate-pulse" title="Đang chờ Admin duyệt gia hạn">
-                                                    <span>🔄</span>
+                                                    <svg class="w-3.5 h-3.5 text-amber-700 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                                    </svg>
                                                     <span>Đang chờ duyệt</span>
                                                 </span>
                                             @elseif($renewStatus === 'approved' || ($slip->renewed_times ?? 0) >= 1)
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs" title="Đã được duyệt gia hạn">
-                                                    <span>✓</span>
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs" title="Đã được duyệt gia hạn">
+                                                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                    </svg>
                                                     <span>Đã gia hạn</span>
                                                 </span>
                                             @elseif($renewStatus === 'rejected')
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Bị từ chối gia hạn">
-                                                    <span>✕</span>
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Bị từ chối gia hạn">
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
                                                     <span>Từ chối</span>
                                                 </span>
                                             @elseif($isOverdue)
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Quá hạn trả sách">
-                                                    <span>⚠️</span>
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Quá hạn trả sách">
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                                    </svg>
                                                     <span>Quá hạn</span>
                                                 </span>
                                             @elseif($canRenew)
                                                 <button type="button"
                                                         @click="requestSlipRenewal({{ $slip->id }}, '{{ $book->title }}')"
                                                         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-indigo-700 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-800 border border-indigo-200 hover:border-indigo-300 transition shadow-2xs active:scale-95 cursor-pointer whitespace-nowrap">
-                                                    <span>⚡</span>
+                                                    <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                    </svg>
                                                     <span>Gia hạn (+7 ngày)</span>
                                                 </button>
                                             @elseif($slip->status === 'returned')
@@ -702,19 +729,25 @@
                                     <button type="button"
                                             @click="requestSlipRenewal(slipData.id, slipData.code)"
                                             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black text-white bg-indigo-600 hover:bg-indigo-700 shadow-2xs transition cursor-pointer active:scale-95">
-                                        <span>⚡</span>
+                                        <svg class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
                                         <span>Yêu cầu gia hạn (+7 ngày)</span>
                                     </button>
                                 </template>
                                 <template x-if="slipData && slipData.renewal_status === 'pending'">
                                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300">
-                                        <span>🔄</span>
+                                        <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
                                         <span>Đang chờ duyệt gia hạn</span>
                                     </span>
                                 </template>
                                 <template x-if="slipData && slipData.renewal_status === 'approved'">
                                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300">
-                                        <span>✓</span>
+                                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
                                         <span>Đã được duyệt gia hạn (+7 ngày)</span>
                                     </span>
                                 </template>

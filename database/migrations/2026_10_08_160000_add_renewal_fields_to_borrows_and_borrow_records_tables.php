@@ -12,25 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('borrows', function (Blueprint $table) {
-            if (!Schema::hasColumn('borrows', 'renewal_status')) {
+            if (! Schema::hasColumn('borrows', 'renewal_status')) {
                 $table->string('renewal_status')->default('none')->after('status');
             }
-            if (!Schema::hasColumn('borrows', 'renewed_times')) {
+            if (! Schema::hasColumn('borrows', 'renewed_times')) {
                 $table->integer('renewed_times')->default(0)->after('renewal_status');
             }
-            if (!Schema::hasColumn('borrows', 'renewal_requested_at')) {
+            if (! Schema::hasColumn('borrows', 'renewal_requested_at')) {
                 $table->timestamp('renewal_requested_at')->nullable()->after('renewed_times');
             }
         });
 
         Schema::table('borrow_records', function (Blueprint $table) {
-            if (!Schema::hasColumn('borrow_records', 'renewal_status')) {
+            if (! Schema::hasColumn('borrow_records', 'renewal_status')) {
                 $table->string('renewal_status')->default('none')->after('status');
             }
-            if (!Schema::hasColumn('borrow_records', 'renewed_times')) {
+            if (! Schema::hasColumn('borrow_records', 'renewed_times')) {
                 $table->integer('renewed_times')->default(0)->after('renewal_status');
             }
-            if (!Schema::hasColumn('borrow_records', 'renewal_requested_at')) {
+            if (! Schema::hasColumn('borrow_records', 'renewal_requested_at')) {
                 $table->timestamp('renewal_requested_at')->nullable()->after('renewed_times');
             }
         });

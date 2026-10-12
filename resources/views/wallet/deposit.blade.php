@@ -21,12 +21,12 @@
             <div class="flex items-center gap-3">
                 <a href="{{ route('membership.index') }}" 
                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs shadow-2xs transition">
-                    <span>👑</span>
+                    <svg class="w-3.5 h-3.5 text-amber-500 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                     <span>Xem Gói VIP</span>
                 </a>
                 <a href="{{ route('borrows.tracking') }}" 
                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs transition">
-                    <span>📚</span>
+                    <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                     <span>Theo dõi mượn trả</span>
                 </a>
             </div>
@@ -64,13 +64,13 @@
                             <div class="text-right">
                                 @if(Auth::user()->isVip())
                                     <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black text-xs shadow-xs border border-amber-300">
-                                        <span>👑</span>
+                                        <svg class="w-3.5 h-3.5 text-slate-950 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                                         <span>SCHOLAR VIP</span>
                                     </div>
                                     <div class="text-[11px] text-slate-400 mt-1 font-medium">Miễn cọc 0đ • Mượn tối đa 15 cuốn</div>
                                 @else
                                     <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-slate-100 text-slate-700 font-bold text-xs border border-slate-200">
-                                        <span>🏷️</span>
+                                        <svg class="w-3.5 h-3.5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                                         <span>THÀNH VIÊN THƯỜNG</span>
                                     </div>
                                     <div class="text-[11px] text-slate-400 mt-1 font-medium">Cọc 50.000đ/cuốn • Mượn tối đa 3 cuốn</div>
@@ -139,7 +139,7 @@
                         <!-- Gợi ý nhu cầu nạp -->
                         <div class="mt-4 p-3 rounded-2xl bg-amber-50/60 border border-amber-200/60 flex items-center justify-between text-xs text-amber-900">
                             <div class="flex items-center gap-2">
-                                <span class="text-base">💡</span>
+                                <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                                 <span>Gợi ý: Cần <strong>49.000đ</strong> để đăng ký Gói Scholar VIP 1 tháng (Miễn cọc 0đ).</span>
                             </div>
                             <button type="button" @click="selectPreset(49000)" class="text-indigo-600 font-bold hover:underline shrink-0 ml-2">Chọn 49k</button>
@@ -195,7 +195,7 @@
                     <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-sm">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-                                <span>📜</span>
+                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 <span>Lịch sử nạp tiền gần nhất</span>
                             </h3>
                             <span class="text-xs text-slate-400">5 giao dịch đối soát</span>
@@ -206,8 +206,8 @@
                                 @foreach($transactions as $tx)
                                     <div class="py-3 flex items-center justify-between gap-4 hover:bg-slate-50/50 rounded-xl px-2 transition">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 text-sm">
-                                                💰
+                                            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                                                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                             </div>
                                             <div>
                                                 <div class="text-xs font-bold text-slate-800">
@@ -231,7 +231,7 @@
                             </div>
                         @else
                             <div class="text-center py-8 text-slate-400">
-                                <div class="text-2xl mb-1">💳</div>
+                                <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></div>
                                 <div class="text-xs font-medium">Chưa có giao dịch nạp nào trước đây.</div>
                                 <div class="text-[11px] text-slate-400 mt-1">Giao dịch nạp thành công sẽ được lưu trữ tự động tại đây.</div>
                             </div>
@@ -339,7 +339,7 @@
 
                         <!-- Hướng dẫn ngắn -->
                         <div class="text-[11px] text-slate-500 leading-relaxed bg-indigo-50/40 p-3 rounded-2xl border border-indigo-100 text-left flex items-start gap-2">
-                            <span class="text-indigo-600 text-sm shrink-0">ℹ️</span>
+                            <svg class="w-4 h-4 text-indigo-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span>Mở ứng dụng Mobile Banking bất kỳ để quét mã. Tiền sẽ được cộng tự động vào ví số dư trong vòng <strong>30 giây</strong>.</span>
                         </div>
 
@@ -388,7 +388,7 @@
              x-cloak
              style="display: none;"
              class="fixed bottom-6 right-6 z-50 max-w-md bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-800 flex items-center gap-3">
-            <span class="text-xl">✨</span>
+            <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
             <div class="text-xs font-semibold" x-text="toastMessage"></div>
         </div>
     </div>
@@ -495,7 +495,7 @@
                                 }
                             }));
 
-                            this.notify(`🎉 ${data.message}`);
+                            this.notify(data.message);
 
                             // Tự động tải lại trang sau 1.2s để cập nhật bảng lịch sử nạp mới
                             setTimeout(() => {

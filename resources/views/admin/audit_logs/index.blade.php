@@ -4,7 +4,7 @@
             <div>
                 <h1 class="font-black text-2xl sm:text-3xl text-slate-950 tracking-tight flex items-center gap-3">
                     <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900 text-white shadow-xs">
-                        📜
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     </span>
                     <span>NHẬT KÝ KIỂM TOÁN HỆ THỐNG</span>
                 </h1>
@@ -80,8 +80,9 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <!-- Người thao tác -->
                         <div>
-                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 block">
-                                👤 Người thao tác
+                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <span>Người thao tác</span>
                             </label>
                             <select name="user_id" 
                                     class="w-full bg-white border-2 border-slate-200 text-slate-900 font-semibold text-sm rounded-xl focus:border-blue-600 focus:ring-0 py-2.5 px-3">
@@ -96,15 +97,16 @@
 
                         <!-- Loại hành động -->
                         <div>
-                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 block">
-                                ⚡ Loại hành động
+                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                <span>Loại hành động</span>
                             </label>
                             <select name="action" 
                                     class="w-full bg-white border-2 border-slate-200 text-slate-900 font-semibold text-sm rounded-xl focus:border-blue-600 focus:ring-0 py-2.5 px-3">
                                 <option value="all">— Tất cả hành động —</option>
                                 @foreach($actionTypes as $actKey => $actInfo)
                                     <option value="{{ $actKey }}" {{ $action == $actKey ? 'selected' : '' }}>
-                                        {{ $actInfo['icon'] }} {{ $actInfo['label'] }}
+                                        {{ $actInfo['label'] }}
                                     </option>
                                 @endforeach
                             </select>
@@ -112,8 +114,9 @@
 
                         <!-- Từ ngày -->
                         <div>
-                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 block">
-                                📅 Từ ngày
+                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <span>Từ ngày</span>
                             </label>
                             <input type="date" 
                                    name="from_date" 
@@ -123,8 +126,9 @@
 
                         <!-- Đến ngày -->
                         <div>
-                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 block">
-                                📅 Đến ngày
+                            <label class="text-xs font-bold uppercase text-slate-700 mb-1.5 flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <span>Đến ngày</span>
                             </label>
                             <input type="date" 
                                    name="to_date" 
@@ -149,7 +153,7 @@
                         <div class="flex items-center gap-2.5 w-full sm:w-auto">
                             <button type="submit" 
                                     class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl shadow-sm transition flex-1 sm:flex-none flex items-center justify-center gap-1.5 cursor-pointer">
-                                <span>🔍</span>
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                                 <span>Lọc Dữ Liệu</span>
                             </button>
                             <a href="{{ route('admin.audit-logs.index') }}" 
@@ -205,16 +209,19 @@
                                                     <div class="font-bold text-slate-950 text-sm">{{ $log->user->name }}</div>
                                                     <div class="flex items-center gap-1.5 mt-0.5">
                                                         @if($log->user->role === 'admin')
-                                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">
-                                                                👑 ADMIN
+                                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300 inline-flex items-center gap-1">
+                                                                <svg class="w-3 h-3 text-rose-600" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                                ADMIN
                                                             </span>
                                                         @elseif($log->user->role === 'librarian')
-                                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-300">
-                                                                📜 THỦ THƯ
+                                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 inline-flex items-center gap-1">
+                                                                <svg class="w-3 h-3 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                                                THỦ THƯ
                                                             </span>
                                                         @else
-                                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                                                                ⚡ ĐỘC GIẢ
+                                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 inline-flex items-center gap-1">
+                                                                <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                                                ĐỘC GIẢ
                                                             </span>
                                                         @endif
                                                         <span class="text-xs font-medium text-slate-600">{{ $log->user->email }}</span>
@@ -241,7 +248,7 @@
                                             };
                                         @endphp
                                         <span class="inline-flex items-center gap-1.5 {{ $actionBadgeClass }} shadow-2xs whitespace-nowrap">
-                                            <span>{{ $log->action_icon }}</span>
+                                            {!! $log->action_icon !!}
                                             <span>{{ $log->action_label }}</span>
                                         </span>
                                     </td>
@@ -278,7 +285,9 @@
                             @empty
                                 <tr>
                                     <td colspan="7" class="px-6 py-12 text-center text-slate-500">
-                                        <div class="text-4xl mb-3">🔍</div>
+                                        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                                        </div>
                                         <p class="font-bold text-slate-900 text-sm">KHÔNG TÌM THẤY BẢN GHI NHẬT KÝ KIỂM TOÁN</p>
                                         <p class="text-xs text-slate-500 mt-1">Chưa có sự kiện nào phù hợp với bộ lọc tìm kiếm được chọn.</p>
                                     </td>
@@ -310,8 +319,8 @@
                 
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                     <div class="flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center text-lg">
-                            🔍
+                        <span class="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         </span>
                         <div>
                             <h3 class="font-black text-slate-950 text-base">ĐỐI CHIẾU DỮ LIỆU // SNAPSHOT DIFF</h3>

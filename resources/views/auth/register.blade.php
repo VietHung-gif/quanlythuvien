@@ -2,12 +2,18 @@
     <!-- TAB CHUYỂN ĐỔI: ĐĂNG NHẬP / ĐĂNG KÝ -->
     <div class="grid grid-cols-2 gap-1.5 p-1 mb-6 bg-slate-100 rounded-xl border border-slate-200/80">
         <a href="{{ route('login') }}"
-           class="py-2.5 text-center font-semibold text-xs tracking-wide rounded-lg text-slate-600 hover:text-slate-900 transition">
-            🔑 ĐĂNG NHẬP
+           class="inline-flex items-center justify-center gap-1.5 py-2.5 text-center font-semibold text-xs tracking-wide rounded-lg text-slate-600 hover:text-slate-900 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+            </svg>
+            <span>ĐĂNG NHẬP</span>
         </a>
         <a href="{{ route('register') }}"
-           class="py-2.5 text-center font-bold text-xs tracking-wide rounded-lg bg-white text-indigo-600 shadow-xs transition">
-            ✨ ĐĂNG KÝ
+           class="inline-flex items-center justify-center gap-1.5 py-2.5 text-center font-bold text-xs tracking-wide rounded-lg bg-white text-indigo-600 shadow-xs transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+            </svg>
+            <span>ĐĂNG KÝ</span>
         </a>
     </div>
 

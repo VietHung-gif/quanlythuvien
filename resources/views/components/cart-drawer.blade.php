@@ -1,30 +1,179 @@
+<script>
+window.showToast = function(title, message, type = 'success', actionUrl = null) {
+    let container = document.getElementById('global-toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'global-toast-container';
+        container.className = 'fixed top-24 right-4 sm:right-6 z-[99999] flex flex-col gap-3 pointer-events-none max-w-sm w-full';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    const isSuccess = type === 'success';
+    const isError = type === 'error';
+
+    const bgBorderClass = isSuccess 
+        ? 'bg-emerald-50 border-2 border-emerald-300 text-emerald-800 shadow-xl shadow-emerald-500/10' 
+        : (isError ? 'bg-rose-50 border-2 border-rose-300 text-rose-800 shadow-xl shadow-rose-500/10' : 'bg-amber-50 border-2 border-amber-300 text-amber-800 shadow-xl shadow-amber-500/10');
+
+    const iconSvg = isSuccess 
+        ? `<div class="shrink-0 mt-0.5 text-emerald-600">
+             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+           </div>`
+        : (isError 
+            ? `<div class="shrink-0 mt-0.5 text-rose-600">
+                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+               </div>`
+            : `<div class="shrink-0 mt-0.5 text-amber-600">
+                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+               </div>`);
+
+    const titleColor = isSuccess ? 'text-emerald-950' : (isError ? 'text-rose-950' : 'text-amber-950');
+    const msgColor = isSuccess ? 'text-emerald-800' : (isError ? 'text-rose-800' : 'text-amber-800');
+    const actionHtml = actionUrl ? `<a href="${actionUrl}" class="inline-block mt-2 font-bold text-indigo-600 hover:text-indigo-800 underline text-xs">Xem chi tiết &rarr;</a>` : '';
+
+    toast.className = `toast-item pointer-events-auto p-4 rounded-2xl ${bgBorderClass} flex items-start gap-3 backdrop-blur-md transition-all duration-300 transform translate-x-8 opacity-0`;
+    toast.innerHTML = `
+        ${iconSvg}
+        <div class="flex-1 text-xs">
+            <p class="font-bold text-sm ${titleColor}">${title}</p>
+            <p class="mt-0.5 leading-relaxed font-medium ${msgColor}">${message}</p>
+            ${actionHtml}
+        </div>
+        <button type="button" class="text-slate-400 hover:text-slate-700 transition shrink-0 p-1 rounded-lg" onclick="this.closest('.toast-item').remove()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    `;
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+        toast.classList.remove('translate-x-8', 'opacity-0');
+        toast.classList.add('translate-x-0', 'opacity-100');
+    });
+
+    setTimeout(() => {
+        if (toast.parentElement) {
+            toast.classList.remove('translate-x-0', 'opacity-100');
+            toast.classList.add('translate-x-8', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, 4500);
+
+    if (window._cartDrawerInstance && typeof window._cartDrawerInstance.showToast === 'function') {
+        window._cartDrawerInstance.showToast(title, message, type, actionUrl);
+    }
+};
+
+window.showCartToast = window.showToast;
+window.showSuccessToast = function(title, message) {
+    window.showToast(title || 'Thành công', message || 'Đã thêm vào giỏ mượn thành công!', 'success');
+};
+
+window.openCartDrawer = function() {
+    window.dispatchEvent(new CustomEvent('open-cart'));
+    if (window._cartDrawerInstance) {
+        window._cartDrawerInstance.isOpen = true;
+        window._cartDrawerInstance.openCart = true;
+        if (typeof window._cartDrawerInstance.fetchCart === 'function') {
+            window._cartDrawerInstance.fetchCart();
+        }
+    }
+};
+
+window.addToCart = async function(bookId) {
+    if (!bookId) {
+        console.warn('addToCart: bookId is missing');
+        return;
+    }
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') 
+        || document.querySelector('input[name="_token"]')?.value 
+        || '{{ csrf_token() }}';
+
+    try {
+        const res = await fetch('{{ route('cart.add') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({ book_id: Number(bookId) })
+        });
+
+        if (res.status === 419) {
+            window.location.reload();
+            return;
+        }
+
+        const data = await res.json();
+
+        if (data.has_unpaid_fine) {
+            window.showToast('Chặn mượn sách', data.message || 'Bạn đang còn nợ tiền phạt chưa thanh toán!', 'error');
+            return;
+        }
+
+        if (data.out_of_stock) {
+            window.showToast('Thông báo tồn kho', data.message || 'Hiện tại cuốn sách này đã được mượn hết. Bạn vui lòng chọn cuốn sách khác nhé!', 'warning');
+            return;
+        }
+
+        if (data.success) {
+            const count = data.total_items || (data.cart ? data.cart.length : 1);
+            
+            window.dispatchEvent(new CustomEvent('cart-updated', { detail: { count: count } }));
+            
+            document.querySelectorAll('[data-cart-badge], #cart-counter-badge').forEach(el => {
+                el.textContent = count;
+                el.style.display = count > 0 ? 'flex' : 'none';
+            });
+
+            if (window._cartDrawerInstance) {
+                window._cartDrawerInstance.items = data.cart || [];
+                window._cartDrawerInstance.totalItems = count;
+            }
+
+            window.showSuccessToast('Thành công', data.message || 'Đã thêm vào giỏ mượn thành công!');
+        } else {
+            window.showToast('Thông báo', data.message || 'Không thể thêm sách vào giỏ.', 'warning');
+        }
+    } catch (err) {
+        console.error('Lỗi khi thêm sách vào giỏ:', err);
+        window.showToast('Lỗi', 'Có lỗi kết nối khi thêm sách vào giỏ mượn. Vui lòng thử lại!', 'error');
+    }
+};
+</script>
+
 <!-- COMPONENT NGĂN KÉO GIỎ SÁCH (SLIDE-OVER CART DRAWER) & TOAST & MODAL THÔNG BÁO -->
 <div x-data="cartDrawerHandler()" 
      x-init="initCart()"
-     @open-cart.window="isOpen = true"
+     @open-cart.window="isOpen = true; openCart = true"
      @cart-add.window="addItem($event.detail.bookId)"
+     @show-toast.window="showToast($event.detail.title, $event.detail.message, $event.detail.type || 'success')"
      class="font-sans">
 
     <!-- 2. NGĂN KÉO GIỎ SÁCH (OFFCANVAS SLIDE-OVER DRAWER) -->
-    <div x-show="isOpen" 
+    <div x-show="isOpen || openCart" 
+         id="cart-drawer"
          x-cloak
          class="fixed inset-0 z-50 overflow-hidden" 
          role="dialog" 
          aria-modal="true">
         
         <!-- Lớp phủ mờ (Backdrop) -->
-        <div x-show="isOpen"
+        <div x-show="isOpen || openCart"
              x-transition:enter="ease-in-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
              x-transition:leave="ease-in-out duration-300"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
-             @click="isOpen = false"
+             @click="isOpen = false; openCart = false"
              class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity"></div>
 
         <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div x-show="isOpen"
+            <div x-show="isOpen || openCart"
                  x-transition:enter="transform transition ease-in-out duration-300 sm:duration-400"
                  x-transition:enter-start="translate-x-full"
                  x-transition:enter-end="translate-x-0"
@@ -61,7 +210,7 @@
                             </button>
                         </template>
                         <button type="button" 
-                                @click="isOpen = false"
+                                @click="isOpen = false; openCart = false"
                                 class="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:text-slate-900 hover:bg-slate-200 flex items-center justify-center transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -191,9 +340,14 @@
                                           :class="(!isVip && totalSelectedBooks > 3) ? 'text-rose-600' : 'text-indigo-600'" 
                                           x-text="totalSelectedBooks"></span>
                                     <span class="text-slate-600 font-sans"> / <strong x-text="maxLimit"></strong> cuốn</span>
-                                    <span class="text-[10px] font-sans px-1.5 py-0.5 rounded font-black ml-1 uppercase"
+                                    <span class="inline-flex items-center gap-1 text-[10px] font-sans px-1.5 py-0.5 rounded font-black ml-1 uppercase"
                                           :class="isVip ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-slate-100 text-slate-700'">
-                                        <span x-text="isVip ? '👑 VIP (15)' : 'STANDARD (3)'"></span>
+                                        <template x-if="isVip">
+                                            <svg class="w-3 h-3 text-amber-800 fill-current inline-block" viewBox="0 0 24 24">
+                                                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+                                            </svg>
+                                        </template>
+                                        <span x-text="isVip ? 'VIP (15)' : 'STANDARD (3)'"></span>
                                     </span>
                                 </div>
                             </div>
@@ -228,15 +382,20 @@
                         <template x-if="!isVip && totalSelectedBooks > 3">
                             <div class="p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 text-xs text-amber-950 space-y-2">
                                 <div class="font-black flex items-center gap-1.5 text-amber-900">
-                                    <span>⚡</span>
+                                    <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
                                     <span>VƯỢT HẠN MỨC GÓI TIÊU CHUẨN (TỐI ĐA 3 CUỐN)</span>
                                 </div>
                                 <p class="text-[11px] text-slate-700 leading-snug">
                                     Bạn đang chọn <strong class="text-amber-900 font-bold" x-text="totalSelectedBooks"></strong> cuốn. Gói Standard Member chỉ cho phép mượn tối đa 3 cuốn/lần.
                                 </p>
                                 <a href="{{ route('membership.index') }}" 
-                                   class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider transition shadow-2xs">
-                                    <span>👑 Nâng cấp Scholar VIP để mượn tối đa 15 cuốn cùng lúc!</span>
+                                   class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider transition shadow-2xs">
+                                    <svg class="w-3.5 h-3.5 text-amber-300 fill-current" viewBox="0 0 24 24">
+                                        <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+                                    </svg>
+                                    <span>Nâng cấp Scholar VIP để mượn tối đa 15 cuốn cùng lúc!</span>
                                     <span>&rarr;</span>
                                 </a>
                             </div>
@@ -247,7 +406,9 @@
                             <div class="p-3.5 rounded-2xl bg-indigo-50/80 border-2 border-indigo-200 text-xs space-y-2.5">
                                 <div class="flex items-center justify-between font-black text-indigo-950 uppercase tracking-tight text-[11px]">
                                     <span class="flex items-center gap-1.5">
-                                        <span>🚀</span>
+                                        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.286L13 21l-2.286-6.857L5 12l5.714-2.286L13 3z"/>
+                                        </svg>
                                         <span>HÌNH THỨC NHẬN SÁCH ĐẶC QUYỀN VIP</span>
                                     </span>
                                 </div>
@@ -262,7 +423,7 @@
                                                x-model="deliveryMethod"
                                                class="mt-0.5 text-indigo-600 focus:ring-indigo-500">
                                         <div>
-                                            <strong class="text-slate-900 block font-bold text-xs">🔘 Làn ưu tiên tại Quầy</strong>
+                                            <strong class="text-slate-900 block font-bold text-xs">Làn ưu tiên tại Quầy</strong>
                                             <span class="text-[11px] text-slate-500 block leading-tight mt-0.5">Thủ thư soạn sẵn trong 30 phút, đến quầy nhận ngay không chờ đợi</span>
                                         </div>
                                     </label>
@@ -276,7 +437,7 @@
                                                x-model="deliveryMethod"
                                                class="mt-0.5 text-indigo-600 focus:ring-indigo-500">
                                         <div class="flex-1">
-                                            <strong class="text-slate-900 block font-bold text-xs">🔘 Ship tận nhà / Ký túc xá</strong>
+                                            <strong class="text-slate-900 block font-bold text-xs">Ship tận nhà / Ký túc xá</strong>
                                             <span class="text-[11px] text-slate-500 block leading-tight mt-0.5">Giao tận phòng KTX hoặc địa chỉ nhà riêng theo yêu cầu</span>
                                         </div>
                                     </label>
@@ -312,7 +473,9 @@
                         <!-- BANNER CẢNH BÁO KHI CÒN NỢ TIỀN PHẠT -->
                         <template x-if="unpaidFine > 0">
                             <div class="p-3.5 rounded-xl bg-rose-50 border-2 border-rose-300 shadow-xs text-rose-800 text-xs flex items-start gap-3">
-                                <span class="text-lg shrink-0">⚠️</span>
+                                <svg class="w-5 h-5 text-rose-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
                                 <div class="space-y-1">
                                     <div class="font-['Orbitron'] font-bold text-rose-700 tracking-wide text-xs">
                                         BẠN ĐANG CÒN NỢ TIỀN PHẠT: <span x-text="formatCurrency(unpaidFine)"></span> VNĐ
@@ -430,7 +593,7 @@
     </div>
 
     <!-- 4. TOAST THÔNG BÁO GÓC PHẢI MÀN HÌNH (TOAST NOTIFICATIONS) -->
-    <div class="fixed top-6 right-6 z-50 flex flex-col gap-2.5 pointer-events-none max-w-sm w-full">
+    <div class="fixed top-24 right-4 sm:right-6 z-[99999] flex flex-col gap-2.5 pointer-events-none max-w-sm w-full">
         <template x-for="toast in toasts" :key="toast.id">
             <div x-show="toast.visible"
                  x-transition:enter="transform ease-out duration-300 transition"
@@ -441,9 +604,9 @@
                  x-transition:leave-end="opacity-0"
                  class="pointer-events-auto p-4 rounded-xl shadow-lg border flex items-start gap-3 backdrop-blur-md transition"
                  :class="{
-                     'bg-white border-l-4 border-l-emerald-500 border-slate-200 text-slate-800 shadow-md': toast.type === 'success',
-                     'bg-white border-l-4 border-l-rose-500 border-slate-200 text-slate-800 shadow-md': toast.type === 'error',
-                     'bg-white border-l-4 border-l-amber-500 border-slate-200 text-slate-800 shadow-md': toast.type === 'warning'
+                     'bg-emerald-50 border-emerald-300 text-emerald-800 shadow-md': toast.type === 'success',
+                     'bg-rose-50 border-rose-300 text-rose-800 shadow-md': toast.type === 'error',
+                     'bg-amber-50 border-amber-300 text-amber-800 shadow-md': toast.type === 'warning'
                  }">
                 
                 <div class="shrink-0 mt-0.5">
@@ -465,8 +628,8 @@
                 </div>
 
                 <div class="flex-1 text-xs">
-                    <p class="font-bold font-['Orbitron'] text-slate-900" x-text="toast.title"></p>
-                    <p class="mt-0.5 text-slate-600 leading-relaxed" x-html="toast.message"></p>
+                    <p class="font-bold font-['Orbitron']" :class="toast.type === 'success' ? 'text-emerald-900' : (toast.type === 'error' ? 'text-rose-900' : 'text-amber-900')" x-text="toast.title"></p>
+                    <p class="mt-0.5 leading-relaxed" :class="toast.type === 'success' ? 'text-emerald-800' : (toast.type === 'error' ? 'text-rose-700' : 'text-amber-800')" x-html="toast.message"></p>
                     <template x-if="toast.actionUrl">
                         <a :href="toast.actionUrl" 
                            class="inline-block mt-2 font-bold text-indigo-600 hover:text-indigo-700 underline font-mono text-[11px]">
@@ -477,7 +640,8 @@
 
                 <button type="button" 
                         @click="removeToast(toast.id)"
-                        class="text-slate-400 hover:text-slate-700 transition shrink-0">
+                        class="transition shrink-0"
+                        :class="toast.type === 'success' ? 'text-emerald-600 hover:text-emerald-800' : (toast.type === 'error' ? 'text-rose-500 hover:text-rose-700' : 'text-slate-400 hover:text-slate-700')">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -489,6 +653,18 @@
 
 <!-- SCRIPT XỬ LÝ TOÀN BỘ LOGIC GIỎ SÁCH & TOAST BẰNG ALPINE.JS -->
 <script>
+// Đảm bảo window.addToCart luôn sẵn sàng ngay lập tức khi tải trang, không bao giờ undefined
+if (!window.addToCart) {
+    window.addToCart = function(bookId) {
+        window.dispatchEvent(new CustomEvent('cart-add', { detail: { bookId: bookId } }));
+    };
+}
+if (!window.openCartDrawer) {
+    window.openCartDrawer = function() {
+        window.dispatchEvent(new CustomEvent('open-cart'));
+    };
+}
+
 function cartDrawerHandler() {
     return {
         isOpen: false,
@@ -531,12 +707,12 @@ function cartDrawerHandler() {
         },
 
         async initCart() {
+            // Gán instance toàn cục
+            window._cartDrawerInstance = this;
+            window.openCartDrawer = () => { this.isOpen = true; this.openCart = true; this.fetchCart(); };
+
             // Lấy dữ liệu giỏ sách từ Server Session
             await this.fetchCart();
-
-            // Đăng ký hàm toàn cục window để gọi từ bất kỳ đâu (onclick="window.addToCart(bookId)")
-            window.addToCart = (bookId) => this.addItem(bookId);
-            window.openCartDrawer = () => { this.isOpen = true; };
         },
 
         async fetchCart() {
@@ -570,47 +746,7 @@ function cartDrawerHandler() {
 
         // BƯỚC 1: Thêm sách vào giỏ & Kiểm tra tồn kho tức thì
         async addItem(bookId) {
-            try {
-                const res = await fetch('{{ route('cart.add') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': this.csrfToken
-                    },
-                    body: JSON.stringify({ book_id: bookId })
-                });
-
-                const data = await res.json();
-
-                // VẤN ĐỀ 2: Bị chặn do nợ tiền phạt chưa thanh toán
-                if (data.has_unpaid_fine) {
-                    this.unpaidFine = Number(data.unpaid_fine || this.unpaidFine);
-                    this.showToast('Chặn mượn sách', data.message || 'Bạn đang còn nợ tiền phạt!', 'error');
-                    return;
-                }
-
-                // Trường hợp 1: SÁCH ĐÃ HẾT TỒN KHO (quantity <= 0)
-                if (data.out_of_stock) {
-                    this.alertTitle = data.title || 'Thông báo';
-                    this.alertMessage = 'Hiện tại cuốn sách này <strong>đã được mượn hết</strong>. Bạn vui lòng chọn một cuốn sách khác nhé!';
-                    this.alertModalOpen = true;
-                    return;
-                }
-
-                // Trường hợp 2: CÒN HÀNG - THÊM THÀNH CÔNG
-                if (data.success) {
-                    this.items = data.cart || [];
-                    this.totalItems = data.total_items || 0;
-                    await this.fetchCart();
-                    this.showToast('Thành công', 'Sách đã được thêm vào giỏ', 'success');
-                } else {
-                    this.showToast('Thông báo', data.message || 'Không thể thêm sách vào giỏ.', 'warning');
-                }
-            } catch (err) {
-                console.error('Lỗi thêm giỏ sách:', err);
-                this.showToast('Lỗi', 'Có lỗi xảy ra khi thêm sách vào giỏ.', 'error');
-            }
+            return window.addToCart(bookId);
         },
 
         async changeQuantity(bookId, newQty) {
@@ -774,8 +910,10 @@ function cartDrawerHandler() {
                 const data = await res.json();
 
                 if (res.status === 401 || data.login_required) {
-                    alert('Bạn cần đăng nhập để đăng ký mượn sách!');
-                    window.location.href = data.login_url || '{{ route('login') }}';
+                    this.showToast('Yêu cầu đăng nhập', 'Bạn cần đăng nhập để đăng ký mượn sách!', 'warning');
+                    setTimeout(() => {
+                        window.location.href = data.login_url || '{{ route('login') }}';
+                    }, 1200);
                     return;
                 }
 
@@ -819,29 +957,13 @@ function cartDrawerHandler() {
         },
 
         showToast(title, message, type = 'success', actionUrl = null) {
-            const id = Date.now();
-            this.toasts.push({
-                id,
-                title,
-                message,
-                type,
-                actionUrl,
-                visible: true
-            });
-
-            setTimeout(() => {
-                this.removeToast(id);
-            }, 4500);
+            if (typeof window.showToast === 'function') {
+                window.showToast(title, message, type, actionUrl);
+            }
         },
 
         removeToast(id) {
-            const index = this.toasts.findIndex(t => t.id === id);
-            if (index !== -1) {
-                this.toasts[index].visible = false;
-                setTimeout(() => {
-                    this.toasts = this.toasts.filter(t => t.id !== id);
-                }, 300);
-            }
+            // Managed by global DOM container
         }
     };
 }

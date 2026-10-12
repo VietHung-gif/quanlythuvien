@@ -110,7 +110,7 @@
             <!-- Bản quyền & Đội ngũ phát triển -->
             <div class="mt-8 text-center text-xs text-slate-400 font-mono">
                 <p>&copy; 2026 <span class="text-slate-700 font-semibold">TIỂU ĐỘI 2P</span> - Hệ thống Quản lý Thư viện Số</p>
-                <p class="text-[11px] text-slate-400 mt-1">Core Developers: <span class="text-indigo-600 font-medium">Nguyễn Hữu Việt Hưng</span> & <span class="text-slate-600 font-medium">Ngô Hào Đào Sang</span></p>
+                <p class="text-[11px] text-slate-400 mt-1 leading-relaxed max-w-md mx-auto">Core Developers: <span class="text-indigo-600 font-medium whitespace-nowrap">Nguyễn Hữu Việt Hưng</span>, <span class="text-slate-600 font-medium whitespace-nowrap">Ngô Hào Đào Sang</span>, <span class="text-slate-600 font-medium whitespace-nowrap">Phạm Hồ Nguyên Khang</span> & <span class="text-slate-600 font-medium whitespace-nowrap">Phạm Nguyễn Minh Hiếu</span></p>
             </div>
         </div>
     </body>

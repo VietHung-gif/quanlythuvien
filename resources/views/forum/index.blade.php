@@ -6,8 +6,8 @@
             @if (session('success'))
                 <div class="p-4 bg-emerald-50 border-2 border-emerald-200 rounded-2xl shadow-xs flex items-center justify-between text-emerald-800">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-600 font-bold">
-                            ✓
+                        <div class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </div>
                         <span class="text-sm font-bold">{{ session('success') }}</span>
                     </div>
@@ -17,8 +17,8 @@
             @if (session('error'))
                 <div class="p-4 bg-rose-50 border-2 border-rose-200 rounded-2xl shadow-xs flex items-center justify-between text-rose-800">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-rose-100 flex items-center justify-center shrink-0 text-rose-600 font-bold">
-                            ✕
+                        <div class="w-8 h-8 rounded-xl bg-rose-100 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                         </div>
                         <span class="text-sm font-bold">{{ session('error') }}</span>
                     </div>
@@ -32,7 +32,8 @@
                 <!-- Cột bên trái: Badge nhỏ, Tiêu đề, Mô tả & Nguyên tắc cốt lõi inline -->
                 <div class="flex-1 min-w-0">
                     <span class="inline-flex items-center gap-2 bg-slate-100 text-slate-800 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-lg mb-3 border border-slate-200 shadow-2xs">
-                        🏛️ HỘI QUÁN TRI THỨC — TIỂU ĐỘI 2P
+                        <svg class="w-3.5 h-3.5 text-indigo-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                        <span>HỘI QUÁN TRI THỨC — TIỂU ĐỘI 2P</span>
                     </span>
                     
                     <h1 class="text-2xl md:text-3xl font-black text-slate-950 uppercase tracking-tight leading-tight">
@@ -46,7 +47,7 @@
                     <!-- Ghi chú nguyên tắc cốt lõi: Thanh thông báo tinh tế bên dưới mô tả -->
                     <div class="mt-3">
                         <div class="bg-amber-50/80 border border-amber-200/80 text-amber-900 rounded-xl px-3.5 py-2 text-xs font-semibold flex items-center gap-2 inline-flex shadow-2xs">
-                            <span class="text-base shrink-0">🛡️</span>
+                            <svg class="w-4 h-4 text-amber-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                             <span>
                                 <strong class="font-bold uppercase tracking-wide">NGUYÊN TẮC:</strong> 
                                 Diễn đàn <strong class="text-slate-950 font-black">KHÔNG CỘNG EXP</strong> khi đăng bài hay bình luận để giữ môi trường thảo luận thuần khiết, loại bỏ spam cày cấp.
@@ -92,7 +93,7 @@
                     @foreach($categories as $cat)
                         <a href="{{ route('forum.index', array_merge(request()->except('category', 'page'), ['category' => $cat->slug])) }}"
                            class="whitespace-nowrap uppercase tracking-wider flex items-center gap-1.5 {{ request('category') === $cat->slug ? 'bg-slate-950 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-sm' : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100 font-bold text-xs px-4 py-2.5 rounded-xl transition' }}">
-                            <span>{{ $cat->icon }}</span>
+                            <span class="inline-flex items-center justify-center shrink-0">{!! $cat->icon_svg !!}</span>
                             <span>{{ mb_strtoupper($cat->name, 'UTF-8') }}</span>
                             <span class="text-[10px] opacity-75 font-mono">({{ $cat->posts_count }})</span>
                         </a>
@@ -123,9 +124,9 @@
                     <select name="sort" 
                             onchange="this.form.submit()"
                             class="h-11 bg-slate-50 border-2 border-slate-200 text-slate-900 font-bold rounded-xl px-3 text-xs cursor-pointer focus:bg-white focus:border-blue-600 focus:ring-0 outline-none transition">
-                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>⚡ MỚI NHẤT</option>
-                        <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>❤️ QUAN TÂM NHẤT</option>
-                        <option value="comments" {{ request('sort') == 'comments' ? 'selected' : '' }}>💬 THẢO LUẬN SÔI NỔI</option>
+                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>MỚI NHẤT</option>
+                        <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>QUAN TÂM NHẤT</option>
+                        <option value="comments" {{ request('sort') == 'comments' ? 'selected' : '' }}>THẢO LUẬN SÔI NỔI</option>
                     </select>
 
                     <!-- Nút "LỌC": Cao h-11 -->
@@ -177,16 +178,19 @@
 
                                         <!-- Badge Vai Trò (QUẢN TRỊ VIÊN / THỦ THƯ / ĐỘC GIẢ) -->
                                         @if($post->user->isAdmin())
-                                            <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200">
-                                                👑 QUẢN TRỊ VIÊN
+                                            <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200 inline-flex items-center gap-1">
+                                                <svg class="w-3 h-3 text-rose-700 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                <span>QUẢN TRỊ VIÊN</span>
                                             </span>
                                         @elseif($post->user->isLibrarian())
-                                            <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-blue-200">
-                                                📚 THỦ THƯ
+                                            <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-blue-200 inline-flex items-center gap-1">
+                                                <svg class="w-3 h-3 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                                <span>THỦ THƯ</span>
                                             </span>
                                         @elseif($post->user->exp > 350)
-                                            <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-indigo-200">
-                                                🌟 HỌC GIẢ TRI THỨC
+                                            <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-indigo-200 inline-flex items-center gap-1">
+                                                <svg class="w-3 h-3 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                                                <span>HỌC GIẢ TRI THỨC</span>
                                             </span>
                                         @endif
                                     </div>
@@ -195,8 +199,8 @@
                                     <div class="flex items-center gap-2 mt-0.5 text-xs text-slate-500 font-mono">
                                         <span>{{ $post->created_at->diffForHumans() }}</span>
                                         <span>•</span>
-                                        <span class="font-sans text-slate-600 font-semibold flex items-center gap-1">
-                                            <span>{{ $post->category->icon ?? '💬' }}</span>
+                                        <span class="font-sans text-slate-600 font-semibold flex items-center gap-1.5">
+                                            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
                                             <span>{{ $post->category->name ?? 'Tổng hợp' }}</span>
                                         </span>
                                     </div>
@@ -232,7 +236,7 @@
                                             @click="toggleLike({{ $post->id }})"
                                             id="like-btn-{{ $post->id }}"
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer border {{ $post->isLikedBy(auth()->user()) ? 'bg-rose-50 text-rose-600 border-rose-200' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200' }}">
-                                        <span>❤️</span>
+                                        <svg class="w-3.5 h-3.5 {{ $post->isLikedBy(auth()->user()) ? 'text-rose-600 fill-current' : 'text-slate-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                                         <span id="like-count-{{ $post->id }}" class="font-bold">{{ number_format($post->likes_count) }}</span>
                                     </button>
                                 </div>
@@ -265,8 +269,9 @@
                                                 <!-- Sửa bài viết -->
                                                 @if(auth()->id() === $post->user_id || auth()->user()->role === 'admin')
                                                     <a href="{{ route('forum.edit', $post->id) }}" 
-                                                       class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-blue-600 transition">
-                                                        <span>✏️</span> Chỉnh sửa bài viết
+                                                       class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-blue-600 transition">
+                                                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                                        <span>Chỉnh sửa bài viết</span>
                                                     </a>
                                                 @endif
 
@@ -275,8 +280,9 @@
                                                     <form action="{{ route('forum.pin', $post->id) }}" method="POST" class="block">
                                                         @csrf
                                                         <button type="submit" 
-                                                                class="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-amber-600 transition text-left cursor-pointer">
-                                                            <span>📌</span> {{ $post->is_pinned ? 'Bỏ ghim đầu trang' : 'Ghim bài lên đầu' }}
+                                                                class="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-amber-600 transition text-left cursor-pointer">
+                                                            <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                                                            <span>{{ $post->is_pinned ? 'Bỏ ghim đầu trang' : 'Ghim bài lên đầu' }}</span>
                                                         </button>
                                                     </form>
                                                 @endif
@@ -287,8 +293,9 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" 
-                                                                class="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-50 transition text-left cursor-pointer border-t border-slate-100">
-                                                            <span>🗑️</span> Xóa bài viết
+                                                                class="w-full flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-50 transition text-left cursor-pointer border-t border-slate-100">
+                                                            <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                                            <span>Xóa bài viết</span>
                                                         </button>
                                                     </form>
                                                 @endif
@@ -307,7 +314,7 @@
                             @if($post->is_pinned)
                                 <div class="mb-2">
                                     <span class="bg-amber-100 text-amber-900 border border-amber-300 font-black text-[10px] uppercase px-2.5 py-1 rounded-md inline-flex items-center gap-1">
-                                        <span>📌</span>
+                                        <svg class="w-3 h-3 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
                                         <span>THÔNG BÁO GHIM ĐẦU TRANG</span>
                                     </span>
                                 </div>
@@ -336,8 +343,9 @@
                                     </div>
 
                                     <div class="min-w-0">
-                                        <div class="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-wider">
-                                            📖 SÁCH ĐƯỢC NHẮC TỚI:
+                                        <div class="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-wider flex items-center gap-1">
+                                            <svg class="w-3 h-3 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                            <span>SÁCH ĐƯỢC NHẮC TỚI:</span>
                                         </div>
                                         <a href="{{ route('books.show', $post->book->id) }}" 
                                            class="text-slate-950 font-black text-xs uppercase truncate max-w-xs sm:max-w-md block hover:text-blue-600 transition" 
@@ -352,14 +360,17 @@
 
                                 <!-- Nút "+ THÊM VÀO GIỎ MƯỢN" -->
                                 @if($post->book->quantity > 0)
-                                    <button type="button" 
-                                            onclick="if (window.addToCart) { window.addToCart({{ $post->book->id }}); } else { alert('Vui lòng đợi giỏ sách khởi tạo!'); }"
-                                            class="shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 transition shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer self-start sm:self-auto">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                                        </svg>
-                                        <span>+ THÊM VÀO GIỎ MƯỢN</span>
-                                    </button>
+                                    <form method="POST" action="{{ route('cart.add') }}" class="inline">
+                                        @csrf
+                                        <input type="hidden" name="book_id" value="{{ $post->book->id }}">
+                                        <button type="submit" 
+                                                class="shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 transition shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer self-start sm:self-auto">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                            </svg>
+                                            <span>+ THÊM VÀO GIỎ MƯỢN</span>
+                                        </button>
+                                    </form>
                                 @else
                                     <span class="text-[11px] font-bold text-slate-400 bg-slate-200/70 px-3 py-1.5 rounded-xl border border-slate-300">
                                         Tạm hết sách
@@ -372,7 +383,9 @@
                 @empty
                     <!-- Trạng thái trống khi không tìm thấy bài viết -->
                     <div class="bg-white rounded-3xl border-2 border-slate-200 p-12 text-center text-slate-500 space-y-3 shadow-sm">
-                        <span class="text-4xl">📭</span>
+                        <div class="w-16 h-16 rounded-3xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+                        </div>
                         <h3 class="text-lg font-black text-slate-900 tracking-tight">
                             CHƯA CÓ BÀI VIẾT NÀO TRONG MỤC NÀY
                         </h3>
@@ -442,7 +455,8 @@
                         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                             <div>
                                 <h3 class="text-xl font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
-                                    <span class="text-blue-600">✍️</span> ĐĂNG BÀI VIẾT HỘI QUÁN
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                    <span>ĐĂNG BÀI VIẾT HỘI QUÁN</span>
                                 </h3>
                                 <p class="text-xs text-slate-500 font-medium mt-0.5">
                                     Chia sẻ cảm nhận, review sách hoặc đặt câu hỏi học thuật cùng cộng đồng
@@ -477,7 +491,7 @@
                                     </label>
                                     <select name="category_id" required class="w-full rounded-xl border-2 border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 font-semibold focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition cursor-pointer">
                                         @foreach($categories as $cat)
-                                            <option value="{{ $cat->id }}">{{ $cat->icon }} {{ $cat->name }}</option>
+                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -498,7 +512,7 @@
                                                @focus="open = true"
                                                @input="open = true"
                                                @keydown.escape="open = false"
-                                               placeholder="🔍 Gõ tên sách hoặc tác giả để tìm nhanh..."
+                                               placeholder="Gõ tên sách hoặc tác giả để tìm nhanh..."
                                                class="h-11 w-full bg-slate-50 border-2 border-slate-200 focus:bg-white focus:border-blue-600 rounded-xl px-4 text-xs font-bold text-slate-900 placeholder:text-slate-400 outline-none transition">
 
                                         <!-- Danh sách kết quả gợi ý xổ xuống (Dropdown Panel) -->
@@ -545,7 +559,7 @@
                                         <!-- Bên trái: Icon cuốn sách + Tên sách in hoa đậm nét + Tác giả -->
                                         <div class="flex items-center gap-2.5 min-w-0">
                                             <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 font-bold text-sm">
-                                                📖
+                                                <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                             </div>
                                             <div class="min-w-0">
                                                 <div class="font-bold text-xs text-blue-950 uppercase tracking-tight truncate leading-tight" x-text="selectedBook ? selectedBook.title : ''"></div>
@@ -553,12 +567,12 @@
                                             </div>
                                         </div>
 
-                                        <!-- Bên phải: Nút ✕ Hủy chọn sách -->
+                                        <!-- Bên phải: Nút Hủy chọn sách -->
                                         <button type="button" 
                                                 @click="clearBook()"
                                                 title="Hủy chọn sách"
                                                 class="w-6 h-6 rounded-lg bg-white/90 hover:bg-rose-100 text-slate-400 hover:text-rose-600 border border-blue-200/80 hover:border-rose-300 flex items-center justify-center transition cursor-pointer shrink-0 font-bold text-xs">
-                                            ✕
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                         </button>
                                     </div>
                                 </div>
@@ -575,16 +589,18 @@
                                           minlength="5"
                                           placeholder="Chia sẻ cảm nhận, trích dẫn những câu văn tâm đắc, hoặc nội dung bạn muốn cùng mọi người thảo luận..."
                                           class="w-full rounded-xl border-2 border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 font-normal focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition leading-relaxed placeholder:text-slate-400"></textarea>
-                                <div class="text-[11px] text-slate-500 font-medium mt-1">
-                                    💡 Mẹo: Bài viết có gắn thẻ sách sẽ hiển thị nút "Thêm vào giỏ mượn" để các độc giả khác có thể mượn ngay!
+                                <div class="text-[11px] text-slate-500 font-medium mt-1 flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                                    <span>Mẹo: Bài viết có gắn thẻ sách sẽ hiển thị nút "Thêm vào giỏ mượn" để các độc giả khác có thể mượn ngay!</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Chân Modal -->
                         <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100">
-                            <span class="text-xs text-amber-800 font-bold bg-amber-50 px-3 py-1 rounded-lg border border-amber-200">
-                                🛡️ Đăng bài không cộng EXP để chống spam
+                            <span class="text-xs text-amber-800 font-bold bg-amber-50 px-3 py-1 rounded-lg border border-amber-200 inline-flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-amber-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                <span>Đăng bài không cộng EXP để chống spam</span>
                             </span>
                             
                             <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">

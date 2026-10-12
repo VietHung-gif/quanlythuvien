@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -11,7 +11,7 @@ return new class extends Migration
     {
         // 1. Thêm available_copies vào bảng books (nếu chưa có)
         Schema::table('books', function (Blueprint $table) {
-            if (!Schema::hasColumn('books', 'available_copies')) {
+            if (! Schema::hasColumn('books', 'available_copies')) {
                 $table->integer('available_copies')->default(0)->after('quantity');
             }
         });
@@ -21,23 +21,23 @@ return new class extends Migration
 
         // 2. Thêm quantity, fine_status, fine_paid_at vào bảng borrow_records (nếu chưa có)
         Schema::table('borrow_records', function (Blueprint $table) {
-            if (!Schema::hasColumn('borrow_records', 'quantity')) {
+            if (! Schema::hasColumn('borrow_records', 'quantity')) {
                 $table->integer('quantity')->default(1)->after('book_id');
             }
-            if (!Schema::hasColumn('borrow_records', 'fine_status')) {
+            if (! Schema::hasColumn('borrow_records', 'fine_status')) {
                 $table->string('fine_status')->default('none')->after('fine_amount');
             }
-            if (!Schema::hasColumn('borrow_records', 'fine_paid_at')) {
+            if (! Schema::hasColumn('borrow_records', 'fine_paid_at')) {
                 $table->timestamp('fine_paid_at')->nullable()->after('fine_status');
             }
         });
 
         // 3. Thêm fine_status, fine_paid_at vào bảng borrows (nếu chưa có)
         Schema::table('borrows', function (Blueprint $table) {
-            if (!Schema::hasColumn('borrows', 'fine_status')) {
+            if (! Schema::hasColumn('borrows', 'fine_status')) {
                 $table->string('fine_status')->default('none')->after('fine_amount');
             }
-            if (!Schema::hasColumn('borrows', 'fine_paid_at')) {
+            if (! Schema::hasColumn('borrows', 'fine_paid_at')) {
                 $table->timestamp('fine_paid_at')->nullable()->after('fine_status');
             }
         });

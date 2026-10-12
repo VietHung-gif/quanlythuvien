@@ -7,7 +7,9 @@
                 <div class="p-4 bg-emerald-50 border-2 border-emerald-200 rounded-2xl shadow-xs flex items-center justify-between text-emerald-800">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-600 font-bold">
-                            ✓
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                            </svg>
                         </div>
                         <span class="text-sm font-bold">{{ session('success') }}</span>
                     </div>
@@ -18,7 +20,9 @@
                 <div class="p-4 bg-rose-50 border-2 border-rose-200 rounded-2xl shadow-xs flex items-center justify-between text-rose-800">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-xl bg-rose-100 flex items-center justify-center shrink-0 text-rose-600 font-bold">
-                            ✕
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
                         </div>
                         <span class="text-sm font-bold">{{ session('error') }}</span>
                     </div>
@@ -31,8 +35,11 @@
             <div class="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <!-- Cột bên trái: Huy hiệu, Tiêu đề, Mô tả -->
                 <div class="space-y-1.5 flex-1 min-w-0">
-                    <span class="bg-slate-900 text-white font-black text-xs uppercase px-3.5 py-1.5 rounded-lg tracking-wider inline-block mb-2 shadow-xs">
-                        🏷️ PHÂN HỆ PHÂN LOẠI & LƯU TRỮ — TIỂU ĐỘI 2P
+                    <span class="inline-flex items-center gap-1.5 bg-slate-900 text-white font-black text-xs uppercase px-3.5 py-1.5 rounded-lg tracking-wider mb-2 shadow-xs">
+                        <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                        <span>PHÂN HỆ PHÂN LOẠI & LƯU TRỮ — TIỂU ĐỘI 2P</span>
                     </span>
                     
                     <h1 class="text-3xl md:text-4xl font-black text-slate-950 uppercase tracking-tight leading-tight">
@@ -83,14 +90,17 @@
 
                     @if(request('search'))
                         <a href="{{ route('categories.index') }}" 
-                           class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase px-3.5 py-2.5 rounded-xl border border-slate-200 transition shrink-0" 
+                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase px-3.5 py-2.5 rounded-xl border border-slate-200 transition shrink-0" 
                            title="Xóa bộ lọc tìm kiếm">
-                            ✕ HỦY
+                            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            <span>HỦY</span>
                         </a>
                     @endif
                 </form>
 
-                <!-- Nút chuyển đổi linh hoạt: [⊞ LƯỚI THẺ KHÁM PHÁ] & [☰ DANH SÁCH TỐI GIẢN] -->
+                <!-- Nút chuyển đổi linh hoạt: LƯỚI THẺ KHÁM PHÁ & DANH SÁCH TỐI GIẢN -->
                 <div class="flex items-center justify-between sm:justify-end gap-3 shrink-0">
                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wider hidden md:inline">
                         CHẾ ĐỘ XEM:
@@ -128,7 +138,7 @@
                     
                     if (str_contains($name, 'manga') || str_contains($name, 'light novel') || str_contains($name, 'truyện')) {
                         return [
-                            'icon' => '🌸',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>',
                             'badge' => 'Manga & Light Novel',
                             'bg_glow' => 'from-pink-500/20 via-rose-500/10 to-transparent',
                             'icon_bg' => 'bg-pink-50 text-pink-600 ring-1 ring-pink-200',
@@ -137,7 +147,7 @@
                     }
                     if (str_contains($name, 'lập trình') || str_contains($name, 'kỹ thuật phần mềm') || str_contains($name, 'cntt') || str_contains($name, 'software')) {
                         return [
-                            'icon' => '💻',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>',
                             'badge' => 'Kỹ Thuật Phần Mềm',
                             'bg_glow' => 'from-sky-500/20 via-blue-500/10 to-transparent',
                             'icon_bg' => 'bg-sky-50 text-sky-600 ring-1 ring-sky-200',
@@ -146,7 +156,7 @@
                     }
                     if (str_contains($name, 'trí tuệ nhân tạo') || str_contains($name, 'ai') || str_contains($name, 'dữ liệu')) {
                         return [
-                            'icon' => '🤖',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>',
                             'badge' => 'AI & Data Science',
                             'bg_glow' => 'from-indigo-500/20 via-purple-500/10 to-transparent',
                             'icon_bg' => 'bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200',
@@ -155,7 +165,7 @@
                     }
                     if (str_contains($name, 'an toàn') || str_contains($name, 'hacker') || str_contains($name, 'bảo mật')) {
                         return [
-                            'icon' => '🛡️',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
                             'badge' => 'An Ninh Mạng & Hacker',
                             'bg_glow' => 'from-cyan-500/20 via-teal-500/10 to-transparent',
                             'icon_bg' => 'bg-cyan-50 text-cyan-600 ring-1 ring-cyan-200',
@@ -164,7 +174,7 @@
                     }
                     if (str_contains($name, 'cyberpunk') || str_contains($name, 'sci-fi') || str_contains($name, 'viễn tưởng')) {
                         return [
-                            'icon' => '⚡',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
                             'badge' => 'Cyberpunk & Sci-Fi',
                             'bg_glow' => 'from-fuchsia-500/20 via-purple-500/10 to-transparent',
                             'icon_bg' => 'bg-fuchsia-50 text-fuchsia-600 ring-1 ring-fuchsia-200',
@@ -173,7 +183,7 @@
                     }
                     if (str_contains($name, 'tâm lý') || str_contains($name, 'bản thân')) {
                         return [
-                            'icon' => '💡',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>',
                             'badge' => 'Tâm Lý & Phát Triển',
                             'bg_glow' => 'from-amber-500/20 via-orange-500/10 to-transparent',
                             'icon_bg' => 'bg-amber-50 text-amber-600 ring-1 ring-amber-200',
@@ -182,7 +192,7 @@
                     }
                     if (str_contains($name, 'kinh tế') || str_contains($name, 'tài chính') || str_contains($name, 'đầu tư')) {
                         return [
-                            'icon' => '📈',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>',
                             'badge' => 'Kinh Tế & Đầu Tư',
                             'bg_glow' => 'from-emerald-500/20 via-teal-500/10 to-transparent',
                             'icon_bg' => 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200',
@@ -191,7 +201,7 @@
                     }
                     if (str_contains($name, 'vũ trụ') || str_contains($name, 'lượng tử') || str_contains($name, 'vật lý')) {
                         return [
-                            'icon' => '🚀',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>',
                             'badge' => 'Vũ Trụ & Lượng Tử',
                             'bg_glow' => 'from-blue-500/20 via-indigo-500/10 to-transparent',
                             'icon_bg' => 'bg-blue-50 text-blue-600 ring-1 ring-blue-200',
@@ -200,7 +210,7 @@
                     }
                     if (str_contains($name, 'y học') || str_contains($name, 'sức khỏe') || str_contains($name, 'dinh dưỡng')) {
                         return [
-                            'icon' => '🩺',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>',
                             'badge' => 'Y Học & Dinh Dưỡng',
                             'bg_glow' => 'from-teal-500/20 via-emerald-500/10 to-transparent',
                             'icon_bg' => 'bg-teal-50 text-teal-600 ring-1 ring-teal-200',
@@ -209,7 +219,7 @@
                     }
                     if (str_contains($name, 'não bộ') || str_contains($name, 'thần kinh')) {
                         return [
-                            'icon' => '🧠',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>',
                             'badge' => 'Khoa Học Não Bộ',
                             'bg_glow' => 'from-purple-500/20 via-violet-500/10 to-transparent',
                             'icon_bg' => 'bg-purple-50 text-purple-600 ring-1 ring-purple-200',
@@ -218,7 +228,7 @@
                     }
                     if (str_contains($name, 'môi trường') || str_contains($name, 'trái đất')) {
                         return [
-                            'icon' => '🌍',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>',
                             'badge' => 'Khoa Học Trái Đất',
                             'bg_glow' => 'from-green-500/20 via-emerald-500/10 to-transparent',
                             'icon_bg' => 'bg-green-50 text-green-600 ring-1 ring-green-200',
@@ -227,7 +237,7 @@
                     }
                     if (str_contains($name, 'lịch sử') || str_contains($name, 'quân sự') || str_contains($name, 'chiến lược')) {
                         return [
-                            'icon' => '⚔️',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/>',
                             'badge' => 'Lịch Sử & Chiến Lược',
                             'bg_glow' => 'from-rose-500/20 via-red-500/10 to-transparent',
                             'icon_bg' => 'bg-rose-50 text-rose-600 ring-1 ring-rose-200',
@@ -236,7 +246,7 @@
                     }
                     if (str_contains($name, 'triết học') || str_contains($name, 'nhân sinh')) {
                         return [
-                            'icon' => '⚖️',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>',
                             'badge' => 'Triết Học Nhân Sinh',
                             'bg_glow' => 'from-amber-600/20 via-stone-500/10 to-transparent',
                             'icon_bg' => 'bg-stone-100 text-stone-700 ring-1 ring-stone-200',
@@ -245,7 +255,7 @@
                     }
                     if (str_contains($name, 'nghệ thuật') || str_contains($name, 'thiết kế') || str_contains($name, 'kiến trúc') || str_contains($name, 'ui/ux')) {
                         return [
-                            'icon' => '🎨',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 21a4 4 0 01-4-4 4 4 0 014-4h4a4 4 0 014 4 4 4 0 01-4 4H7zM7 21h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"/>',
                             'badge' => 'Mỹ Thuật & Thiết Kế',
                             'bg_glow' => 'from-violet-500/20 via-fuchsia-500/10 to-transparent',
                             'icon_bg' => 'bg-violet-50 text-violet-600 ring-1 ring-violet-200',
@@ -254,7 +264,7 @@
                     }
                     if (str_contains($name, 'văn học') || str_contains($name, 'tiểu thuyết')) {
                         return [
-                            'icon' => '📚',
+                            'path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>',
                             'badge' => 'Văn Học Kinh Điển',
                             'bg_glow' => 'from-amber-500/20 via-yellow-500/10 to-transparent',
                             'icon_bg' => 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
@@ -264,9 +274,9 @@
 
                     // Fallback theo ID cho các thể loại mới thêm
                     $fallbacks = [
-                        ['icon' => '📖', 'badge' => 'Tri Thức Khái Quát', 'bg_glow' => 'from-blue-500/20 via-indigo-500/10 to-transparent', 'icon_bg' => 'bg-blue-50 text-blue-600 ring-1 ring-blue-200', 'accent_bar' => 'bg-blue-500'],
-                        ['icon' => '✨', 'badge' => 'Chuyên Ngành Đặc Tuyển', 'bg_glow' => 'from-purple-500/20 via-pink-500/10 to-transparent', 'icon_bg' => 'bg-purple-50 text-purple-600 ring-1 ring-purple-200', 'accent_bar' => 'bg-purple-500'],
-                        ['icon' => '🎯', 'badge' => 'Lĩnh Vực Trọng Điểm', 'bg_glow' => 'from-emerald-500/20 via-teal-500/10 to-transparent', 'icon_bg' => 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200', 'accent_bar' => 'bg-emerald-500'],
+                        ['path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>', 'badge' => 'Tri Thức Khái Quát', 'bg_glow' => 'from-blue-500/20 via-indigo-500/10 to-transparent', 'icon_bg' => 'bg-blue-50 text-blue-600 ring-1 ring-blue-200', 'accent_bar' => 'bg-blue-500'],
+                        ['path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.286L13 21l-2.286-6.857L5 12l5.714-2.286L13 3z"/>', 'badge' => 'Chuyên Ngành Đặc Tuyển', 'bg_glow' => 'from-purple-500/20 via-pink-500/10 to-transparent', 'icon_bg' => 'bg-purple-50 text-purple-600 ring-1 ring-purple-200', 'accent_bar' => 'bg-purple-500'],
+                        ['path' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>', 'badge' => 'Lĩnh Vực Trọng Điểm', 'bg_glow' => 'from-emerald-500/20 via-teal-500/10 to-transparent', 'icon_bg' => 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200', 'accent_bar' => 'bg-emerald-500'],
                     ];
                     return $fallbacks[$cat->id % count($fallbacks)];
                 };
@@ -294,9 +304,11 @@
 
                         <!-- Hàng trên: Icon minh họa + Huy hiệu & Công cụ Admin -->
                         <div class="relative z-10 flex items-start justify-between gap-3">
-                            <!-- Icon minh họa lớn dạng vector/emoji trong khối bo góc mềm mại -->
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition duration-300 shrink-0 shadow-2xs {{ $theme['icon_bg'] }}">
-                                <span>{{ $theme['icon'] }}</span>
+                            <!-- Icon minh họa lớn dạng vector trong khối bo góc mềm mại -->
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition duration-300 shrink-0 shadow-2xs {{ $theme['icon_bg'] }}">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    {!! $theme['path'] !!}
+                                </svg>
                             </div>
 
                             <!-- Công cụ Sửa / Xóa cho Admin hoặc Badge chuyên đề -->
@@ -352,7 +364,9 @@
                         <div class="relative z-10 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 mt-auto">
                             <!-- Huy hiệu số lượng đầu sách -->
                             <span class="bg-blue-50 text-blue-700 border border-blue-200 font-extrabold text-xs px-3 py-1 rounded-full inline-flex items-center gap-1.5 shadow-2xs">
-                                <span>📚</span>
+                                <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
                                 <span>{{ number_format($category->books_count) }} đầu sách</span>
                             </span>
 
@@ -369,7 +383,11 @@
                 @empty
                     <!-- Trạng thái trống khi không có kết quả -->
                     <div class="col-span-full bg-white rounded-3xl border-2 border-slate-200 p-12 text-center text-slate-500 space-y-3 shadow-sm">
-                        <span class="text-4xl">📭</span>
+                        <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                            </svg>
+                        </div>
                         <h3 class="text-lg font-black text-slate-900 tracking-tight">
                             KHÔNG TÌM THẤY THỂ LOẠI SÁCH PHÙ HỢP
                         </h3>
@@ -410,12 +428,14 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 {{ $theme['icon_bg'] }}">
-                                                {{ $theme['icon'] }}
+                                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 {{ $theme['icon_bg'] }}">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    {!! $theme['path'] !!}
+                                                </svg>
                                             </div>
                                             <div>
                                                 <a href="{{ route('books.index', ['category_id' => $category->id]) }}" 
-                                                   class="font-black text-slate-950 text-sm group-hover:text-blue-600 transition block hover:underline">
+                                                    class="font-black text-slate-950 text-sm group-hover:text-blue-600 transition block hover:underline">
                                                     {{ $category->name }}
                                                 </a>
                                                 <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
@@ -430,8 +450,11 @@
                                         </p>
                                     </td>
                                     <td class="px-6 py-4 text-center whitespace-nowrap">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold {{ $category->books_count > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400 border border-slate-200' }}">
-                                            📚 {{ number_format($category->books_count) }} cuốn
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold {{ $category->books_count > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400 border border-slate-200' }}">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                            </svg>
+                                            <span>{{ number_format($category->books_count) }} cuốn</span>
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 text-center whitespace-nowrap">

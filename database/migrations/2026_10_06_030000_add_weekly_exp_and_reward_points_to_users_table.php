@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'reward_points')) {
+            if (! Schema::hasColumn('users', 'reward_points')) {
                 $table->unsignedInteger('reward_points')->default(0)->after('exp');
             }
-            if (!Schema::hasColumn('users', 'weekly_exp')) {
+            if (! Schema::hasColumn('users', 'weekly_exp')) {
                 $table->unsignedInteger('weekly_exp')->default(0)->after('reward_points');
             }
         });
@@ -34,7 +34,7 @@ return new class extends Migration
             if (Schema::hasColumn('users', 'weekly_exp')) {
                 $columnsToDrop[] = 'weekly_exp';
             }
-            if (!empty($columnsToDrop)) {
+            if (! empty($columnsToDrop)) {
                 $table->dropColumn($columnsToDrop);
             }
         });

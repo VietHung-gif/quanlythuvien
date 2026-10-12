@@ -117,11 +117,164 @@
         <!-- Widget Chatbot AI (Trợ lý Thủ thư ảo) -->
         <x-chatbot-widget />
 
-        <!-- Ngăn kéo Giỏ sách & Đăng ký mượn sách -->
-        <x-cart-drawer />
+        <!-- Giỏ sách mượn đã chuyển sang trang chuyên biệt /cart chuẩn Laravel Blade -->
+        {{-- <x-cart-drawer /> --}}
 
         <!-- Cổng Nạp Tiền VietQR Napas 247 (Fintech Recharge Modal) -->
         <x-deposit-modal />
+
+        <!-- SCRIPT XỬ LÝ AJAX THÊM VÀO GIỎ & TOAST NOTIFICATION TOÀN CỤC (KHÔNG RELOAD / KHÔNG NHẢY SCROLL) -->
+        <script>
+        (function() {
+            if (window._cartAjaxLoaded) return;
+            window._cartAjaxLoaded = true;
+
+            function getToastContainer() {
+                let container = document.getElementById('ajax-toast-container');
+                if (!container) {
+                    container = document.createElement('div');
+                    container.id = 'ajax-toast-container';
+                    container.className = 'fixed top-20 right-4 sm:right-6 z-[99999] flex flex-col gap-3 pointer-events-none max-w-sm w-full';
+                    document.body.appendChild(container);
+                }
+                return container;
+            }
+
+            function showToastNotification(title, message, isSuccess = true) {
+                const container = getToastContainer();
+                // Đảm bảo chỉ hiển thị DUY NHẤT 1 toast trên màn hình
+                container.innerHTML = '';
+                const toast = document.createElement('div');
+                
+                const borderBg = isSuccess
+                    ? 'bg-white/95 border-emerald-300 text-emerald-950 shadow-xl shadow-emerald-500/10'
+                    : 'bg-white/95 border-rose-300 text-rose-950 shadow-xl shadow-rose-500/10';
+                const iconBg = isSuccess ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600';
+                const iconSvg = isSuccess 
+                    ? '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>' 
+                    : '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>';
+
+                toast.className = `pointer-events-auto p-4 rounded-2xl border-2 ${borderBg} flex items-start gap-3 backdrop-blur-md transition-all duration-300 transform translate-x-8 opacity-0 shadow-lg`;
+                toast.innerHTML = `
+                    <div class="w-8 h-8 rounded-xl ${iconBg} flex items-center justify-center font-black text-sm shrink-0">
+                        ${iconSvg}
+                    </div>
+                    <div class="flex-1 min-w-0 text-xs">
+                        <p class="font-bold text-sm text-slate-900">${title}</p>
+                        <p class="mt-0.5 leading-relaxed text-slate-600">${message}</p>
+                    </div>
+                    <button type="button" class="text-slate-400 hover:text-slate-700 transition shrink-0 p-1 rounded-lg cursor-pointer" onclick="this.closest('div.pointer-events-auto').remove()">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                `;
+
+                container.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.classList.remove('translate-x-8', 'opacity-0');
+                    toast.classList.add('translate-x-0', 'opacity-100');
+                });
+
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.classList.remove('translate-x-0', 'opacity-100');
+                        toast.classList.add('translate-x-8', 'opacity-0');
+                        setTimeout(() => toast.remove(), 300);
+                    }
+                }, 3500);
+            }
+
+            function updateCartBadges(count) {
+                const badges = document.querySelectorAll('[data-cart-badge], #cart-counter-badge');
+                badges.forEach(badge => {
+                    badge.innerText = count;
+                    if (count > 0) {
+                        badge.classList.remove('hidden');
+                        if (badge.style.display === 'none') {
+                            badge.style.display = '';
+                        }
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                });
+            }
+
+            let isAddingToCart = false;
+
+            async function sendAddToCartRequest(bookId, buttonEl = null) {
+                if (isAddingToCart) {
+                    return;
+                }
+                isAddingToCart = true;
+
+                const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+                const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
+
+                let originalContent = '';
+                if (buttonEl) {
+                    originalContent = buttonEl.innerHTML;
+                    buttonEl.disabled = true;
+                    buttonEl.classList.add('opacity-75', 'cursor-not-allowed');
+                }
+
+                try {
+                    const response = await fetch('{{ route('cart.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ book_id: bookId })
+                    });
+
+                    if (response.status === 401) {
+                        window.location.href = '{{ route('login') }}';
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        if (typeof data.cart_count !== 'undefined') {
+                            updateCartBadges(data.cart_count);
+                        }
+                        showToastNotification('Thêm sách thành công!', data.message || 'Đã thêm vào giỏ mượn', true);
+                    } else {
+                        showToastNotification('Thông báo', data.message || 'Không thể thêm sách vào giỏ.', false);
+                    }
+                } catch (err) {
+                    console.error('Lỗi khi thêm sách vào giỏ:', err);
+                    showToastNotification('Lỗi kết nối', 'Không thể kết nối đến máy chủ. Vui lòng thử lại!', false);
+                } finally {
+                    isAddingToCart = false;
+                    if (buttonEl) {
+                        buttonEl.disabled = false;
+                        buttonEl.classList.remove('opacity-75', 'cursor-not-allowed');
+                        buttonEl.innerHTML = originalContent;
+                    }
+                }
+            }
+
+            window.addToCart = function(bookId) {
+                sendAddToCartRequest(bookId);
+            };
+            window.handleAddToCart = window.addToCart;
+
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('.btn-add-to-cart');
+                if (!btn) return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const bookId = btn.dataset.bookId || btn.getAttribute('data-book-id');
+                if (bookId) {
+                    sendAddToCartRequest(bookId, btn);
+                }
+            });
+        })();
+        </script>
 
         @stack('scripts')
     </body>

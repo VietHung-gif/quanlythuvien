@@ -19,7 +19,7 @@ class FixBookCoversSeeder extends Seeder
         ini_set('memory_limit', '512M');
         set_time_limit(300);
 
-        $this->command->info('🎨 [TIỂU ĐỘI 2P] BẮT ĐẦU CHUẨN HÓA ẢNH BÌA SÁCH THEO TỰA ĐỀ VÀ THỂ LOẠI...');
+        $this->command->info('[START] [TIỂU ĐỘI 2P] BẮT ĐẦU CHUẨN HÓA ẢNH BÌA SÁCH THEO TỰA ĐỀ VÀ THỂ LOẠI...');
 
         // 1. TỪ ĐIỂN TỰA SÁCH KINH ĐIỂN / PHỔ BIẾN (DICTIONARY MAP)
         // Ánh xạ từ khóa tiêu đề sách -> Link ảnh bìa thật 100% (Open Library CDN / Wikimedia / Unsplash Books)
@@ -291,7 +291,7 @@ class FixBookCoversSeeder extends Seeder
 
         // 3. THỰC HIỆN DUYỆT TẤT CẢ SÁCH VÀ CẬP NHẬT THEO LÔ (CHUNK 500)
         $totalBooks = DB::table('books')->count();
-        $this->command->info("📚 Tổng số sách cần kiểm tra và chuẩn hóa ảnh bìa: {$totalBooks} cuốn.");
+        $this->command->info("[INFO] Tổng số sách cần kiểm tra và chuẩn hóa ảnh bìa: {$totalBooks} cuốn.");
 
         $matchedTitleCount = 0;
         $categoryAssignedCount = 0;
@@ -328,7 +328,7 @@ class FixBookCoversSeeder extends Seeder
                     }
 
                     // 2. Nếu không khớp từ khóa tựa đề cụ thể -> Dùng kho ảnh theo Danh mục (category)
-                    if (!$chosenCover) {
+                    if (! $chosenCover) {
                         $catName = $categoriesMap[$book->category_id] ?? null;
                         $pool = ($catName && isset($categoryThemeCovers[$catName]))
                             ? $categoryThemeCovers[$catName]
@@ -345,7 +345,7 @@ class FixBookCoversSeeder extends Seeder
                 }
 
                 // Thực thi bulk update nhanh bằng một câu SQL duy nhất cho cả lô 500 bản ghi
-                if (!empty($cases)) {
+                if (! empty($cases)) {
                     $casesSql = implode(' ', $cases);
                     $idsSql = implode(',', $ids);
                     $query = "UPDATE books SET cover_image = CASE id {$casesSql} END WHERE id IN ({$idsSql})";
@@ -353,19 +353,19 @@ class FixBookCoversSeeder extends Seeder
                 }
 
                 $totalProcessed += count($books);
-                $this->command->line("  ✓ Đã cập nhật xong {$totalProcessed} cuốn sách...");
+                $this->command->line("  [OK] Đã cập nhật xong {$totalProcessed} cuốn sách...");
             });
 
             DB::commit();
 
-            $this->command->info("🎉 HOÀN THÀNH XUẤT SẮC:");
+            $this->command->info('[SUCCESS] HOÀN THÀNH XUẤT SẮC:');
             $this->command->info("  - Khớp chuẩn xác theo tên tác phẩm: {$matchedTitleCount} cuốn.");
             $this->command->info("  - Khớp theo chủ đề chuyên sâu của Thể loại: {$categoryAssignedCount} cuốn.");
             $this->command->info("  - Tổng số sách đã cập nhật ảnh bìa hoàn hảo: {$totalProcessed} cuốn.");
 
         } catch (\Throwable $e) {
             DB::rollBack();
-            $this->command->error("❌ Lỗi trong quá trình cập nhật ảnh bìa: " . $e->getMessage());
+            $this->command->error('[ERROR] Lỗi trong quá trình cập nhật ảnh bìa: '.$e->getMessage());
             throw $e;
         }
     }

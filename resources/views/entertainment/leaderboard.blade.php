@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h1 class="font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight flex items-center gap-3">
-                    <span class="text-3xl">🏆</span>
+                    <svg class="w-7 h-7 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.286L13 21l-2.286-6.857L5 12l5.714-2.286L13 3z"/></svg>
                     <span>BẢNG PHONG THẦN: "MỌT SÁCH CHIẾN TƯỚNG"</span>
                 </h1>
             </div>
@@ -11,10 +11,12 @@
             <!-- Phím tắt liên kết -->
             <div class="flex items-center gap-2.5">
                 <a href="{{ route('books.index') }}" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:border-blue-500 shadow-2xs transition flex items-center gap-1.5">
-                    <span>📚</span> Mượn Sách (+50 EXP)
+                    <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <span>Mượn Sách (+50 EXP)</span>
                 </a>
                 <a href="{{ route('entertainment.index') }}" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 shadow-xs transition flex items-center gap-1.5">
-                    <span>🎯</span> Nhiệm Vụ & Điểm Danh
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><circle cx="12" cy="12" r="6" stroke-width="2"/><circle cx="12" cy="12" r="2" stroke-width="2"/></svg>
+                    <span>Nhiệm Vụ & Điểm Danh</span>
                 </a>
             </div>
         </div>
@@ -26,8 +28,8 @@
             <!-- BANNER THÔNG BÁO RESET MÙA GIẢI & TRAO QUÀ TOP 1 TUẦN -->
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/60 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
                 <div class="flex items-center gap-3.5">
-                    <div class="w-12 h-12 rounded-2xl bg-white border border-blue-200 flex items-center justify-center text-2xl shadow-xs shrink-0">
-                        🎁
+                    <div class="w-12 h-12 rounded-2xl bg-white border border-blue-200 flex items-center justify-center text-blue-600 shadow-xs shrink-0">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V4a2 2 0 112 2h-2zm0 0V4a2 2 0 10-2 2h2zm-7 4h14v9a2 2 0 01-2 2H7a2 2 0 01-2-2v-9z"/></svg>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
@@ -76,11 +78,13 @@
                                     <span class="px-2.5 py-0.5 rounded-md text-xs font-bold {{ $currentUser->badge_color }}">
                                         {{ $currentUser->title_badge }}
                                     </span>
-                                    <span class="text-xs font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md">
-                                        ⚡ Tuần này: <strong>{{ number_format($currentUser->weekly_exp ?? 0) }}</strong> EXP
+                                    <span class="text-xs font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md inline-flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                        Tuần này: <strong>{{ number_format($currentUser->weekly_exp ?? 0) }}</strong> EXP
                                     </span>
-                                    <span class="text-xs font-mono font-bold text-slate-700 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md">
-                                        🔥 Tổng tích lũy: <strong>{{ number_format($currentUser->exp ?? 0) }}</strong> EXP
+                                    <span class="text-xs font-mono font-bold text-slate-700 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md inline-flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-.5 2-2 4-4 6-2.5 2.5-3 5.5-1.5 8.5C7.5 18.5 9.5 20 12 20s4.5-1.5 5.5-3.5c1.5-3 1-6-1.5-8.5-2-2-3.5-4-4-6z"/></svg>
+                                        Tổng tích lũy: <strong>{{ number_format($currentUser->exp ?? 0) }}</strong> EXP
                                     </span>
                                 </div>
                             </div>
@@ -93,7 +97,10 @@
                                 <span class="text-[10px] text-slate-500 block font-bold uppercase">HẠNG TUẦN NÀY</span>
                                 <div class="text-lg font-black text-blue-700 font-mono">
                                     @if(in_array($currentUser->role, ['admin', 'librarian']))
-                                        👑 ADMIN
+                                        <span class="inline-flex items-center gap-1 text-rose-700 font-bold text-sm">
+                                            <svg class="w-3.5 h-3.5 text-rose-600" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                            ADMIN
+                                        </span>
                                     @else
                                         #{{ $currentUserWeeklyRank ?? '—' }}
                                     @endif
@@ -103,14 +110,14 @@
                             <!-- Điểm Đổi Quà Hiện Có -->
                             <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2 text-center min-w-[120px]">
                                 <span class="text-[10px] text-emerald-800 block font-bold uppercase">ĐIỂM ĐỔI QUÀ</span>
-                                <div class="text-lg font-black text-emerald-700 font-mono flex items-center justify-center gap-1">
-                                    <span>🎁</span>
+                                <div class="text-lg font-black text-emerald-700 font-mono flex items-center justify-center gap-1.5">
+                                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V4a2 2 0 112 2h-2zm0 0V4a2 2 0 10-2 2h2zm-7 4h14v9a2 2 0 01-2 2H7a2 2 0 01-2-2v-9z"/></svg>
                                     <span>{{ number_format($currentUser->reward_points ?? 0) }}</span>
                                 </div>
                             </div>
 
                             <a href="{{ route('books.index') }}" class="h-10 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
-                                <span>📚</span>
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                 <span>Mượn Sách (+50)</span>
                             </a>
                         </div>
@@ -133,7 +140,10 @@
             @if(isset($adminUsers) && $adminUsers->isNotEmpty())
                 <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
                     <div class="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-                        <span class="flex items-center gap-1.5 text-slate-700 font-extrabold">🛡️ BAN QUẢN TRỊ TỐI CAO</span>
+                        <span class="flex items-center gap-1.5 text-slate-700 font-extrabold">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            BAN QUẢN TRỊ TỐI CAO
+                        </span>
                         <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-semibold">Đặc quyền hệ thống • Không đua rank</span>
                     </div>
 
@@ -165,7 +175,10 @@
                                 </div>
 
                                 <div class="text-right shrink-0">
-                                    <span class="text-xs font-bold text-amber-600 font-mono">👑 TỐI THƯỢNG</span>
+                                    <span class="text-xs font-bold text-amber-600 font-mono inline-flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                        TỐI THƯỢNG
+                                    </span>
                                 </div>
                             </div>
                         @endforeach
@@ -189,11 +202,13 @@
                     <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl p-1 gap-1">
                         <a href="{{ route('entertainment.leaderboard', ['tab' => 'weekly']) }}" 
                            class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 {{ $tab !== 'all' ? 'bg-white text-blue-600 font-black shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
-                            <span>⚡</span> Top Tuần Này
+                            <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            Top Tuần Này
                         </a>
                         <a href="{{ route('entertainment.leaderboard', ['tab' => 'all']) }}" 
                            class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 {{ $tab === 'all' ? 'bg-white text-blue-600 font-black shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
-                            <span>👑</span> Toàn Mùa Giải
+                            <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                            Toàn Mùa Giải
                         </a>
                     </div>
                 </div>
@@ -228,16 +243,16 @@
                                     <!-- Cột Thứ hạng -->
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         @if ($rank === 1)
-                                            <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 text-xl font-bold shadow-2xs">
-                                                🥇
+                                            <div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-400 text-amber-950 font-black text-sm shadow-xs">
+                                                1
                                             </div>
                                         @elseif ($rank === 2)
-                                            <div class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-slate-100 border border-slate-300 text-lg font-bold shadow-2xs">
-                                                🥈
+                                            <div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-300 text-slate-800 font-black text-sm shadow-xs">
+                                                2
                                             </div>
                                         @elseif ($rank === 3)
-                                            <div class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-orange-100 border border-orange-300 text-lg font-bold shadow-2xs">
-                                                🥉
+                                            <div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-600 text-white font-black text-sm shadow-xs">
+                                                3
                                             </div>
                                         @else
                                             <span class="font-mono text-sm text-slate-500 font-bold">
@@ -273,7 +288,7 @@
                                     <!-- Cột Danh Hiệu Võ Lâm -->
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold {{ $user->badge_color }}">
-                                            <span>{{ $user->badge_icon }}</span>
+                                            <span>{!! $user->badge_icon !!}</span>
                                             <span>{{ $user->title_badge }}</span>
                                         </span>
                                     </td>
@@ -290,13 +305,22 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-xs">
                                         @if ($rank === 1)
                                             <div class="inline-flex flex-col items-center">
-                                                <span class="text-amber-700 font-extrabold tracking-wide">👑 TOP 1 TUẦN</span>
+                                                <span class="text-amber-700 font-extrabold tracking-wide inline-flex items-center gap-1">
+                                                    <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                    TOP 1 TUẦN
+                                                </span>
                                                 @if ($tab !== 'all')
-                                                    <span class="text-[11px] font-mono text-emerald-700 font-black mt-0.5">🎁 +100 ĐIỂM QUÀ</span>
+                                                    <span class="text-[11px] font-mono text-emerald-700 font-black mt-0.5 inline-flex items-center gap-1">
+                                                        <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V4a2 2 0 112 2h-2zm0 0V4a2 2 0 10-2 2h2zm-7 4h14v9a2 2 0 01-2 2H7a2 2 0 01-2-2v-9z"/></svg>
+                                                        +100 ĐIỂM QUÀ
+                                                    </span>
                                                 @endif
                                             </div>
                                         @elseif ($rank <= 3)
-                                            <span class="text-blue-700 font-bold">⚔️ ĐẠI CAO THỦ</span>
+                                            <span class="text-blue-700 font-bold inline-flex items-center gap-1">
+                                                <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                                ĐẠI CAO THỦ
+                                            </span>
                                         @else
                                             <span class="text-slate-500 font-medium">HỘI VIÊN ĐUA TOP</span>
                                         @endif
@@ -319,11 +343,13 @@
                         Điểm danh hàng ngày nhận <strong class="text-blue-700 font-black">+15 EXP</strong> • Mượn sách thư viện nhận ngay <strong class="text-emerald-700 font-black">+50 EXP</strong>.
                     </div>
                     <div class="flex items-center gap-2">
-                        <a href="{{ route('books.index') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-2xs transition">
-                            📚 Mượn Sách (+50 EXP)
+                        <a href="{{ route('books.index') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-2xs transition inline-flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                            Mượn Sách (+50 EXP)
                         </a>
-                        <a href="{{ route('entertainment.index') }}" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-2xs transition">
-                            🎯 Nhiệm Vụ & Điểm Danh
+                        <a href="{{ route('entertainment.index') }}" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-2xs transition inline-flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><circle cx="12" cy="12" r="6" stroke-width="2"/><circle cx="12" cy="12" r="2" stroke-width="2"/></svg>
+                            Nhiệm Vụ & Điểm Danh
                         </a>
                     </div>
                 </div>

@@ -24,8 +24,8 @@ class AdminUserController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%")
-                      ->orWhere('phone', 'like', "%{$search}%");
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%");
                 });
             })
             ->when($role !== 'all', function ($query) use ($role) {
@@ -69,6 +69,7 @@ class AdminUserController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json(['success' => false, 'message' => $msg], 422);
             }
+
             return redirect()->back()->with('error', $msg);
         }
 
@@ -118,7 +119,8 @@ class AdminUserController extends Controller
 
         // Kiểm tra an toàn: Không cho phép xóa độc giả đang có tiền phạt chưa thanh toán
         if ($user->unpaid_fine > 0) {
-            $formattedFine = number_format($user->unpaid_fine, 0, ',', '.') . ' VNĐ';
+            $formattedFine = number_format($user->unpaid_fine, 0, ',', '.').' VNĐ';
+
             return redirect()->back()->with('error', "Không thể xóa tài khoản \"{$user->name}\" vì người này đang nợ tiền phạt chưa thanh toán ({$formattedFine})!");
         }
 

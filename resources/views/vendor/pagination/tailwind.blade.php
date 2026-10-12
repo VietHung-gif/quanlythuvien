@@ -23,20 +23,8 @@
             @endif
         </div>
 
-        <!-- Giao diện Desktop / Máy tính bảng -->
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-                <p class="text-xs font-mono text-slate-400">
-                    HIỂN THỊ TỪ
-                    <span class="font-bold text-[#00f0ff] font-semibold">{{ $paginator->firstItem() }}</span>
-                    ĐẾN
-                    <span class="font-bold text-[#00f0ff] font-semibold">{{ $paginator->lastItem() }}</span>
-                    TRÊN TỔNG SỐ
-                    <span class="font-bold text-[#00f0ff] font-semibold">{{ $paginator->total() }}</span>
-                    BẢN GHI
-                </p>
-            </div>
-
+        <!-- Giao diện Desktop / Máy tính bảng (Đã bỏ dòng text số lượng bản ghi) -->
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-center">
             <div>
                 <span class="relative z-0 inline-flex rounded-lg shadow-sm space-x-1">
                     {{-- Previous Page Link --}}

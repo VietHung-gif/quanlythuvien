@@ -8,7 +8,9 @@
             <div class="bg-white border-2 border-slate-300 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="space-y-1.5">
                     <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-xs font-black uppercase tracking-wider">
-                        <span>🏛️</span>
+                        <svg class="w-4 h-4 text-blue-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
                         <span>PHÂN HỆ LƯU THÔNG & BÀN THỦ THƯ SỐ</span>
                     </div>
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
@@ -30,7 +32,10 @@
 
                     <a href="{{ route('books.index') }}" 
                        class="h-12 px-5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 font-black text-xs uppercase tracking-wider rounded-2xl transition flex items-center gap-2 active:scale-95 whitespace-nowrap">
-                        <span>📚 KHO SÁCH</span>
+                        <svg class="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        <span>KHO SÁCH</span>
                     </a>
                 </div>
             </div>
@@ -39,8 +44,10 @@
             @if (session('success'))
                 <div class="p-5 bg-emerald-50 border-2 border-emerald-300 rounded-2xl shadow-xs flex items-center justify-between text-emerald-950">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-200 flex items-center justify-center shrink-0 text-emerald-800 text-lg font-black">
-                            ✓
+                        <div class="w-10 h-10 rounded-xl bg-emerald-200 flex items-center justify-center shrink-0 text-emerald-800">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                            </svg>
                         </div>
                         <span class="text-base font-bold">{{ session('success') }}</span>
                     </div>
@@ -50,8 +57,10 @@
             @if (session('error'))
                 <div class="p-5 bg-rose-50 border-2 border-rose-300 rounded-2xl shadow-xs flex items-center justify-between text-rose-950">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-rose-200 flex items-center justify-center shrink-0 text-rose-800 text-lg font-black">
-                            ✕
+                        <div class="w-10 h-10 rounded-xl bg-rose-200 flex items-center justify-center shrink-0 text-rose-800">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
                         </div>
                         <span class="text-base font-bold">{{ session('error') }}</span>
                     </div>
@@ -62,8 +71,10 @@
             @if($totalPending > 0)
                 <div id="pending-alert-banner" class="bg-amber-100 border-2 border-amber-400 rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-start sm:items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-200 text-amber-900 flex items-center justify-center text-2xl font-black shrink-0">
-                            ⏳
+                        <div class="w-12 h-12 rounded-2xl bg-amber-200 text-amber-900 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6 text-amber-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
                         </div>
                         <div>
                             <div class="font-black text-lg sm:text-xl text-amber-950 leading-tight">
@@ -86,8 +97,10 @@
             @if(isset($totalRenewalPending) && $totalRenewalPending > 0)
                 <div class="bg-purple-100 border-2 border-purple-400 rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-start sm:items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-200 text-purple-900 flex items-center justify-center text-2xl font-black shrink-0">
-                            🔄
+                        <div class="w-12 h-12 rounded-2xl bg-purple-200 text-purple-900 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6 text-purple-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
                         </div>
                         <div>
                             <div class="font-black text-lg sm:text-xl text-purple-950 leading-tight">
@@ -125,8 +138,10 @@
                         </div>
                         <div class="text-[11px] font-bold text-amber-700 mt-1">Cần xử lý trực tuyến</div>
                     </div>
-                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-900 border-2 border-amber-300 flex items-center justify-center text-2xl font-bold shrink-0 shadow-2xs group-hover:scale-105 transition">
-                        ⏳
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-900 border-2 border-amber-300 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition">
+                        <svg class="w-7 h-7 text-amber-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
                     </div>
                 </a>
 
@@ -142,8 +157,10 @@
                         </div>
                         <div class="text-[11px] font-bold text-blue-700 mt-1">Độc giả đang cầm giữ</div>
                     </div>
-                    <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-900 border-2 border-blue-300 flex items-center justify-center text-2xl font-bold shrink-0 shadow-2xs group-hover:scale-105 transition">
-                        📖
+                    <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-900 border-2 border-blue-300 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition">
+                        <svg class="w-7 h-7 text-blue-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
                     </div>
                 </a>
 
@@ -162,8 +179,10 @@
                         </div>
                         <div class="text-[11px] font-bold text-rose-700 mt-1">Cần thu hồi & phạt</div>
                     </div>
-                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-900 border-2 border-rose-300 flex items-center justify-center text-2xl font-bold shrink-0 shadow-2xs group-hover:scale-105 transition">
-                        ⚠️
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-900 border-2 border-rose-300 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition">
+                        <svg class="w-7 h-7 text-rose-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
                     </div>
                 </a>
 
@@ -179,8 +198,10 @@
                         </div>
                         <div class="text-[11px] font-bold text-emerald-700 mt-1">Đã nhập lại kho</div>
                     </div>
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 flex items-center justify-center text-2xl font-bold shrink-0 shadow-2xs group-hover:scale-105 transition">
-                        ✅
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition">
+                        <svg class="w-7 h-7 text-emerald-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
                     </div>
                 </a>
 
@@ -195,8 +216,10 @@
                         </div>
                         <div class="text-[11px] font-bold text-purple-700 mt-1">Tổng cộng hệ thống</div>
                     </div>
-                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-900 border-2 border-purple-300 flex items-center justify-center text-2xl font-bold shrink-0 shadow-2xs">
-                        💰
+                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-900 border-2 border-purple-300 flex items-center justify-center shrink-0 shadow-2xs">
+                        <svg class="w-7 h-7 text-purple-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -237,11 +260,11 @@
                         <select name="status"
                                 class="w-full h-13 bg-slate-50 focus:bg-white border-2 border-slate-300 focus:border-blue-600 rounded-2xl px-4 text-sm font-bold text-slate-800 outline-none transition cursor-pointer">
                             <option value="all" {{ request('status', 'all') === 'all' ? 'selected' : '' }}>-- TẤT CẢ TRẠNG THÁI --</option>
-                            <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>⏳ CHỜ DUYỆT MƯỢN ({{ $totalPending }})</option>
-                            <option value="renewal_pending" {{ request('status') === 'renewal_pending' ? 'selected' : '' }}>🔄 CHỜ DUYỆT GIA HẠN ({{ $totalRenewalPending ?? 0 }})</option>
-                            <option value="borrowing" {{ request('status') === 'borrowing' ? 'selected' : '' }}>📖 ĐANG MƯỢN ({{ $totalActive }})</option>
-                            <option value="overdue" {{ request('status') === 'overdue' ? 'selected' : '' }}>⚠️ CẢNH BÁO QUÁ HẠN ({{ $totalOverdue }})</option>
-                            <option value="returned" {{ request('status') === 'returned' ? 'selected' : '' }}>✅ ĐÃ HOÀN TẤT ({{ $totalReturned }})</option>
+                            <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>CHỜ DUYỆT MƯỢN ({{ $totalPending }})</option>
+                            <option value="renewal_pending" {{ request('status') === 'renewal_pending' ? 'selected' : '' }}>CHỜ DUYỆT GIA HẠN ({{ $totalRenewalPending ?? 0 }})</option>
+                            <option value="borrowing" {{ request('status') === 'borrowing' ? 'selected' : '' }}>ĐANG MƯỢN ({{ $totalActive }})</option>
+                            <option value="overdue" {{ request('status') === 'overdue' ? 'selected' : '' }}>CẢNH BÁO QUÁ HẠN ({{ $totalOverdue }})</option>
+                            <option value="returned" {{ request('status') === 'returned' ? 'selected' : '' }}>ĐÃ HOÀN TẤT ({{ $totalReturned }})</option>
                         </select>
                     </div>
 
@@ -257,9 +280,12 @@
 
                         @if(request('search') || (request('status') && request('status') !== 'all'))
                             <a href="{{ route('borrows.index') }}"
-                               class="h-13 px-4 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 text-xs font-bold uppercase rounded-2xl transition flex items-center justify-center whitespace-nowrap shrink-0"
+                               class="h-13 px-4 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 text-xs font-bold uppercase rounded-2xl transition flex items-center gap-1.5 justify-center whitespace-nowrap shrink-0"
                                 title="Xóa toàn bộ bộ lọc">
-                                ✕ XÓA LỌC
+                                <svg class="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                                <span>XÓA LỌC</span>
                             </a>
                         @endif
                     </div>
@@ -273,28 +299,34 @@
                         Tất cả ({{ $borrows->total() }})
                     </a>
                     <a href="{{ route('borrows.index', ['status' => 'pending']) }}" 
-                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition {{ request('status') === 'pending' ? 'bg-amber-600 text-white shadow-xs' : 'bg-amber-50 text-amber-900 hover:bg-amber-100 border border-amber-300' }}">
-                        ⏳ Chờ duyệt ({{ $totalPending }})
+                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition flex items-center gap-1.5 {{ request('status') === 'pending' ? 'bg-amber-600 text-white shadow-xs' : 'bg-amber-50 text-amber-900 hover:bg-amber-100 border border-amber-300' }}">
+                        <span class="w-2 h-2 rounded-full bg-amber-500 {{ $totalPending > 0 ? 'animate-ping' : '' }}"></span>
+                        <span>Chờ duyệt ({{ $totalPending }})</span>
                     </a>
                     <a href="{{ route('borrows.index', ['status' => 'renewal_pending']) }}" 
                        class="px-3 py-1.5 rounded-xl font-bold uppercase transition flex items-center gap-1.5 {{ request('status') === 'renewal_pending' ? 'bg-purple-600 text-white shadow-xs' : 'bg-purple-50 text-purple-900 hover:bg-purple-100 border border-purple-300' }}">
-                        <span>🔄</span>
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
                         <span>Chờ duyệt gia hạn ({{ $totalRenewalPending ?? 0 }})</span>
                         @if(($totalRenewalPending ?? 0) > 0)
-                            <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
+                            <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
                         @endif
                     </a>
                     <a href="{{ route('borrows.index', ['status' => 'borrowing']) }}" 
-                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition {{ request('status') === 'borrowing' ? 'bg-blue-600 text-white shadow-xs' : 'bg-blue-50 text-blue-900 hover:bg-blue-100 border border-blue-300' }}">
-                        📖 Đang mượn ({{ $totalActive }})
+                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition flex items-center gap-1.5 {{ request('status') === 'borrowing' ? 'bg-blue-600 text-white shadow-xs' : 'bg-blue-50 text-blue-900 hover:bg-blue-100 border border-blue-300' }}">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span>Đang mượn ({{ $totalActive }})</span>
                     </a>
                     <a href="{{ route('borrows.index', ['status' => 'overdue']) }}" 
-                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition {{ request('status') === 'overdue' ? 'bg-rose-600 text-white shadow-xs' : 'bg-rose-50 text-rose-900 hover:bg-rose-100 border border-rose-300' }}">
-                        ⚠️ Quá hạn ({{ $totalOverdue }})
+                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition flex items-center gap-1.5 {{ request('status') === 'overdue' ? 'bg-rose-600 text-white shadow-xs' : 'bg-rose-50 text-rose-900 hover:bg-rose-100 border border-rose-300' }}">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 {{ $totalOverdue > 0 ? 'animate-pulse' : '' }}"></span>
+                        <span>Quá hạn ({{ $totalOverdue }})</span>
                     </a>
                     <a href="{{ route('borrows.index', ['status' => 'returned']) }}" 
-                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition {{ request('status') === 'returned' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-emerald-50 text-emerald-900 hover:bg-emerald-100 border border-emerald-300' }}">
-                        ✅ Đã trả ({{ $totalReturned }})
+                       class="px-3 py-1.5 rounded-xl font-bold uppercase transition flex items-center gap-1.5 {{ request('status') === 'returned' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-emerald-50 text-emerald-900 hover:bg-emerald-100 border border-emerald-300' }}">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>Đã trả ({{ $totalReturned }})</span>
                     </a>
                 </div>
             </div>
@@ -348,8 +380,12 @@
                                     STT: #{{ ($borrows->firstItem() ?? 1) + $index }}
                                 </span>
 
-                                <span class="text-xs font-bold text-slate-600 font-mono">
-                                    🗓️ Lập phiếu: <strong class="text-slate-900">{{ $borrow->borrow_date ? $borrow->borrow_date->format('d/m/Y') : '—' }}</strong>
+                                <span class="text-xs font-bold text-slate-600 font-mono flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span>Lập phiếu:</span>
+                                    <strong class="text-slate-900">{{ $borrow->borrow_date ? $borrow->borrow_date->format('d/m/Y') : '—' }}</strong>
                                 </span>
 
                                 @php
@@ -358,32 +394,42 @@
                                 @endphp
 
                                 @if($isVipBorrow)
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-indigo-600 text-white text-xs font-black shadow-xs tracking-tight">
-                                        <span>👑</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-indigo-600 text-white text-xs font-black shadow-xs tracking-tight">
+                                        <svg class="w-3.5 h-3.5 text-amber-200" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+                                        </svg>
                                         <span>[SCHOLAR VIP]</span>
                                     </span>
                                 @endif
 
                                 @if($borrow->delivery_method === 'home_delivery' || ($isVipBorrow && str_contains($borrow->notes ?? '', 'SHIP TẬN NƠI')))
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-blue-600 text-white text-xs font-bold shadow-xs">
-                                        <span>🚚</span>
+                                        <svg class="w-3.5 h-3.5 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+                                        </svg>
                                         <span>[SHIP TẬN NƠI: {{ Str::limit($shippingAddr ?: 'Theo địa chỉ', 35) }}]</span>
                                     </span>
                                 @elseif($borrow->delivery_method === 'counter_priority' || ($isVipBorrow && str_contains($borrow->notes ?? '', 'ƯU TIÊN')))
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold shadow-2xs">
-                                        <span>⚡</span>
+                                        <svg class="w-3.5 h-3.5 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
                                         <span>[LÀN ƯU TIÊN QUẦY]</span>
                                     </span>
                                 @endif
 
                                 @if($borrow->user_id)
                                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800 text-[11px] font-bold">
-                                        <span>👤</span>
+                                        <svg class="w-3 h-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                        </svg>
                                         <span>Độc giả #{{ $borrow->user_id }}</span>
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 text-[11px] font-bold">
-                                        <span>🏷️</span>
+                                        <svg class="w-3 h-3 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                        </svg>
                                         <span>Khách vãng lai</span>
                                     </span>
                                 @endif
@@ -394,41 +440,48 @@
                                 @if($borrow->status === 'pending')
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-amber-100 text-amber-950 border-2 border-amber-400 inline-flex items-center gap-2 shadow-2xs">
                                         <span class="w-2.5 h-2.5 rounded-full bg-amber-600 animate-ping"></span>
-                                        ⏳ CHỜ DUYỆT TRỰC TUYẾN
+                                        <span>CHỜ DUYỆT TRỰC TUYẾN</span>
                                     </span>
                                 @elseif($borrow->status === 'returned')
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-emerald-100 text-emerald-950 border-2 border-emerald-400 inline-flex items-center gap-2 shadow-2xs">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-                                        ✅ ĐÃ TRẢ SÁCH VÀO KHO
+                                        <svg class="w-4 h-4 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span>ĐÃ TRẢ SÁCH VÀO KHO</span>
                                     </span>
                                 @elseif($borrow->status === 'rejected')
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-slate-200 text-slate-800 border-2 border-slate-400 inline-flex items-center gap-2 shadow-2xs">
-                                        ✕ ĐÃ TỪ CHỐI
+                                        <svg class="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                        <span>ĐÃ TỪ CHỐI</span>
                                     </span>
                                 @elseif($borrow->status === 'borrowing' && $borrow->renewal_status === 'pending')
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-purple-100 text-purple-950 border-2 border-purple-400 inline-flex items-center gap-2 shadow-2xs animate-pulse">
                                         <span class="w-2.5 h-2.5 rounded-full bg-purple-600 animate-ping"></span>
-                                        🔄 YÊU CẦU GIA HẠN (+7 NGÀY) CHỜ DUYỆT
+                                        <span>YÊU CẦU GIA HẠN (+7 NGÀY) CHỜ DUYỆT</span>
                                     </span>
                                 @elseif($isOverdue)
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-rose-100 text-rose-950 border-2 border-rose-500 inline-flex items-center gap-2 shadow-2xs animate-pulse">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
-                                        🚨 QUÁ HẠN {{ $overdueDays }} NGÀY • PHẠT {{ number_format($estFine, 0, ',', '.') }} đ
+                                        <svg class="w-4 h-4 text-rose-600 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                        </svg>
+                                        <span>QUÁ HẠN {{ $overdueDays }} NGÀY • PHẠT {{ number_format($estFine, 0, ',', '.') }} đ</span>
                                     </span>
                                 @elseif($daysLeft !== null && $daysLeft == 0)
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-rose-100 text-rose-950 border-2 border-rose-400 inline-flex items-center gap-2 shadow-2xs">
                                         <span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
-                                        🔴 HẠN HÔM NAY — TRẢ SÁCH NGAY
+                                        <span>HẠN HÔM NAY — TRẢ SÁCH NGAY</span>
                                     </span>
                                 @elseif($daysLeft !== null && $daysLeft <= 2)
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-amber-100 text-amber-950 border-2 border-amber-400 inline-flex items-center gap-2 shadow-2xs">
                                         <span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
-                                        🟡 SẮP ĐẾN HẠN — CÒN {{ $daysLeft }} NGÀY
+                                        <span>SẮP ĐẾN HẠN — CÒN {{ $daysLeft }} NGÀY</span>
                                     </span>
                                 @else
                                     <span class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider bg-emerald-100 text-emerald-950 border-2 border-emerald-400 inline-flex items-center gap-2 shadow-2xs">
                                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-                                        🟢 TRONG HẠN AN TOÀN — CÒN {{ max(0, (int)$daysLeft) }} NGÀY
+                                        <span>TRONG HẠN AN TOÀN — CÒN {{ max(0, (int)$daysLeft) }} NGÀY</span>
                                     </span>
                                 @endif
                             </div>
@@ -467,8 +520,11 @@
                                             <span>Số lượng mượn:</span>
                                             <span class="px-2.5 py-0.5 rounded-lg bg-blue-100 text-blue-950 font-black">{{ $borrow->quantity ?? 1 }} cuốn</span>
                                             @if($hasRenewed)
-                                                <span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 border border-purple-200 text-[11px] font-bold">
-                                                    ✓ Đã gia hạn 1 lần (+7 ngày)
+                                                <span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 border border-purple-200 text-[11px] font-bold inline-flex items-center gap-1">
+                                                    <svg class="w-3 h-3 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                    <span>Đã gia hạn 1 lần (+7 ngày)</span>
                                                 </span>
                                             @endif
                                         </div>
@@ -476,7 +532,10 @@
                                         <!-- Người mượn & Liên lạc trực quan -->
                                         <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
                                             <div class="font-black text-slate-950 text-sm flex items-center gap-1.5">
-                                                <span>👤 {{ $borrow->borrower_name }}</span>
+                                                <svg class="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                                </svg>
+                                                <span>{{ $borrow->borrower_name }}</span>
                                                 @if($isVipBorrow)
                                                     <span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-black uppercase">
                                                         VIP
@@ -485,25 +544,35 @@
                                             </div>
                                             @if($borrow->borrower_phone)
                                                 <a href="tel:{{ $borrow->borrower_phone }}" class="text-blue-700 hover:underline font-bold flex items-center gap-1">
-                                                    📞 {{ $borrow->borrower_phone }}
+                                                    <svg class="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                                    </svg>
+                                                    <span>{{ $borrow->borrower_phone }}</span>
                                                 </a>
                                             @endif
                                             @if($borrow->borrower_email)
-                                                <a href="mailto:{{ $borrow->borrower_email }}" class="text-slate-600 hover:underline font-medium truncate max-w-xs">
-                                                    ✉️ {{ $borrow->borrower_email }}
+                                                <a href="mailto:{{ $borrow->borrower_email }}" class="text-slate-600 hover:underline font-medium truncate max-w-xs flex items-center gap-1">
+                                                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                                    </svg>
+                                                    <span>{{ $borrow->borrower_email }}</span>
                                                 </a>
                                             @endif
 
                                             <!-- Tiền cọc sách -->
                                             <div class="w-full pt-1 flex items-center gap-2">
                                                 @if($isVipBorrow)
-                                                    <span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200 inline-flex items-center gap-1 text-[11px] font-bold">
-                                                        <span>🛡️</span>
+                                                    <span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200 inline-flex items-center gap-1.5 text-[11px] font-bold">
+                                                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                                        </svg>
                                                         <span>Tiền cọc: 0đ (Đặc quyền VIP miễn cọc)</span>
                                                     </span>
                                                 @else
-                                                    <span class="text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200 inline-flex items-center gap-1 text-[11px] font-bold">
-                                                        <span>💵</span>
+                                                    <span class="text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200 inline-flex items-center gap-1.5 text-[11px] font-bold">
+                                                        <svg class="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                                        </svg>
                                                         <span>Tiền cọc: {{ number_format($borrow->deposit_fee ?: ($borrow->deposit_amount ?: 50000), 0, ',', '.') }} đ</span>
                                                     </span>
                                                 @endif
@@ -512,7 +581,9 @@
 
                                         @if($borrow->delivery_method === 'home_delivery' || ($isVipBorrow && $shippingAddr))
                                             <div class="p-2.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-start gap-2">
-                                                <span class="text-base shrink-0">🚚</span>
+                                                <svg class="w-4 h-4 text-blue-700 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+                                                </svg>
                                                 <div>
                                                     <strong class="font-bold text-blue-900">Địa chỉ giao sách tận nơi:</strong>
                                                     <span class="text-blue-950 ml-1">{{ $shippingAddr }}</span>
@@ -520,7 +591,9 @@
                                             </div>
                                         @elseif($borrow->delivery_method === 'counter_priority')
                                             <div class="p-2 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950 flex items-center gap-1.5 font-bold">
-                                                <span>⚡</span>
+                                                <svg class="w-4 h-4 text-amber-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                </svg>
                                                 <span>Làn ưu tiên quầy: Soạn sẵn sách trong 30 phút để độc giả VIP lấy ngay.</span>
                                             </div>
                                         @endif
@@ -530,7 +603,13 @@
                                 <!-- GHI CHÚ NẾU CÓ -->
                                 @if($borrow->notes)
                                     <div class="p-3 bg-slate-50 border-2 border-slate-200 rounded-2xl text-xs text-slate-700 font-medium whitespace-pre-line">
-                                        <span class="font-black text-slate-900">📝 Nhật ký phiếu:</span><br>{{ $borrow->notes }}
+                                        <div class="flex items-center gap-1.5 font-black text-slate-900 mb-1">
+                                            <svg class="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                            </svg>
+                                            <span>Nhật ký phiếu:</span>
+                                        </div>
+                                        {{ $borrow->notes }}
                                     </div>
                                 @endif
                             </div>
@@ -556,26 +635,21 @@
                                     <!-- 2 ĐẦU MỐC THỜI GIAN CỦA TIMELINE -->
                                     <div class="flex items-center justify-between text-[11px] font-mono text-slate-600 pt-0.5">
                                         <div>
-                                            <span class="text-slate-400 block text-[10px] uppercase font-bold">Ngày mượn</span>
-                                            <strong class="text-slate-900 font-black">{{ $borrow->borrow_date ? $borrow->borrow_date->format('d/m/Y') : '—' }}</strong>
-                                        </div>
-                                        <div class="text-right">
-                                            <span class="text-slate-400 block text-[10px] uppercase font-bold">Hạn trả</span>
-                                            <strong class="font-black {{ $isOverdue ? 'text-rose-600 underline text-xs' : 'text-slate-900' }}">
-                                                {{ $borrow->due_date ? $borrow->due_date->format('d/m/Y') : '—' }}
-                                            </strong>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- THÔNG TIN TRẢ THỰC TẾ (NẾU ĐÃ TRẢ) -->
+                                            <span class="text-slate-400 block text-[10px] uppercase font-bo                                <!-- THÔNG TIN TRẢ THỰC TẾ (NẾU ĐÃ TRẢ) -->
                                 @if($borrow->status === 'returned')
                                     <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 font-bold flex items-center justify-between">
                                         <div class="flex items-center gap-1.5">
-                                            <span>📥</span>
+                                            <svg class="w-4 h-4 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                            </svg>
                                             <span>Ngày trả thực tế: <strong class="font-black font-mono">{{ $borrow->return_date ? $borrow->return_date->format('d/m/Y') : '—' }}</strong></span>
                                         </div>
-                                        <span class="text-[11px] font-black text-emerald-700">✓ ĐÃ NHẬP KHO</span>
+                                        <span class="text-[11px] font-black text-emerald-700 flex items-center gap-1">
+                                            <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            <span>ĐÃ NHẬP KHO</span>
+                                        </span>
                                     </div>
                                 @endif
 
@@ -587,8 +661,17 @@
                                     <div class="p-3.5 {{ $borrow->fine_status === 'paid' ? 'bg-emerald-50 border-2 border-emerald-300 text-emerald-950' : 'bg-rose-50 border-2 border-rose-400 text-rose-950' }} rounded-2xl flex items-center justify-between gap-3 shadow-2xs">
                                         <div class="space-y-0.5">
                                             <div class="text-xs font-black uppercase flex items-center gap-1.5">
-                                                <span>{{ $borrow->fine_status === 'paid' ? '✓' : '⚠️' }}</span>
-                                                <span>{{ $borrow->fine_status === 'paid' ? 'TIỀN PHẠT ĐÃ THANH TOÁN' : 'TIỀN PHẠT QUÁ HẠN' }}</span>
+                                                @if($borrow->fine_status === 'paid')
+                                                    <svg class="w-4 h-4 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                    <span>TIỀN PHẠT ĐÃ THANH TOÁN</span>
+                                                @else
+                                                    <svg class="w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                                    </svg>
+                                                    <span>TIỀN PHẠT QUÁ HẠN</span>
+                                                @endif
                                             </div>
                                             <div class="text-[11px] font-bold text-slate-700">
                                                 Mức phạt: 5.000 đ/ngày quá hạn
@@ -634,14 +717,20 @@
                                         @csrf
                                         <button type="submit"
                                                 class="h-12 px-6 rounded-2xl text-xs font-black uppercase tracking-wider text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer flex items-center gap-2 active:scale-95">
-                                            <span>✓ DUYỆT MƯỢN</span>
+                                            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            <span>DUYỆT MƯỢN</span>
                                         </button>
                                     </form>
 
                                     <button type="button"
                                             @click="openRejectModal('{{ route('borrows.reject', $borrow->id) }}', '{{ addslashes($borrow->book->title) }}', '{{ addslashes($borrow->borrower_name) }}', {{ $borrow->id }})"
                                             class="h-12 px-5 rounded-2xl text-xs font-black uppercase tracking-wider text-rose-700 bg-rose-100 hover:bg-rose-200 border-2 border-rose-300 transition shadow-2xs cursor-pointer flex items-center gap-1.5 active:scale-95">
-                                        <span>✕ TỪ CHỐI</span>
+                                        <svg class="w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                        <span>TỪ CHỐI</span>
                                     </button>
                                 @endif
 
@@ -658,7 +747,10 @@
                                             <button type="submit"
                                                     class="h-12 px-5 rounded-2xl text-xs font-black uppercase tracking-wider text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer flex items-center gap-2 active:scale-95"
                                                     title="Đồng ý gia hạn thêm 7 ngày (Thưởng +15 EXP cho độc giả)">
-                                                <span>✓ ĐỒNG Ý GIA HẠN</span>
+                                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                                <span>ĐỒNG Ý GIA HẠN</span>
                                             </button>
                                         </form>
 
@@ -671,17 +763,24 @@
                                             <button type="submit"
                                                     class="h-12 px-4 rounded-2xl text-xs font-black uppercase tracking-wider text-rose-700 bg-rose-50 hover:bg-rose-100 border-2 border-rose-300 transition shadow-2xs cursor-pointer flex items-center gap-1.5 active:scale-95"
                                                     title="Từ chối yêu cầu gia hạn sách">
-                                                <span>✕ TỪ CHỐI GIA HẠN</span>
+                                                <svg class="w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                                <span>TỪ CHỐI GIA HẠN</span>
                                             </button>
                                         </form>
                                     @elseif($borrow->renewal_status === 'approved')
-                                        <span class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
-                                            <span>✓</span>
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                            <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                            </svg>
                                             <span>ĐÃ ĐƯỢC GIA HẠN (+7 NGÀY)</span>
                                         </span>
                                     @elseif($borrow->renewal_status === 'rejected')
-                                        <span class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200" title="{{ $borrow->notes }}">
-                                            <span>✕</span>
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200" title="{{ $borrow->notes }}">
+                                            <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
                                             <span>ĐÃ TỪ CHỐI GIA HẠN</span>
                                         </span>
                                     @endif
@@ -698,7 +797,10 @@
                                                 {{ $borrow->deposit_amount > 0 ? (float) $borrow->deposit_amount : 50000 }}
                                             )"
                                             class="h-12 px-6 rounded-2xl text-xs font-black uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition cursor-pointer flex items-center gap-2 active:scale-95">
-                                        <span>📥 XÁC NHẬN TRẢ SÁCH</span>
+                                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                        </svg>
+                                        <span>XÁC NHẬN TRẢ SÁCH</span>
                                     </button>
                                 @endif
 
@@ -706,13 +808,16 @@
                                 @if($borrow->fine_amount > 0 && $borrow->fine_status === 'unpaid')
                                     <form action="{{ route('borrows.payFine', $borrow->id) }}" 
                                           method="POST" 
-                                          class="inline-block"
+                                          class="inline-block" 
                                           onsubmit="return confirm('Xác nhận đã thu đủ số tiền phạt {{ number_format($borrow->fine_amount, 0, ',', '.') }} VNĐ từ độc giả {{ addslashes($borrow->borrower_name) }}?');">
                                         @csrf
                                         <button type="submit" 
                                                 class="h-12 px-5 rounded-2xl text-xs font-black uppercase tracking-wider text-white bg-amber-600 hover:bg-amber-700 shadow-sm transition cursor-pointer flex items-center gap-2 active:scale-95" 
                                                 title="Xác nhận thu tiền phạt tại quầy">
-                                            <span>💵 THU PHẠT ({{ number_format($borrow->fine_amount, 0, ',', '.') }} đ)</span>
+                                            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                            </svg>
+                                            <span>THU PHẠT ({{ number_format($borrow->fine_amount, 0, ',', '.') }} đ)</span>
                                         </button>
                                     </form>
                                 @endif
@@ -741,7 +846,11 @@
                 @empty
                     <!-- TRẠNG THÁI TRỐNG -->
                     <div class="bg-white rounded-3xl border-2 border-slate-300 p-12 text-center text-slate-500 space-y-4 shadow-sm">
-                        <span class="text-6xl">📭</span>
+                        <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center border border-slate-200">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                            </svg>
+                        </div>
                         <h3 class="text-2xl font-black text-slate-900 tracking-tight">
                             CHƯA CÓ PHIẾU MƯỢN SÁCH NÀO PHÙ HỢP
                         </h3>
@@ -822,7 +931,9 @@
                         @csrf
                         <div class="text-center pb-4 border-b border-slate-200">
                             <h3 class="text-2xl font-black text-slate-950 uppercase tracking-tight flex items-center justify-center gap-2">
-                                <span>📥</span>
+                                <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                </svg>
                                 <span>XÁC NHẬN HOÀN TRẢ SÁCH</span>
                             </h3>
                             <p class="text-sm text-slate-600 font-bold mt-1">
@@ -836,7 +947,9 @@
                             <div class="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl space-y-2">
                                 <div class="flex items-center justify-between text-[11px] font-black uppercase text-slate-500 tracking-wider">
                                     <span>ĐỐI SOÁT TÀI CHÍNH MƯỢN / TRẢ</span>
-                                    <span>⚖️</span>
+                                    <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
+                                    </svg>
                                 </div>
                                 <div class="space-y-1.5 text-xs font-bold">
                                     <div class="flex items-center justify-between text-slate-700">
@@ -848,7 +961,12 @@
                                         <span class="font-mono font-black" :class="fineEstimate > 0 ? 'text-rose-600' : 'text-slate-500'" x-text="'-' + new Intl.NumberFormat('vi-VN').format(fineEstimate) + ' đ'">-0 đ</span>
                                     </div>
                                     <div class="pt-2 border-t border-slate-200 flex items-center justify-between text-xs">
-                                        <span class="font-black text-slate-900">➔ Tiền hoàn trả thực tế về ví:</span>
+                                        <span class="font-black text-slate-900 flex items-center gap-1">
+                                            <svg class="w-3.5 h-3.5 text-blue-600 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                            </svg>
+                                            <span>Tiền hoàn trả thực tế về ví:</span>
+                                        </span>
                                         <span class="font-mono font-black text-sm"
                                               :class="(depositAmount - fineEstimate) >= 0 ? 'text-emerald-700' : 'text-rose-600'"
                                               x-text="(depositAmount - fineEstimate >= 0 ? '+' : '') + new Intl.NumberFormat('vi-VN').format(depositAmount - fineEstimate) + ' đ'">
@@ -860,7 +978,10 @@
                             <template x-if="overdueDays > 0">
                                 <div class="p-4 bg-rose-100 border-2 border-rose-400 rounded-2xl text-rose-950">
                                     <div class="font-black text-base flex items-center gap-2">
-                                        ⚠️ SÁCH BỊ QUÁ HẠN <span x-text="overdueDays"></span> NGÀY!
+                                        <svg class="w-5 h-5 text-rose-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                        </svg>
+                                        <span>SÁCH BỊ QUÁ HẠN <span x-text="overdueDays"></span> NGÀY!</span>
                                     </div>
                                     <div class="text-xs font-bold mt-1">
                                         Hệ thống sẽ tự động trừ phí phạt từ tiền cọc & hoàn phần dư về ví độc giả.
@@ -870,7 +991,9 @@
 
                             <template x-if="overdueDays <= 0">
                                 <div class="p-3 bg-emerald-50 border-2 border-emerald-300 rounded-2xl text-emerald-950 text-xs font-bold flex items-center gap-2">
-                                    <span>🎉</span>
+                                    <svg class="w-5 h-5 text-emerald-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                    </svg>
                                     <span>Trả sách đúng hạn! Hoàn 100% tiền cọc về ví & thưởng <strong>+50 EXP</strong> cho độc giả.</span>
                                 </div>
                             </template>
@@ -944,7 +1067,9 @@
                         @csrf
                         <div class="text-center pb-4 border-b border-slate-200">
                             <h3 class="text-2xl font-black text-rose-600 uppercase tracking-tight flex items-center justify-center gap-2">
-                                <span>🚫</span>
+                                <svg class="w-6 h-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                                </svg>
                                 <span>TỪ CHỐI YÊU CẦU MƯỢN</span>
                             </h3>
                             <p class="text-sm text-slate-600 font-bold mt-1">
@@ -962,18 +1087,27 @@
                                 <div class="flex flex-wrap gap-1.5">
                                     <button type="button" 
                                             @click="setRejectReason('Sách hiện đang trong đợt kiểm kê và bảo quản định kỳ.')"
-                                            class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-[11px] font-bold text-slate-800 transition cursor-pointer">
-                                        📦 Đang kiểm kê
+                                            class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-[11px] font-bold text-slate-800 transition cursor-pointer flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                                        </svg>
+                                        <span>Đang kiểm kê</span>
                                     </button>
                                     <button type="button" 
                                             @click="setRejectReason('Tài khoản còn tiền phạt chưa thanh toán, vui lòng nộp phạt trước.')"
-                                            class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-[11px] font-bold text-slate-800 transition cursor-pointer">
-                                        💰 Chưa nộp phạt
+                                            class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-[11px] font-bold text-slate-800 transition cursor-pointer flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                        </svg>
+                                        <span>Chưa nộp phạt</span>
                                     </button>
                                     <button type="button" 
                                             @click="setRejectReason('Đã đạt giới hạn số lượng sách mượn cùng lúc theo nội quy.')"
-                                            class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-[11px] font-bold text-slate-800 transition cursor-pointer">
-                                        ⚠️ Quá giới hạn mượn
+                                            class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-[11px] font-bold text-slate-800 transition cursor-pointer flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                        </svg>
+                                        <span>Quá giới hạn mượn</span>
                                     </button>
                                 </div>
                             </div>
@@ -1023,7 +1157,28 @@
                          'border-l-8 border-l-purple-500': toast.type === 'purple',
                          'border-l-8 border-l-amber-500': toast.type === 'info',
                      }">
-                    <span class="text-2xl shrink-0" x-text="toast.type === 'success' ? '✅' : (toast.type === 'purple' ? '🔄' : (toast.type === 'info' ? 'ℹ️' : '⚠️'))"></span>
+                    <div class="shrink-0 mt-0.5">
+                        <template x-if="toast.type === 'success'">
+                            <svg class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </template>
+                        <template x-if="toast.type === 'purple'">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                        </template>
+                        <template x-if="toast.type === 'error'">
+                            <svg class="w-6 h-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </template>
+                        <template x-if="toast.type === 'info'">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </template>
+                    </div>
                     <div class="flex-1 text-xs">
                         <div class="font-black uppercase tracking-wider text-slate-900" x-text="toast.type === 'success' ? 'THÀNH CÔNG' : (toast.type === 'purple' ? 'GIA HẠN THÀNH CÔNG' : (toast.type === 'info' ? 'THÔNG BÁO' : 'LỖI HỆ THỐNG'))"></div>
                         <div class="mt-0.5 font-bold leading-relaxed text-slate-700" x-text="toast.message"></div>
@@ -1103,7 +1258,7 @@
                     const originalText = submitBtn ? submitBtn.innerHTML : '';
                     if (submitBtn) {
                         submitBtn.disabled = true;
-                        submitBtn.innerHTML = '⏳ Đang duyệt...';
+                        submitBtn.innerHTML = '<svg class="w-4 h-4 mr-1.5 animate-spin inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Đang duyệt...';
                     }
 
                     try {
@@ -1152,7 +1307,7 @@
                     const originalText = submitBtn ? submitBtn.innerHTML : '';
                     if (submitBtn) {
                         submitBtn.disabled = true;
-                        submitBtn.innerHTML = '⏳ Đang duyệt...';
+                        submitBtn.innerHTML = 'Đang duyệt...';
                     }
 
                     try {
@@ -1201,7 +1356,7 @@
                     const originalText = submitBtn ? submitBtn.innerHTML : '';
                     if (submitBtn) {
                         submitBtn.disabled = true;
-                        submitBtn.innerHTML = '⏳ Đang xử lý...';
+                        submitBtn.innerHTML = 'Đang xử lý...';
                     }
 
                     try {
@@ -1248,7 +1403,7 @@
                     const originalText = submitBtn ? submitBtn.innerHTML : '';
                     if (submitBtn) {
                         submitBtn.disabled = true;
-                        submitBtn.innerHTML = '⏳ Đang xử lý...';
+                        submitBtn.innerHTML = 'Đang xử lý...';
                     }
 
                     try {
@@ -1303,9 +1458,13 @@
                                 const emptyDiv = document.createElement('div');
                                 emptyDiv.className = 'bg-white rounded-3xl border-2 border-slate-300 p-12 text-center text-slate-500 space-y-3 shadow-sm';
                                 emptyDiv.innerHTML = `
-                                    <span class="text-5xl">🎉</span>
+                                    <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center border border-emerald-200">
+                                        <svg class="w-7 h-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
                                     <h3 class="text-xl font-black text-slate-900 tracking-tight">ĐÃ XỬ LÝ HẾT CÁC YÊU CẦU MƯỢN</h3>
-                                    <p class="text-sm font-bold text-emerald-600 mt-1">✓ Tất cả phiếu mượn đang chờ duyệt đã được giải quyết xong!</p>
+                                    <p class="text-sm font-bold text-emerald-600 mt-1">Tất cả phiếu mượn đang chờ duyệt đã được giải quyết xong!</p>
                                 `;
                                 container.appendChild(emptyDiv);
                             }

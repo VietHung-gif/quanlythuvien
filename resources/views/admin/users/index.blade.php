@@ -4,7 +4,7 @@
             <div>
                 <h1 class="font-black text-2xl sm:text-3xl text-slate-950 tracking-tight flex items-center gap-3">
                     <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900 text-white shadow-xs">
-                        👑
+                        <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                     </span>
                     <span>QUẢN LÝ THÀNH VIÊN & PHÂN QUYỀN (RBAC)</span>
                 </h1>
@@ -13,8 +13,9 @@
                 </p>
             </div>
             <div class="flex items-center gap-2">
-                <span class="bg-slate-900 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-xs tracking-wider uppercase">
-                    👑 KHU VỰC QUẢN TRỊ TỐI CAO
+                <span class="bg-slate-900 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-xs tracking-wider uppercase inline-flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                    <span>KHU VỰC QUẢN TRỊ TỐI CAO</span>
                 </span>
             </div>
         </div>
@@ -26,14 +27,18 @@
             <!-- Flash Thông Báo -->
             @if(session('success'))
                 <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm font-semibold flex items-center gap-3 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    </span>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
 
             @if(session('error'))
                 <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-sm font-semibold flex items-center gap-3 shadow-xs">
-                    <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">✕</span>
+                    <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </span>
                     <span>{{ session('error') }}</span>
                 </div>
             @endif
@@ -46,8 +51,8 @@
                         <div class="text-xs font-bold uppercase tracking-wider text-slate-700">TỔNG NGƯỜI DÙNG</div>
                         <div class="text-3xl font-black text-slate-950 mt-1 tracking-tight">{{ number_format($totalUsers) }}</div>
                     </div>
-                    <div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-300 flex items-center justify-center text-xl text-slate-800 shadow-2xs">
-                        👥
+                    <div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-300 flex items-center justify-center text-slate-800 shadow-2xs">
+                        <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </div>
                 </div>
 
@@ -57,8 +62,8 @@
                         <div class="text-xs font-bold uppercase tracking-wider text-slate-700">QUẢN TRỊ VIÊN</div>
                         <div class="text-3xl font-black text-slate-950 mt-1 tracking-tight">{{ number_format($totalAdmins) }}</div>
                     </div>
-                    <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-xl text-amber-700 shadow-2xs">
-                        👑
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-700 shadow-2xs">
+                        <svg class="w-6 h-6 text-amber-600" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                     </div>
                 </div>
 
@@ -68,8 +73,8 @@
                         <div class="text-xs font-bold uppercase tracking-wider text-slate-700">THỦ THƯ</div>
                         <div class="text-3xl font-black text-slate-950 mt-1 tracking-tight">{{ number_format($totalLibrarians) }}</div>
                     </div>
-                    <div class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-300 flex items-center justify-center text-xl text-indigo-700 shadow-2xs">
-                        📜
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-300 flex items-center justify-center text-indigo-700 shadow-2xs">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     </div>
                 </div>
 
@@ -79,8 +84,8 @@
                         <div class="text-xs font-bold uppercase tracking-wider text-slate-700">ĐỘC GIẢ</div>
                         <div class="text-3xl font-black text-slate-950 mt-1 tracking-tight">{{ number_format($totalReaders) }}</div>
                     </div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-center text-xl text-emerald-700 shadow-2xs">
-                        ⚡
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-center text-emerald-700 shadow-2xs">
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     </div>
                 </div>
             </div>
@@ -107,9 +112,9 @@
                         <span class="text-slate-800 font-bold text-xs uppercase me-1 shrink-0">VAI TRÒ:</span>
                         @foreach([
                             'all' => 'Tất Cả',
-                            'admin' => '👑 Admin',
-                            'librarian' => '📜 Thủ Thư',
-                            'reader' => '⚡ Độc Giả'
+                            'admin' => 'Admin',
+                            'librarian' => 'Thủ Thư',
+                            'reader' => 'Độc Giả'
                         ] as $rKey => $rLabel)
                             <a href="{{ route('admin.users.index', ['role' => $rKey, 'search' => $search]) }}"
                                class="px-3.5 py-2 rounded-lg text-xs tracking-wide transition whitespace-nowrap {{ $role === $rKey ? 'bg-slate-900 text-white font-bold shadow-sm' : 'bg-slate-100 text-slate-800 hover:bg-slate-200 font-semibold border border-slate-300' }}">
@@ -168,7 +173,7 @@
                                     <!-- Danh hiệu -->
                                     <td class="px-4 py-3.5 whitespace-nowrap">
                                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold shadow-2xs {{ $u->badge_color }}">
-                                            <span>{{ $u->badge_icon ?? '🛡️' }}</span>
+                                            <span>{!! $u->badge_icon !!}</span>
                                             <span>{{ $u->title_badge ?? 'Tân Thủ Nhập Môn' }}</span>
                                         </span>
                                     </td>
@@ -181,16 +186,19 @@
                                     <!-- Vai trò hiện tại -->
                                     <td class="px-4 py-3.5 whitespace-nowrap text-center">
                                         @if($u->role === 'admin')
-                                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs bg-rose-100 text-rose-800 font-bold border border-rose-300 shadow-2xs">
-                                                <span>👑</span> QUẢN TRỊ VIÊN
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-rose-100 text-rose-800 font-bold border border-rose-300 shadow-2xs">
+                                                <svg class="w-3.5 h-3.5 text-rose-600" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                <span>QUẢN TRỊ VIÊN</span>
                                             </span>
                                         @elseif($u->role === 'librarian')
-                                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs bg-indigo-100 text-indigo-800 font-bold border border-indigo-300 shadow-2xs">
-                                                <span>📜</span> THỦ THƯ
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-indigo-100 text-indigo-800 font-bold border border-indigo-300 shadow-2xs">
+                                                <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                                <span>THỦ THƯ</span>
                                             </span>
                                         @else
-                                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs bg-emerald-100 text-emerald-800 font-bold border border-emerald-300 shadow-2xs">
-                                                <span>⚡</span> ĐỘC GIẢ
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-emerald-100 text-emerald-800 font-bold border border-emerald-300 shadow-2xs">
+                                                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                                <span>ĐỘC GIẢ</span>
                                             </span>
                                         @endif
                                     </td>
@@ -204,9 +212,9 @@
                                                     onchange="this.form.submit()" 
                                                     {{ $u->id === auth()->id() ? 'disabled' : '' }}
                                                     class="border-2 border-slate-300 text-slate-900 font-semibold rounded-lg text-xs py-1.5 px-2.5 bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                                                <option value="reader" {{ $u->role === 'reader' ? 'selected' : '' }}>⚡ Độc Giả</option>
-                                                <option value="librarian" {{ $u->role === 'librarian' ? 'selected' : '' }}>📜 Thủ Thư</option>
-                                                <option value="admin" {{ $u->role === 'admin' ? 'selected' : '' }}>👑 Quản Trị Viên</option>
+                                                <option value="reader" {{ $u->role === 'reader' ? 'selected' : '' }}>Độc Giả</option>
+                                                <option value="librarian" {{ $u->role === 'librarian' ? 'selected' : '' }}>Thủ Thư</option>
+                                                <option value="admin" {{ $u->role === 'admin' ? 'selected' : '' }}>Quản Trị Viên</option>
                                             </select>
                                         </form>
                                     </td>

@@ -16,10 +16,10 @@ return new class extends Migration
 
         // 2. Thêm cột last_checkin_at và reading_seconds vào bảng users
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'last_checkin_at')) {
+            if (! Schema::hasColumn('users', 'last_checkin_at')) {
                 $table->timestamp('last_checkin_at')->nullable()->after('title_badge');
             }
-            if (!Schema::hasColumn('users', 'reading_seconds')) {
+            if (! Schema::hasColumn('users', 'reading_seconds')) {
                 $table->unsignedInteger('reading_seconds')->default(0)->after('last_checkin_at');
             }
         });

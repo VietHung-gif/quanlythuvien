@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Library;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
+use App\Models\BorrowDetail;
 use App\Models\Category;
 use App\Services\AuditLogger;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+
 class BookController extends Controller
 {
     /**
@@ -24,7 +30,7 @@ class BookController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('title', 'like', "%{$search}%")
-                      ->orWhere('author', 'like', "%{$search}%");
+                        ->orWhere('author', 'like', "%{$search}%");
                 });
             })
             ->when($categoryId, function ($query, $categoryId) {
@@ -32,7 +38,9 @@ class BookController extends Controller
             })
             ->when($stock !== 'all', function ($query) use ($stock) {
                 if ($stock === 'in_stock') {
-                    $query->where('available_copies', '>', 0);
+                    $query->where('available_copies', '>', 10);
+                } elseif ($stock === 'low_stock') {
+                    $query->where('available_copies', '>', 0)->where('available_copies', '<=', 10);
                 } elseif ($stock === 'out_of_stock') {
                     $query->where('available_copies', '<=', 0);
                 }
@@ -44,13 +52,14 @@ class BookController extends Controller
         // Lấy danh sách thể loại cho dropdown bộ lọc
         $categories = Category::withCount('books')->orderBy('name')->get();
 
-        // Thống kê nhanh số lượng
+        // Thống kê nhanh số lượng (theo 3 phân cấp tồn kho)
         $totalAll = Book::count();
-        $totalInStock = Book::where('available_copies', '>', 0)->count();
+        $totalInStock = Book::where('available_copies', '>', 10)->count();
+        $totalLowStock = Book::where('available_copies', '>', 0)->where('available_copies', '<=', 10)->count();
         $totalOutOfStock = Book::where('available_copies', '<=', 0)->count();
 
         // Trả về view books/index.blade.php
-        return view('books.index', compact('books', 'categories', 'search', 'categoryId', 'stock', 'totalAll', 'totalInStock', 'totalOutOfStock'));
+        return view('books.index', compact('books', 'categories', 'search', 'categoryId', 'stock', 'totalAll', 'totalInStock', 'totalLowStock', 'totalOutOfStock'));
     }
 
     /**
@@ -60,6 +69,7 @@ class BookController extends Controller
     {
         // Lấy danh sách thể loại để đưa vào ô chọn (dropdown select)
         $categories = Category::all();
+
         return view('books.create', compact('categories'));
     }
 
@@ -72,21 +82,56 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
+            'publisher' => 'nullable|string|max:255',
+            'publish_year' => 'nullable|integer|min:1900|max:'.((int) date('Y') + 1),
             'description' => 'nullable|string|max:2000',
-            'cover_image' => 'nullable|string|max:500',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // 2. Tự động khởi tạo số bản in khả dụng = tổng số lượng sách mới
+        // Gán mặc định cho nhà xuất bản và năm nếu chưa nhập
+        if (empty($validated['publisher'])) {
+            $cat = Category::find($validated['category_id']);
+            $validated['publisher'] = 'NXB '.($cat ? $cat->name : 'Tổng hợp');
+        }
+        if (empty($validated['publish_year'])) {
+            $validated['publish_year'] = (int) date('Y');
+        }
+
+        // 2. Xử lý tải ảnh lên (Thử Cloudinary -> Fallback Local Storage -> Tự động tìm kiếm nếu không có file)
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = $this->handleCoverUpload($request->file('cover_image'), $validated['title']);
+        } else {
+            // Nếu người dùng không tải ảnh lên, tự động tra cứu ảnh bìa từ Open Library
+            $autoCover = $this->autoFetchCover($validated['title']);
+            if ($autoCover) {
+                $validated['cover_image'] = $autoCover;
+            } else {
+                unset($validated['cover_image']);
+            }
+        }
+
+        // 3. Tự động khởi tạo số bản in khả dụng = tổng số lượng sách mới
         $validated['available_copies'] = (int) $validated['quantity'];
 
-        // 3. Lưu vào database
-        Book::create($validated);
+        // 4. Lưu vào database
+        $book = Book::create($validated);
 
-        // 4. Chuyển hướng về lại trang danh sách sách
+        // 5. Ghi nhận nhật ký kiểm toán (Audit Log)
+        $userName = auth()->user() ? auth()->user()->name : 'Thủ thư';
+        AuditLogger::log(
+            action: 'CREATE_BOOK',
+            description: "Người dùng {$userName} đã thêm cuốn sách mới \"{$book->title}\" (Số lượng: {$book->quantity}).",
+            targetType: 'Book',
+            targetId: $book->id,
+            oldValues: null,
+            newValues: $book->toArray()
+        );
+
+        // 6. Chuyển hướng về lại trang danh sách sách
         return redirect()->route('books.index')
-            ->with('success', 'Thêm cuốn sách mới thành công!');
+            ->with('success', "Thêm cuốn sách \"{$book->title}\" thành công với số lượng {$book->quantity} cuốn!");
     }
 
     /**
@@ -98,9 +143,9 @@ class BookController extends Controller
 
         // Ghi nhận tiến trình nhiệm vụ "Tìm Kiếm Tri Thức" (Xem chi tiết sách hàng ngày)
         if (Auth::check()) {
-            $viewedKey = 'user_' . Auth::id() . '_viewed_books_' . now()->toDateString();
+            $viewedKey = 'user_'.Auth::id().'_viewed_books_'.now()->toDateString();
             $viewed = session($viewedKey, []);
-            if (!in_array((int) $book->id, $viewed, true)) {
+            if (! in_array((int) $book->id, $viewed, true)) {
                 $viewed[] = (int) $book->id;
                 session([$viewedKey => $viewed]);
             }
@@ -149,11 +194,21 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
+            'publisher' => 'nullable|string|max:255',
+            'publish_year' => 'nullable|integer|min:1900|max:'.((int) date('Y') + 1),
             'description' => 'nullable|string|max:2000',
-            'cover_image' => 'nullable|string|max:500',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer|min:0',
         ]);
+
+        // Xử lý upload ảnh mới (Cloudinary hoặc Local Storage) nếu có chọn file
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = $this->handleCoverUpload($request->file('cover_image'), $validated['title']);
+        } else {
+            // Không upload ảnh mới thì giữ nguyên ảnh bìa hiện tại
+            unset($validated['cover_image']);
+        }
 
         $oldValues = [
             'quantity' => (int) $book->quantity,
@@ -205,7 +260,7 @@ class BookController extends Controller
 
         // Kiểm tra an toàn: Không cho phép xóa sách nếu đang có người mượn hoặc chờ duyệt
         $hasActiveRecord = $book->borrowRecords()->whereIn('status', ['borrowing', 'pending'])->exists();
-        $hasActiveDetail = \App\Models\BorrowDetail::where('book_id', $book->id)->whereIn('status', ['pending', 'borrowing', 'approved'])->exists();
+        $hasActiveDetail = BorrowDetail::where('book_id', $book->id)->whereIn('status', ['pending', 'borrowing', 'approved'])->exists();
         if ($hasActiveRecord || $hasActiveDetail) {
             return redirect()->route('books.index')
                 ->with('error', "Không thể xóa cuốn sách \"{$title}\" vì hiện đang có độc giả mượn hoặc đang có yêu cầu chờ duyệt!");
@@ -227,5 +282,59 @@ class BookController extends Controller
         // Chuyển hướng lại trang danh sách sách
         return redirect()->route('books.index')
             ->with('success', "Đã xóa cuốn sách \"{$title}\" thành công!");
+    }
+
+    /**
+     * Xử lý lưu ảnh bìa (Cloudinary hoặc Local Storage)
+     */
+    protected function handleCoverUpload($file, string $title): ?string
+    {
+        // 1. Thử upload lên Cloudinary nếu có cấu hình
+        if (env('CLOUDINARY_URL')) {
+            try {
+                Configuration::instance(env('CLOUDINARY_URL'));
+                $uploadResult = (new UploadApi)->upload($file->getRealPath());
+                if (! empty($uploadResult['secure_url'])) {
+                    return $uploadResult['secure_url'];
+                }
+            } catch (\Throwable $e) {
+                // Cloudinary lỗi -> fallback xuống local storage bên dưới
+            }
+        }
+
+        // 2. Lưu vào local storage (storage/app/public/books)
+        try {
+            $filename = Str::slug($title).'-'.time().'.'.$file->getClientOriginalExtension();
+
+            return $file->storeAs('books', $filename, 'public');
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Tự động tìm kiếm ảnh bìa cho sách mới qua Open Library
+     */
+    protected function autoFetchCover(string $title): ?string
+    {
+        try {
+            $clean = trim((string) preg_replace('/\s*[\(\[\{].*?[\)\]\}]\s*/', ' ', $title));
+            $clean = trim(preg_replace('/^manga\s+/i', '', $clean));
+            $short = trim(explode(':', $clean)[0]);
+            $short = trim(explode(' - ', $short)[0]);
+
+            $res = Http::withoutVerifying()->timeout(5)->get('https://openlibrary.org/search.json', [
+                'title' => $short,
+                'limit' => 1,
+            ]);
+
+            $coverId = $res->json('docs.0.cover_i');
+            if ($coverId) {
+                return "https://covers.openlibrary.org/b/id/{$coverId}-L.jpg";
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return null;
     }
 }

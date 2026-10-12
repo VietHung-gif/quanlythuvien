@@ -19,7 +19,7 @@ class CategoryBookSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->command->info('📚 [TIỂU ĐỘI 2P] BẮT ĐẦU NẠP CÁC ĐẦU SÁCH CHUYÊN NGÀNH TIÊU BIỂU...');
+        $this->command->info('[START] [TIỂU ĐỘI 2P] BẮT ĐẦU NẠP CÁC ĐẦU SÁCH CHUYÊN NGÀNH TIÊU BIỂU...');
 
         $industries = [
             // =========================================================================
@@ -253,7 +253,7 @@ class CategoryBookSeeder extends Seeder
                     ['description' => $industry['category']['description']]
                 );
 
-                $this->command->line("  📁 Chuyên ngành: <info>{$category->name}</info>");
+                $this->command->line("  [CATEGORY] Chuyên ngành: <info>{$category->name}</info>");
 
                 // 2. Tạo hoặc cập nhật từng đầu sách
                 foreach ($industry['books'] as $bookData) {
@@ -271,12 +271,12 @@ class CategoryBookSeeder extends Seeder
                         ]
                     );
 
-                    $this->command->line("     ✓ [{$book->id}] {$book->title} - {$book->author} (Kho: {$book->quantity} cuốn)");
+                    $this->command->line("     [OK] [{$book->id}] {$book->title} - {$book->author} (Kho: {$book->quantity} cuốn)");
                     $totalSeeded++;
                 }
             }
 
-            $this->command->info("🎉 HOÀN THÀNH! Đã nạp thành công {$totalSeeded} đầu sách chuyên ngành thuộc 5 nhóm ngành nghề!");
+            $this->command->info("[SUCCESS] HOÀN THÀNH! Đã nạp thành công {$totalSeeded} đầu sách chuyên ngành thuộc 5 nhóm ngành nghề!");
         });
     }
 }

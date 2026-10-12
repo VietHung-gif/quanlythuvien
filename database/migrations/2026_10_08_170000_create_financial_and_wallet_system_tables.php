@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         // 1. Bảng wallets (Ví số dư độc giả)
-        if (!Schema::hasTable('wallets')) {
+        if (! Schema::hasTable('wallets')) {
             Schema::create('wallets', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->unique();
@@ -22,7 +22,7 @@ return new class extends Migration
         }
 
         // 2. Bảng transactions (Nhật ký giao dịch tài chính nội bộ)
-        if (!Schema::hasTable('transactions')) {
+        if (! Schema::hasTable('transactions')) {
             Schema::create('transactions', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
@@ -32,7 +32,7 @@ return new class extends Migration
                     'membership_fee',
                     'book_deposit_hold',
                     'book_deposit_refund',
-                    'grant_donation'
+                    'grant_donation',
                 ]);
                 $table->decimal('amount', 12, 2);
                 $table->enum('status', ['pending', 'completed', 'failed'])->default('completed');
@@ -43,7 +43,7 @@ return new class extends Migration
         }
 
         // 3. Bảng library_funds (Quỹ ngân sách cơ sở hạ tầng & tài trợ)
-        if (!Schema::hasTable('library_funds')) {
+        if (! Schema::hasTable('library_funds')) {
             Schema::create('library_funds', function (Blueprint $table) {
                 $table->id();
                 $table->string('source_name');
@@ -52,7 +52,7 @@ return new class extends Migration
                     'server_cloud',
                     'book_procurement',
                     'staff_salary',
-                    'facility_maintenance'
+                    'facility_maintenance',
                 ]);
                 $table->text('notes')->nullable();
                 $table->timestamps();
@@ -61,30 +61,30 @@ return new class extends Migration
 
         // 4. Cập nhật bảng users (Gói thành viên thư viện)
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'membership_tier')) {
+            if (! Schema::hasColumn('users', 'membership_tier')) {
                 $table->enum('membership_tier', ['standard', 'vip'])->default('standard')->after('role');
             }
-            if (!Schema::hasColumn('users', 'membership_expires_at')) {
+            if (! Schema::hasColumn('users', 'membership_expires_at')) {
                 $table->timestamp('membership_expires_at')->nullable()->after('membership_tier');
             }
         });
 
         // 5. Cập nhật bảng borrows
         Schema::table('borrows', function (Blueprint $table) {
-            if (!Schema::hasColumn('borrows', 'deposit_amount')) {
+            if (! Schema::hasColumn('borrows', 'deposit_amount')) {
                 $table->decimal('deposit_amount', 10, 2)->default(0.00)->after('status');
             }
-            if (!Schema::hasColumn('borrows', 'is_fine_paid')) {
+            if (! Schema::hasColumn('borrows', 'is_fine_paid')) {
                 $table->boolean('is_fine_paid')->default(false)->after('fine_amount');
             }
         });
 
         // 6. Cập nhật bảng borrow_records (chi tiết mượn)
         Schema::table('borrow_records', function (Blueprint $table) {
-            if (!Schema::hasColumn('borrow_records', 'deposit_amount')) {
+            if (! Schema::hasColumn('borrow_records', 'deposit_amount')) {
                 $table->decimal('deposit_amount', 10, 2)->default(0.00)->after('status');
             }
-            if (!Schema::hasColumn('borrow_records', 'is_fine_paid')) {
+            if (! Schema::hasColumn('borrow_records', 'is_fine_paid')) {
                 $table->boolean('is_fine_paid')->default(false)->after('fine_amount');
             }
         });

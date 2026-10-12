@@ -77,7 +77,7 @@ class ForumPost extends Model
      */
     public function isLikedBy(?User $user): bool
     {
-        if (!$user) {
+        if (! $user) {
             return false;
         }
 

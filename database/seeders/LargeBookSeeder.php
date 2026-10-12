@@ -19,7 +19,7 @@ class LargeBookSeeder extends Seeder
         ini_set('memory_limit', '512M');
         set_time_limit(300);
 
-        $this->command->info('🚀 [TIỂU ĐỘI 2P] BẮT ĐẦU NẠP DỮ LIỆU SÁCH QUY MÔ LỚN (5.000 - 10.000 BẢN GHI)...');
+        $this->command->info('[START] [TIỂU ĐỘI 2P] BẮT ĐẦU NẠP DỮ LIỆU SÁCH QUY MÔ LỚN (5.000 - 10.000 BẢN GHI)...');
 
         // 1. ĐẢM BẢO DANH SÁCH 12 CHUYÊN MỤC HỌC THUẬT CHUẨN
         $categoriesDefinition = [
@@ -48,7 +48,7 @@ class LargeBookSeeder extends Seeder
         // Bổ sung thêm bất kỳ category nào đã có sẵn trong database nếu chưa có trong mảng trên
         $existingCategories = Category::all();
         foreach ($existingCategories as $existingCat) {
-            if (!isset($categories[$existingCat->name])) {
+            if (! isset($categories[$existingCat->name])) {
                 $categories[$existingCat->name] = $existingCat;
             }
         }
@@ -173,13 +173,13 @@ class LargeBookSeeder extends Seeder
         // 3. TỪ VỰNG CHỦ ĐỀ CHUYÊN NGÀNH
         $categoryTopics = [
             'Văn học & Tiểu thuyết kinh điển' => [
-                'Tiếng Gọi Nơi Hoang Dã', 'Đồi Gió Hú', 'Đêm Trắng Thơ Mộng', 'Chiếc Lá Cuối Cùng', 
-                'Chuông Nguyện Hồn Ai', 'Ông Già và Biển Cả', 'Người Xa Lạ', 'Nắng Tháng Tám', 
+                'Tiếng Gọi Nơi Hoang Dã', 'Đồi Gió Hú', 'Đêm Trắng Thơ Mộng', 'Chiếc Lá Cuối Cùng',
+                'Chuông Nguyện Hồn Ai', 'Ông Già và Biển Cả', 'Người Xa Lạ', 'Nắng Tháng Tám',
                 'Suối Nguồn Tư Tưởng', 'Bắt Trẻ Đồng Xanh', 'Gia Đình Karamazov', 'Bá Tước Monte Cristo',
                 'Kiêu Hãnh và Định Kiến', 'Vụ Án Bí Ẩn', 'Thần Thoại Sisyphus', 'Cuộc Đời Của Pi',
                 'Đại Gia Gatsby', 'Gió Qua Rặng Liễu', 'Tiếng Chim Hót Trong Bụi Mận Gai', 'Túp Lều Bác Tom',
                 'Tội Ác Và Hình Phạt', 'Chiến Tranh Và Hòa Bình', 'Những Người Khốn Khổ', 'Nhà Thờ Đức Bà Paris',
-                'Trăm Năm Cô Đơn', 'Hoàng Tử Bé', 'Biên Niên Sử Narnia', 'Bố Già', 'Chúa Tể Những Chiếc Nhẫn'
+                'Trăm Năm Cô Đơn', 'Hoàng Tử Bé', 'Biên Niên Sử Narnia', 'Bố Già', 'Chúa Tể Những Chiếc Nhẫn',
             ],
             'Trí tuệ nhân tạo (AI) & Khoa học Dữ liệu' => [
                 'Mạng Nơ-ron Tích Chập (CNN)', 'Transformer và Kiến Trúc LLM', 'Học Tăng Cường (Reinforcement Learning)',
@@ -187,7 +187,7 @@ class LargeBookSeeder extends Seeder
                 'Khai Phá Dữ Liệu Lớn (Big Data Mining)', 'Kỹ Nghệ Prompt Chuyên Nghiệp', 'Học Máy Với Scikit-Learn',
                 'Mô Hình Dự Đoán Chuỗi Thời Gian', 'Học Sâu Với PyTorch Thực Chiến', 'Đạo Đức Và Pháp Lý Trong AI',
                 'Trí Tuệ Nhân Tạo Phổ Quát (AGI)', 'Mạng Sinh Đối Kháng (GAN)', 'Tối Ưu Hóa Hyperparameter',
-                'Hệ Thống Khuyến Nghị Thông Minh', 'Tác Nhân Tự Trị (Autonomous Agents)', 'Xử Lý Tín Hiệu Âm Thanh Bằng AI'
+                'Hệ Thống Khuyến Nghị Thông Minh', 'Tác Nhân Tự Trị (Autonomous Agents)', 'Xử Lý Tín Hiệu Âm Thanh Bằng AI',
             ],
             'Lập trình & Kỹ thuật Phần mềm' => [
                 'Clean Code và Mã Sạch', 'Kiến Trúc Microservices Thực Chiến', 'Mẫu Thiết Kế Hướng Đối Tượng (GoF)',
@@ -195,7 +195,7 @@ class LargeBookSeeder extends Seeder
                 'Thiết Kế API RESTful & GraphQL', 'Tối Ưu Hiệu Năng Cơ Sở Dữ Liệu', 'Cấu Trúc Dữ Liệu & Giải Thuật',
                 'Hệ Điều Hành Linux Dành Cho Kỹ Sư', 'Docker và Kubernetes Toàn Tập', 'Lập Trình Web Full-Stack',
                 'Kiến Trúc Hệ Thống Phân Tán', 'Kiểm Thử Phần Mềm Tự Động (TDD)', 'Bảo Trì và Tái Cấu Trúc Mã Nguồn',
-                'Kỹ Nghệ Lập Trình Rust Hiện Đại', 'Ngôn Ngữ Go và Xử Lý Đồng Thời', 'Hệ Thống Message Broker Kafka'
+                'Kỹ Nghệ Lập Trình Rust Hiện Đại', 'Ngôn Ngữ Go và Xử Lý Đồng Thời', 'Hệ Thống Message Broker Kafka',
             ],
             'An toàn Thông tin & Hacker Mũ Trắng' => [
                 'Kiểm Thử Xâm Nhập (Penetration Testing)', 'Kỹ Thuật Dịch Ngược Mã Độc (Reverse Engineering)',
@@ -203,7 +203,7 @@ class LargeBookSeeder extends Seeder
                 'An Ninh Điện Toán Đám Mây', 'Phân Tích Phần Mềm Độc Hại (Malware Analysis)', 'Kỹ Nghệ Xã Hội (Social Engineering)',
                 'Điều Tra Dấu Vết Kỹ Thuật Số (Digital Forensics)', 'Bảo Vệ Hạ Tầng Trọng Yếu', 'Tường Lửa và Hệ Thống IDS/IPS',
                 'Phát Hiện và Ứng Cứu Sự Cố An Ninh Mạng', 'Chiến Lược Zero Trust Toàn Diện', 'Lập Trình An Toàn (Secure Coding)',
-                'Săn Lùng Lỗ Hổng Bug Bounty', 'Giao Thức Mạng và Đánh Chặn Lưu Lượng', 'Bảo Mật Cơ Sở Dữ Liệu Doanh Nghiệp'
+                'Săn Lùng Lỗ Hổng Bug Bounty', 'Giao Thức Mạng và Đánh Chặn Lưu Lượng', 'Bảo Mật Cơ Sở Dữ Liệu Doanh Nghiệp',
             ],
             'Tâm lý học & Phát triển Bản thân' => [
                 'Thói Quen Nguyên Tử và Kỷ Luật', 'Trí Tuệ Cảm Xúc (EQ) Ứng Dụng', 'Tâm Lý Học Đám Đông và Dư Luận',
@@ -211,7 +211,7 @@ class LargeBookSeeder extends Seeder
                 'Thao Túng Tâm Lý Trong Đàm Phán', 'Tư Duy Phản Biện Sắc Bén', 'Xây Dựng Sự Tự Tin Tuyệt Đối',
                 'Tâm Lý Học Tích Cực', 'Nghệ Thuật Thấu Cảm', 'Quản Trị Năng Lượng Cá Nhân',
                 'Định Vị Bản Thân Trong Kỷ Nguyên Số', 'Khai Sáng Tiềm Năng Vô Hạn', 'Liệu Pháp Nhận Thức Hành Vi (CBT)',
-                'Tâm Lý Học Về Hạnh Phúc', 'Nghệ Thuật Giao Tiếp Đỉnh Cao', 'Nghĩ Giàu Và Làm Giàu'
+                'Tâm Lý Học Về Hạnh Phúc', 'Nghệ Thuật Giao Tiếp Đỉnh Cao', 'Nghĩ Giàu Và Làm Giàu',
             ],
             'Kinh tế số, Tài chính & Đầu tư' => [
                 'Chiến Lược Đầu Tư Giá Trị', 'Tâm Lý Học Về Tiền và Thị Trường', 'Khởi Nghiệp Tinh Gọn (Lean Startup)',
@@ -219,49 +219,49 @@ class LargeBookSeeder extends Seeder
                 'Tài Chính Doanh Nghiệp Toàn Tập', 'Mô Hình Kinh Doanh Trong Nền Kinh Tế Số', 'Chiến Lược Đại Dương Xanh',
                 'Xây Dựng Hệ Sinh Thái Khởi Nghiệp', 'Kinh Tế Vĩ Mô Dành Cho Nhà Đầu Tư', 'Định Giá Doanh Nghiệp',
                 'Thương Mại Điện Tử & Bán Lẻ Đa Kênh', 'Chuỗi Cung Ứng Toàn Cầu', 'Đàm Phán Thương Lượng Đỉnh Cao',
-                'Dòng Tiền Thông Minh', 'Tự Do Tài Chính Tuổi 30', 'Chiến Lược Cạnh Tranh Cốt Lõi'
+                'Dòng Tiền Thông Minh', 'Tự Do Tài Chính Tuổi 30', 'Chiến Lược Cạnh Tranh Cốt Lõi',
             ],
             'Khoa học Vũ trụ & Vật lý Lượng tử' => [
                 'Lỗ Đen và Không Thời Gian Uốn Cong', 'Cơ Học Lượng Tử Dành Cho Mọi Người', 'Bản Đồ Vũ Trụ và Vụ Nổ Big Bang',
                 'Thuyết Tương Đối Rộng và Hẹp', 'Vật Chất Tối và Năng Lượng Tối', 'Hạt Higgs và Mô Hình Chuẩn',
                 'Lý Thuyết Dây và Vũ Trụ Mười Chiều', 'Bí Ẩn Các Ngôi Sao Neutron', 'Hành Trình Tìm Kiếm Sự Sống Ngoài Trái Đất',
                 'Vật Lý Thiên Văn Thực Nghiệm', 'Lịch Sử Khám Phá Không Gian', 'Sóng Hấp Dẫn và Kính Thiên Văn James Webb',
-                'Nghịch Lý Thời Gian và Lỗ Sâu', 'Bức Xạ Tàn Dư Vũ Trụ (CMB)', 'Nhiệt Động Lực Học Vũ Trụ'
+                'Nghịch Lý Thời Gian và Lỗ Sâu', 'Bức Xạ Tàn Dư Vũ Trụ (CMB)', 'Nhiệt Động Lực Học Vũ Trụ',
             ],
             'Lịch sử Thế giới, Chiến lược & Quân sự' => [
                 'Binh Pháp Tôn Tử và 36 Kế', 'Lược Sử Đế Chế La Mã Hùng Cường', 'Đại Chiến Thế Giới Lần Thứ Hai',
                 'Các Nền Văn Minh Cổ Đại Lưỡng Hà', 'Khảo Cổ Học Ai Cập và Kim Tự Tháp', 'Chiến Lược Địa Chính Trị Toàn Cầu',
                 'Chiến Tranh Lạnh và Trật Tự Thế Giới Mới', 'Hải Quân và Quyền Lực Biển Khơi', 'Chiến Tranh Thông Tin Hiện Đại',
                 'Những Vị Tướng Lừng Danh Trong Lịch Sử', 'Lịch Sử Ngoại Giao Hiện Đại', 'Nghệ Thuật Đánh Lạc Hướng Quân Sự',
-                'Đại Việt Sử Ký Toàn Thư', 'Chiến Thắng Bạch Đằng Giang', 'Khởi Nghĩa Lam Sơn'
+                'Đại Việt Sử Ký Toàn Thư', 'Chiến Thắng Bạch Đằng Giang', 'Khởi Nghĩa Lam Sơn',
             ],
             'Triết học Đông Tây & Nhân sinh quan' => [
                 'Chủ Nghĩa Khắc Kỷ (Stoicism)', 'Triết Học Hy Lạp và Socrates', 'Đạo Đức Học Nicomachean',
                 'Đạo Đức Kinh và Triết Lý Vô Vi', 'Nam Hoa Kinh và Tư Tưởng Trang Tử', 'Tứ Thư Ngũ Kinh',
                 'Hiện Sinh và Bản Thể Con Người', 'Ý Chí Quyền Lực và Siêu Nhân', 'Phê Phán Lý Tính Thuần Túy',
                 'Nghệ Thuật Sống An Nhiên', 'Triết Học Tâm Trí Hiện Đại', 'Triết Lý Thiền Định Ứng Dụng',
-                'Bản Chất Của Thực Tại', 'Đạo Trị Quốc và Pháp Gia', 'Luận Ngữ Khổng Tử'
+                'Bản Chất Của Thực Tại', 'Đạo Trị Quốc và Pháp Gia', 'Luận Ngữ Khổng Tử',
             ],
             'Tiểu thuyết Cyberpunk, Khoa học Viễn tưởng (Sci-Fi)' => [
                 'Thành Phố Neon và Linh Hồn Điện Tử', 'Ký Ức Nhân Tạo Năm 2099', 'Hành Trình Vượt Vành Đai Tiểu Hành Tinh',
                 'Người Máy Sinh Học Trỗi Dậy', 'Thực Tại Ảo và Ma Trận Thần Kinh', 'Kỷ Nguyên Hậu Tận Thế',
                 'Chiến Hạm Không Gian Liên Sao', 'Đột Biến Di Truyền và Loài Người Mới', 'Hệ Thống Giám Sát Toàn Cầu',
                 'Kẻ Săn Tiền Thưởng Vùng Ngoại Ô', 'Thức Tỉnh Trong Giấc Ngủ Đông', 'Cuộc Chiến Cyberpunk Đẫm Máu',
-                'Đế Chế Thiên Hà Đổ Vỡ', 'Hành Tinh Cát Bí Ẩn', 'Du Hành Thời Gian Nghịch Lý'
+                'Đế Chế Thiên Hà Đổ Vỡ', 'Hành Tinh Cát Bí Ẩn', 'Du Hành Thời Gian Nghịch Lý',
             ],
             'Y học, Sức khỏe & Dinh dưỡng' => [
                 'Bí Mật Của Giấc Ngủ Sinh Học', 'Khoa Học Về Hơi Thở Đúng Cách', 'Hệ Vi Sinh Đường Ruột và Miễn Dịch',
                 'Dinh Dưỡng Học Phục Hồi Cơ Thể', 'Giải Mã ADN và Y Học Cá Nhân Hóa', 'Chữa Lành Não Bộ Sau Căng Thẳng',
                 'Nguyên Lý Vận Động và Cơ Xương Khớp', 'Kéo Dài Tuổi Thọ Tế Bào (Longevity)', 'Phòng Ngừa Bệnh Tim Mạch',
                 'Cơ Chế Kháng Viêm Tự Nhiên', 'Sơ Cứu Ban Đầu và Cấp Cứu Y Tế', 'Dược Lý Học Lâm Sàng Cơ Bản',
-                'Y Học Cổ Truyền Đông Y', 'Khoa Học Về Nước và Sự Sống', 'Chăm Sóc Sức Khỏe Toàn Diện'
+                'Y Học Cổ Truyền Đông Y', 'Khoa Học Về Nước và Sự Sống', 'Chăm Sóc Sức Khỏe Toàn Diện',
             ],
             'Nghệ thuật, Kiến trúc & Thiết kế' => [
                 'Lịch Sử Mỹ Thuật Thế Giới', 'Nguyên Lý Thị Giác và Bố Cục', 'Kiến Trúc Gothic và Phục Hưng',
                 'Nghệ Thuật Tối Giản Minimalism', 'Lý Thuyết Màu Sắc Ứng Dụng', 'Kiến Trúc Xanh Bền Vững',
                 'Thiết Kế Trải Nghiệm Người Dùng (UI/UX)', 'Bản Vẽ Kỹ Thuật và Không Gian', 'Nhiếp Ảnh Đường Phố Đương Đại',
-                'Tinh Hoa Gốm Sứ và Điêu Khắc', 'Thời Trang và Phong Cách Thế Kỷ 20', 'Typography và Nghệ Thuật Chữ'
-            ]
+                'Tinh Hoa Gốm Sứ và Điêu Khắc', 'Thời Trang và Phong Cách Thế Kỷ 20', 'Typography và Nghệ Thuật Chữ',
+            ],
         ];
 
         // 4. DANH SÁCH TÁC GIẢ THEO CHUYÊN MÔN
@@ -269,52 +269,52 @@ class LargeBookSeeder extends Seeder
             'Văn học & Tiểu thuyết kinh điển' => [
                 'Victor Hugo', 'Leo Tolstoy', 'Fyodor Dostoevsky', 'Ernest Hemingway', 'Franz Kafka',
                 'George Orwell', 'Albert Camus', 'Haruki Murakami', 'Nam Cao', 'Vũ Trọng Phụng',
-                'Nguyễn Huy Thiệp', 'Bảo Ninh', 'Nguyễn Du', 'Gabriel García Márquez', 'Hermann Hesse'
+                'Nguyễn Huy Thiệp', 'Bảo Ninh', 'Nguyễn Du', 'Gabriel García Márquez', 'Hermann Hesse',
             ],
             'Trí tuệ nhân tạo (AI) & Khoa học Dữ liệu' => [
                 'Andrew Ng', 'Geoffrey Hinton', 'Yann LeCun', 'Yoshua Bengio', 'Stuart Russell',
-                'Peter Norvig', 'Ian Goodfellow', 'François Chollet', 'Max Tegmark', 'Fei-Fei Li', 'Kai-Fu Lee'
+                'Peter Norvig', 'Ian Goodfellow', 'François Chollet', 'Max Tegmark', 'Fei-Fei Li', 'Kai-Fu Lee',
             ],
             'Lập trình & Kỹ thuật Phần mềm' => [
                 'Robert C. Martin', 'Martin Fowler', 'Kent Beck', 'Eric Evans', 'Linus Torvalds',
-                'Donald Knuth', 'Bjarne Stroustrup', 'Joshua Bloch', 'Guido van Rossum', 'Chris Lattner'
+                'Donald Knuth', 'Bjarne Stroustrup', 'Joshua Bloch', 'Guido van Rossum', 'Chris Lattner',
             ],
             'An toàn Thông tin & Hacker Mũ Trắng' => [
                 'Kevin Mitnick', 'Bruce Schneier', 'Edward Snowden', 'Mikko Hypponen', 'Chris Sanders',
-                'Georgia Weidman', 'Peter Kim', 'Daniel Miessler', 'Jon Erickson', 'David Kennedy'
+                'Georgia Weidman', 'Peter Kim', 'Daniel Miessler', 'Jon Erickson', 'David Kennedy',
             ],
             'Tâm lý học & Phát triển Bản thân' => [
                 'Daniel Kahneman', 'James Clear', 'Dale Carnegie', 'Stephen Covey', 'Carol Dweck',
-                'Viktor Frankl', 'Jordan Peterson', 'Malcolm Gladwell', 'Sigmund Freud', 'Carl Jung'
+                'Viktor Frankl', 'Jordan Peterson', 'Malcolm Gladwell', 'Sigmund Freud', 'Carl Jung',
             ],
             'Kinh tế số, Tài chính & Đầu tư' => [
                 'Warren Buffett', 'Benjamin Graham', 'Ray Dalio', 'Peter Lynch', 'Adam Smith',
-                'John Maynard Keynes', 'Thomas Piketty', 'Nassim Nicholas Taleb', 'Michael Lewis', 'Robert Kiyosaki'
+                'John Maynard Keynes', 'Thomas Piketty', 'Nassim Nicholas Taleb', 'Michael Lewis', 'Robert Kiyosaki',
             ],
             'Khoa học Vũ trụ & Vật lý Lượng tử' => [
                 'Stephen Hawking', 'Albert Einstein', 'Carl Sagan', 'Neil deGrasse Tyson', 'Richard Feynman',
-                'Kip Thorne', 'Michio Kaku', 'Brian Greene', 'Carlo Rovelli', 'Max Planck'
+                'Kip Thorne', 'Michio Kaku', 'Brian Greene', 'Carlo Rovelli', 'Max Planck',
             ],
             'Lịch sử Thế giới, Chiến lược & Quân sự' => [
                 'Tôn Tử', 'Trần Hưng Đạo', 'Carl von Clausewitz', 'Yuval Noah Harari', 'Will Durant',
-                'Barbara Tuchman', 'Antony Beevor', 'John Keegan', 'Niall Ferguson', 'Sun Tzu'
+                'Barbara Tuchman', 'Antony Beevor', 'John Keegan', 'Niall Ferguson', 'Sun Tzu',
             ],
             'Triết học Đông Tây & Nhân sinh quan' => [
                 'Socrates', 'Plato', 'Aristotle', 'Marcus Aurelius', 'Seneca', 'Friedrich Nietzsche',
-                'Immanuel Kant', 'Lão Tử', 'Trang Tử', 'Khổng Tử', 'Arthur Schopenhauer'
+                'Immanuel Kant', 'Lão Tử', 'Trang Tử', 'Khổng Tử', 'Arthur Schopenhauer',
             ],
             'Tiểu thuyết Cyberpunk, Khoa học Viễn tưởng (Sci-Fi)' => [
                 'Philip K. Dick', 'William Gibson', 'Isaac Asimov', 'Arthur C. Clarke', 'Frank Herbert',
-                'Neal Stephenson', 'Cixin Liu', 'Ted Chiang', 'Ray Bradbury', 'H.G. Wells'
+                'Neal Stephenson', 'Cixin Liu', 'Ted Chiang', 'Ray Bradbury', 'H.G. Wells',
             ],
             'Y học, Sức khỏe & Dinh dưỡng' => [
                 'Hippocrates', 'Matthew Walker', 'Peter Attia', 'Atul Gawande', 'Siddhartha Mukherjee',
-                'David Sinclair', 'Michael Pollan', 'Oliver Sacks', 'Paul Kalanithi', 'Tuệ Tĩnh'
+                'David Sinclair', 'Michael Pollan', 'Oliver Sacks', 'Paul Kalanithi', 'Tuệ Tĩnh',
             ],
             'Nghệ thuật, Kiến trúc & Thiết kế' => [
                 'Leonardo da Vinci', 'Michelangelo', 'Le Corbusier', 'Zaha Hadid', 'Don Norman',
-                'Walter Gropius', 'Frank Lloyd Wright', 'John Ruskin', 'Paul Rand', 'Josef Albers'
-            ]
+                'Walter Gropius', 'Frank Lloyd Wright', 'John Ruskin', 'Paul Rand', 'Josef Albers',
+            ],
         ];
 
         // 5. TIỀN TỐ, HẬU TỐ VÀ NXB
@@ -322,19 +322,19 @@ class LargeBookSeeder extends Seeder
             'Giáo Trình Chuẩn', 'Nghiên Cứu Chuyên Sâu', 'Bản Đồ Tri Thức', 'Cẩm Nang Toàn Tập',
             'Nguyên Lý Nền Tảng', 'Nghệ Thuật & Tư Duy', 'Khảo Cứu Thực Nghiệm', 'Bài Học Thực Chiến',
             'Chiến Lược Đột Phá', 'Tinh Hoa Lý Thuyết', 'Sổ Tay Kỹ Sư', 'Cẩm Nang Ứng Dụng',
-            'Dẫn Luận Hiện Đại', 'Phân Tích Đa Chiều', 'Tuyển Tập Tác Phẩm', 'Hành Trình Khám Phá'
+            'Dẫn Luận Hiện Đại', 'Phân Tích Đa Chiều', 'Tuyển Tập Tác Phẩm', 'Hành Trình Khám Phá',
         ];
 
         $suffixes = [
             'Từ Cơ Bản Đến Nâng Cao', 'Dành Cho Chuyên Gia', 'Trong Kỷ Nguyên Số 4.0', 'Lý Thuyết & Thực Hành',
             'Phương Pháp Luận Mới', 'Góc Nhìn Thực Chiến', 'Định Hình Tương Lai', 'Toàn Tập',
-            'Ấn Bản Tái Bản Có Bổ Sung', 'Kinh Nghiệm Thực Tiễn', 'Ứng Dụng Thực Tế', 'Chiêm Nghiệm Mới'
+            'Ấn Bản Tái Bản Có Bổ Sung', 'Kinh Nghiệm Thực Tiễn', 'Ứng Dụng Thực Tế', 'Chiêm Nghiệm Mới',
         ];
 
         $publishers = [
             'NXB Trẻ', 'NXB Kim Đồng', 'NXB Tri Thức', 'NXB Tổng Hợp TP.HCM',
             'NXB Khoa Học Kỹ Thuật', 'NXB Chính Trị Quốc Gia Sự Thật', 'NXB Thế Giới',
-            'NXB Lao Động', 'NXB Văn Học', 'NXB Dân Trí', 'NXB Đại Học Quốc Gia'
+            'NXB Lao Động', 'NXB Văn Học', 'NXB Dân Trí', 'NXB Đại Học Quốc Gia',
         ];
 
         // 6. THIẾT LẬP THÔNG SỐ TỔNG SỐ LƯỢNG SÁCH CẦN SEED (6.000 BẢN GHI)
@@ -343,7 +343,7 @@ class LargeBookSeeder extends Seeder
         $totalInserted = 0;
         $now = Carbon::now();
 
-        $this->command->info("📊 Đang chuẩn bị tạo {$targetTotal} cuốn sách phân bổ trên {$totalCategories} thể loại (~{$booksPerCategory} cuốn/thể loại)...");
+        $this->command->info("[INFO] Đang chuẩn bị tạo {$targetTotal} cuốn sách phân bổ trên {$totalCategories} thể loại (~{$booksPerCategory} cuốn/thể loại)...");
 
         // Sử dụng mảng kiểm tra trùng lặp tiêu đề
         $usedTitles = [];
@@ -363,7 +363,7 @@ class LargeBookSeeder extends Seeder
                 $covers = $categoryCovers[$catName] ?? $fallbackCovers;
                 $topics = $categoryTopics[$catName] ?? [
                     'Chuyên Luận Nghiên Cứu', 'Nguyên Lý Cơ Bản', 'Ứng Dụng Hiện Đại',
-                    'Định Hình Tương Lai', 'Kiến Thức Cốt Lõi', 'Bài Học Kinh Nghiệm'
+                    'Định Hình Tương Lai', 'Kiến Thức Cốt Lõi', 'Bài Học Kinh Nghiệm',
                 ];
                 $authors = $categoryAuthors[$catName] ?? ['Ban Biên Soạn Tiểu Đội 2P', 'Viện Nghiên Cứu Tri Thức'];
 
@@ -435,14 +435,14 @@ class LargeBookSeeder extends Seeder
                     if (count($batch) >= $batchSize) {
                         DB::table('books')->insert($batch);
                         $totalInserted += count($batch);
-                        $this->command->line("  ✓ Đã nạp thành công {$totalInserted}/{$targetTotal} cuốn sách...");
+                        $this->command->line("  [OK] Đã nạp thành công {$totalInserted}/{$targetTotal} cuốn sách...");
                         $batch = []; // Giải phóng bộ nhớ RAM
                     }
                 }
             }
 
             // Chèn số bản ghi còn lại (nếu có)
-            if (!empty($batch)) {
+            if (! empty($batch)) {
                 DB::table('books')->insert($batch);
                 $totalInserted += count($batch);
                 $batch = [];
@@ -450,11 +450,11 @@ class LargeBookSeeder extends Seeder
 
             DB::commit();
 
-            $this->command->info("🎉 HOÀN THÀNH XUẤT SẮC: Đã nạp thành công tổng cộng {$totalInserted} cuốn sách mới vào hệ thống thư viện 'TIỂU ĐỘI 2P'!");
+            $this->command->info("[SUCCESS] HOÀN THÀNH XUẤT SẮC: Đã nạp thành công tổng cộng {$totalInserted} cuốn sách mới vào hệ thống thư viện 'TIỂU ĐỘI 2P'!");
 
         } catch (\Throwable $e) {
             DB::rollBack();
-            $this->command->error("❌ CÓ LỖI XẢY RA TRONG QUÁ TRÌNH SEED DỮ LIỆU: " . $e->getMessage());
+            $this->command->error('[ERROR] CÓ LỖI XẢY RA TRONG QUÁ TRÌNH SEED DỮ LIỆU: '.$e->getMessage());
             throw $e;
         }
     }

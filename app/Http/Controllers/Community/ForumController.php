@@ -40,10 +40,10 @@ class ForumController extends Controller
         }
 
         // 2. Tìm kiếm theo tiêu đề hoặc nội dung
-        if (!empty($search)) {
+        if (! empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('content', 'like', "%{$search}%");
+                    ->orWhere('content', 'like', "%{$search}%");
             });
         }
 
@@ -80,10 +80,10 @@ class ForumController extends Controller
     {
         if (ForumCategory::count() === 0) {
             $defaultCategories = [
-                ['name' => 'Góc Review Sách', 'slug' => 'review-sach', 'icon' => '⭐', 'description' => 'Cảm nhận, đánh giá sách', 'color' => 'cyan'],
-                ['name' => 'Hỏi Đáp & Tìm Sách', 'slug' => 'hoi-dap-tim-tai-lieu', 'icon' => '❓', 'description' => 'Hỏi đáp và tìm kiếm sách', 'color' => 'amber'],
-                ['name' => 'Luận Bàn Tri Thức', 'slug' => 'luan-ban-tri-thuc', 'icon' => '💬', 'description' => 'Thảo luận tri thức', 'color' => 'purple'],
-                ['name' => 'Thông Báo Thư Viện', 'slug' => 'thong-bao-thu-vien', 'icon' => '📢', 'description' => 'Thông báo từ thư viện', 'color' => 'pink'],
+                ['name' => 'Góc Review Sách', 'slug' => 'review-sach', 'icon' => 'star', 'description' => 'Cảm nhận, đánh giá sách', 'color' => 'cyan'],
+                ['name' => 'Hỏi Đáp & Tìm Sách', 'slug' => 'hoi-dap-tim-tai-lieu', 'icon' => 'help', 'description' => 'Hỏi đáp và tìm kiếm sách', 'color' => 'amber'],
+                ['name' => 'Luận Bàn Tri Thức', 'slug' => 'luan-ban-tri-thuc', 'icon' => 'chat', 'description' => 'Thảo luận tri thức', 'color' => 'purple'],
+                ['name' => 'Thông Báo Thư Viện', 'slug' => 'thong-bao-thu-vien', 'icon' => 'announcement', 'description' => 'Thông báo từ thư viện', 'color' => 'pink'],
             ];
             foreach ($defaultCategories as $cat) {
                 ForumCategory::firstOrCreate(['slug' => $cat['slug']], $cat);
@@ -111,14 +111,14 @@ class ForumController extends Controller
             'title.required' => 'Vui lòng nhập tiêu đề bài viết.',
             'category_id.required' => 'Vui lòng chọn chuyên mục.',
             'content.required' => 'Vui lòng nhập nội dung bài viết.',
-            'content.min' => 'Nội dung bài viết tối thiểu 5 ký tự.'
+            'content.min' => 'Nội dung bài viết tối thiểu 5 ký tự.',
         ]);
 
         try {
             $post = ForumPost::create([
                 'user_id' => auth()->id(),
                 'category_id' => $validated['category_id'],
-                'book_id' => !empty($validated['book_id']) ? $validated['book_id'] : null,
+                'book_id' => ! empty($validated['book_id']) ? $validated['book_id'] : null,
                 'title' => trim($validated['title']),
                 'content' => trim($validated['content']),
                 'views_count' => 0,
@@ -139,11 +139,11 @@ class ForumController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Lỗi lưu bài: ' . $e->getMessage(),
+                    'message' => 'Lỗi lưu bài: '.$e->getMessage(),
                 ], 500);
             }
 
-            return back()->withInput()->with('error', 'Lỗi lưu bài: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Lỗi lưu bài: '.$e->getMessage());
         }
     }
 
@@ -153,8 +153,8 @@ class ForumController extends Controller
     public function show(Request $request, ForumPost $post): View
     {
         // Tăng lượt xem (Tránh spam F5 tăng vô hạn trong cùng một session)
-        $viewKey = 'viewed_forum_post_' . $post->id;
-        if (!$request->session()->has($viewKey)) {
+        $viewKey = 'viewed_forum_post_'.$post->id;
+        if (! $request->session()->has($viewKey)) {
             $post->increment('views_count');
             $request->session()->put($viewKey, true);
         }
@@ -304,7 +304,7 @@ class ForumController extends Controller
     public function destroy(Request $request, ForumPost $post): RedirectResponse
     {
         $user = $request->user();
-        if ($post->user_id !== $user->id && !in_array($user->role, ['admin', 'librarian'])) {
+        if ($post->user_id !== $user->id && ! in_array($user->role, ['admin', 'librarian'])) {
             abort(403, 'Bạn không có quyền xóa bài viết này.');
         }
 
@@ -320,7 +320,7 @@ class ForumController extends Controller
     public function destroyComment(Request $request, ForumComment $comment): RedirectResponse
     {
         $user = $request->user();
-        if ($comment->user_id !== $user->id && !in_array($user->role, ['admin', 'librarian'])) {
+        if ($comment->user_id !== $user->id && ! in_array($user->role, ['admin', 'librarian'])) {
             abort(403, 'Bạn không có quyền xóa bình luận này.');
         }
 
@@ -337,14 +337,15 @@ class ForumController extends Controller
     public function togglePin(Request $request, ForumPost $post): RedirectResponse
     {
         $user = $request->user();
-        if (!in_array($user->role, ['admin', 'librarian'])) {
+        if (! in_array($user->role, ['admin', 'librarian'])) {
             abort(403, 'Chỉ Quản trị viên hoặc Thủ thư mới có quyền ghim bài.');
         }
 
-        $post->is_pinned = !$post->is_pinned;
+        $post->is_pinned = ! $post->is_pinned;
         $post->save();
 
         $status = $post->is_pinned ? 'Đã ghim bài viết lên đầu diễn đàn!' : 'Đã bỏ ghim bài viết!';
+
         return redirect()->back()->with('success', $status);
     }
 }

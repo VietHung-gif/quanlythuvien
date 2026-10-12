@@ -502,7 +502,9 @@ class DemoDataSeeder extends Seeder
         $books = [];
         foreach ($booksData as $b) {
             $catModel = $categories[$b['category']] ?? null;
-            if (!$catModel) continue;
+            if (! $catModel) {
+                continue;
+            }
 
             $createdBook = Book::updateOrCreate(
                 ['title' => $b['title']],

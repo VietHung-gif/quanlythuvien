@@ -77,11 +77,15 @@
 
                             @if(Auth::user()->role === 'admin')
                                 <a href="{{ route('admin.audit-logs.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs tracking-wider uppercase text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition">
-                                    <span>📜</span>
+                                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
                                     NHẬT KÝ HỆ THỐNG
                                 </a>
                                 <a href="{{ route('admin.users.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs tracking-wider uppercase text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition">
-                                    <span>👑</span>
+                                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
                                     QUẢN LÝ TÀI KHOẢN
                                 </a>
                             @endif
@@ -169,7 +173,9 @@
                         <!-- Card 4: Nhật ký hệ thống Audit Logs (Độc quyền Admin) -->
                         <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition">
                             <div class="w-12 h-12 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 mb-4 shadow-2xs">
-                                <span class="text-xl">📜</span>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
                             </div>
                             <h3 class="text-base font-bold text-slate-900 mb-1.5">NHẬT KÝ HỆ THỐNG</h3>
                             <p class="text-xs text-slate-500 mb-4 leading-relaxed">

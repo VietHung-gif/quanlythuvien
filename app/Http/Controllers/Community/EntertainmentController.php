@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Community;
 
 use App\Http\Controllers\Controller;
-use App\Models\Book;
 use App\Models\Borrow;
 use App\Models\BorrowRecord;
 use App\Models\ForumComment;
 use App\Models\ForumPost;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -113,7 +111,7 @@ class EntertainmentController extends Controller
     protected function getQuestsData(?User $user): array
     {
         // Khi chưa đăng nhập: Trả về mẫu danh sách nhiệm vụ
-        if (!$user) {
+        if (! $user) {
             return [
                 'easy' => [
                     [
@@ -127,7 +125,7 @@ class EntertainmentController extends Controller
                         'percent' => 0,
                         'is_completed' => false,
                         'is_claimed' => false,
-                        'icon' => '📅',
+                        'icon' => 'calendar',
                         'difficulty' => 'easy',
                         'difficulty_label' => 'DỄ',
                         'badge_color' => 'bg-slate-100 text-slate-700 border-slate-300 font-bold',
@@ -146,7 +144,7 @@ class EntertainmentController extends Controller
                         'percent' => 0,
                         'is_completed' => false,
                         'is_claimed' => false,
-                        'icon' => '🔍',
+                        'icon' => 'search',
                         'difficulty' => 'easy',
                         'difficulty_label' => 'DỄ',
                         'badge_color' => 'bg-slate-100 text-slate-700 border-slate-300 font-bold',
@@ -167,7 +165,7 @@ class EntertainmentController extends Controller
                         'percent' => 0,
                         'is_completed' => false,
                         'is_claimed' => false,
-                        'icon' => '📖',
+                        'icon' => 'book',
                         'difficulty' => 'medium',
                         'difficulty_label' => 'TRUNG BÌNH',
                         'badge_color' => 'bg-blue-100 text-blue-800 border-blue-300 font-black',
@@ -186,7 +184,7 @@ class EntertainmentController extends Controller
                         'percent' => 0,
                         'is_completed' => false,
                         'is_claimed' => false,
-                        'icon' => '💬',
+                        'icon' => 'chat',
                         'difficulty' => 'medium',
                         'difficulty_label' => 'TRUNG BÌNH',
                         'badge_color' => 'bg-indigo-100 text-indigo-800 border-indigo-300 font-black',
@@ -207,7 +205,7 @@ class EntertainmentController extends Controller
                         'percent' => 0,
                         'is_completed' => false,
                         'is_claimed' => false,
-                        'icon' => '📚',
+                        'icon' => 'collection',
                         'difficulty' => 'hard',
                         'difficulty_label' => 'THỬ THÁCH',
                         'badge_color' => 'bg-amber-100 text-amber-900 border-amber-400 font-black',
@@ -226,7 +224,7 @@ class EntertainmentController extends Controller
                         'percent' => 0,
                         'is_completed' => false,
                         'is_claimed' => false,
-                        'icon' => '🛡️',
+                        'icon' => 'shield',
                         'difficulty' => 'hard',
                         'difficulty_label' => 'CAO CẤP',
                         'badge_color' => 'bg-orange-100 text-orange-900 border-orange-400 font-black',
@@ -245,7 +243,7 @@ class EntertainmentController extends Controller
                         'percent' => 0,
                         'is_completed' => false,
                         'is_claimed' => false,
-                        'icon' => '🔥',
+                        'icon' => 'flame',
                         'difficulty' => 'hard',
                         'difficulty_label' => 'CỰC PHẨM',
                         'badge_color' => 'bg-gradient-to-r from-red-600 to-amber-600 text-white font-black shadow-xs',
@@ -292,7 +290,7 @@ class EntertainmentController extends Controller
         }
         $borrowCurrent = min(1, $approvedBorrows);
         $borrowCompleted = $approvedBorrows >= 1;
-        $borrowClaimed = (bool) Cache::get("quest_claimed_{$user->id}_medium_borrow_approved_" . $startOfWeek->toDateString(), false);
+        $borrowClaimed = (bool) Cache::get("quest_claimed_{$user->id}_medium_borrow_approved_".$startOfWeek->toDateString(), false);
 
         // 4. Đàm đạo tri thức (+60 EXP - 1 bài viết hoặc 2 bình luận trong tuần)
         $postsCount = ForumPost::where('user_id', $user->id)->where('created_at', '>=', $startOfWeek)->count();
@@ -300,7 +298,7 @@ class EntertainmentController extends Controller
         $forumPoints = ($postsCount * 2) + $commentsCount;
         $forumCurrent = min(2, $forumPoints);
         $forumCompleted = $forumPoints >= 2;
-        $forumClaimed = (bool) Cache::get("quest_claimed_{$user->id}_medium_forum_engagement_" . $startOfWeek->toDateString(), false);
+        $forumClaimed = (bool) Cache::get("quest_claimed_{$user->id}_medium_forum_engagement_".$startOfWeek->toDateString(), false);
 
         // -------------------------------------------------------------
         // NHÓM KHÓ & THỬ THÁCH (150 - 400 EXP):
@@ -369,7 +367,7 @@ class EntertainmentController extends Controller
                     'percent' => $dailyCheckinCompleted ? 100 : 0,
                     'is_completed' => $dailyCheckinCompleted,
                     'is_claimed' => $dailyCheckinClaimed,
-                    'icon' => '📅',
+                    'icon' => 'calendar',
                     'difficulty' => 'easy',
                     'difficulty_label' => 'DỄ',
                     'badge_color' => 'bg-slate-100 text-slate-700 border-slate-300 font-bold',
@@ -388,7 +386,7 @@ class EntertainmentController extends Controller
                     'percent' => (int) round(($viewedCount / 3) * 100),
                     'is_completed' => $viewBooksCompleted,
                     'is_claimed' => $viewBooksClaimed,
-                    'icon' => '🔍',
+                    'icon' => 'search',
                     'difficulty' => 'easy',
                     'difficulty_label' => 'DỄ',
                     'badge_color' => 'bg-slate-100 text-slate-700 border-slate-300 font-bold',
@@ -409,7 +407,7 @@ class EntertainmentController extends Controller
                     'percent' => $borrowCompleted ? 100 : 0,
                     'is_completed' => $borrowCompleted,
                     'is_claimed' => $borrowClaimed,
-                    'icon' => '📖',
+                    'icon' => 'book',
                     'difficulty' => 'medium',
                     'difficulty_label' => 'TRUNG BÌNH',
                     'badge_color' => 'bg-blue-100 text-blue-800 border-blue-300 font-black',
@@ -428,7 +426,7 @@ class EntertainmentController extends Controller
                     'percent' => (int) round(($forumCurrent / 2) * 100),
                     'is_completed' => $forumCompleted,
                     'is_claimed' => $forumClaimed,
-                    'icon' => '💬',
+                    'icon' => 'chat',
                     'difficulty' => 'medium',
                     'difficulty_label' => 'TRUNG BÌNH',
                     'badge_color' => 'bg-indigo-100 text-indigo-800 border-indigo-300 font-black',
@@ -449,7 +447,7 @@ class EntertainmentController extends Controller
                     'percent' => (int) round(($specialistCurrent / 3) * 100),
                     'is_completed' => $specialistCompleted,
                     'is_claimed' => $specialistClaimed,
-                    'icon' => '📚',
+                    'icon' => 'collection',
                     'difficulty' => 'hard',
                     'difficulty_label' => 'THỬ THÁCH',
                     'badge_color' => 'bg-amber-100 text-amber-900 border-amber-400 font-black',
@@ -468,7 +466,7 @@ class EntertainmentController extends Controller
                     'percent' => (int) round(($cleanReturnsCurrent / 5) * 100),
                     'is_completed' => $cleanReturnsCompleted,
                     'is_claimed' => $cleanReturnsClaimed,
-                    'icon' => '🛡️',
+                    'icon' => 'shield',
                     'difficulty' => 'hard',
                     'difficulty_label' => 'CAO CẤP',
                     'badge_color' => 'bg-orange-100 text-orange-900 border-orange-400 font-black',
@@ -487,7 +485,7 @@ class EntertainmentController extends Controller
                     'percent' => (int) round(($streakCurrent / 14) * 100),
                     'is_completed' => $streakCompleted,
                     'is_claimed' => $streakClaimed,
-                    'icon' => '🔥',
+                    'icon' => 'flame',
                     'difficulty' => 'hard',
                     'difficulty_label' => 'CỰC PHẨM',
                     'badge_color' => 'bg-gradient-to-r from-red-600 to-amber-600 text-white font-black shadow-xs',
@@ -506,7 +504,7 @@ class EntertainmentController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
                 'message' => 'Vui lòng đăng nhập để nhận thưởng!',
@@ -518,7 +516,7 @@ class EntertainmentController extends Controller
         $allQuests = array_merge($questsData['easy'], $questsData['medium'], $questsData['hard']);
 
         $quest = collect($allQuests)->firstWhere('id', $questId);
-        if (!$quest) {
+        if (! $quest) {
             return response()->json([
                 'success' => false,
                 'message' => 'Nhiệm vụ không tồn tại trong hệ thống!',
@@ -532,7 +530,7 @@ class EntertainmentController extends Controller
             ], 400);
         }
 
-        if (!$quest['is_completed']) {
+        if (! $quest['is_completed']) {
             return response()->json([
                 'success' => false,
                 'message' => 'Bạn chưa hoàn thành đủ tiến trình của nhiệm vụ này!',
@@ -541,10 +539,10 @@ class EntertainmentController extends Controller
 
         // Lưu trạng thái đã nhận thưởng vào Cache tương ứng theo độ khó
         if ($quest['difficulty'] === 'easy') {
-            $cacheKey = "quest_claimed_{$user->id}_{$questId}_" . now()->toDateString();
+            $cacheKey = "quest_claimed_{$user->id}_{$questId}_".now()->toDateString();
             Cache::put($cacheKey, true, now()->endOfDay());
         } elseif ($quest['difficulty'] === 'medium') {
-            $cacheKey = "quest_claimed_{$user->id}_{$questId}_" . now()->startOfWeek()->toDateString();
+            $cacheKey = "quest_claimed_{$user->id}_{$questId}_".now()->startOfWeek()->toDateString();
             Cache::put($cacheKey, true, now()->endOfWeek());
         } else {
             $cacheKey = "quest_claimed_{$user->id}_{$questId}";
@@ -576,14 +574,14 @@ class EntertainmentController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
                 'message' => 'Vui lòng đăng nhập để điểm danh nhận EXP!',
             ], 401);
         }
 
-        if (!$user->canCheckInToday()) {
+        if (! $user->canCheckInToday()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Hôm nay bạn đã điểm danh rồi, hãy quay lại vào ngày mai nhé!',

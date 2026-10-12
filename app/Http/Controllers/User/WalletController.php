@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Borrow;
 use App\Models\BorrowRecord;
 use App\Models\LibraryFund;
-use App\Models\Transaction;
 use App\Services\AuditLogger;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class WalletController extends Controller
 {
@@ -27,7 +27,6 @@ class WalletController extends Controller
      */
     const VIP_TERM_FEE = 129000;
 
-
     /**
      * Tiền cọc sách mặc định mỗi cuốn đối với bạn đọc thường (VNĐ)
      */
@@ -36,9 +35,9 @@ class WalletController extends Controller
     /**
      * Trang Bảng quy định & Nâng cấp Gói hội viên (/membership)
      */
-    public function membership(Request $request): \Illuminate\View\View
+    public function membership(Request $request): View
     {
-        $user = $request->user() ?: \Illuminate\Support\Facades\Auth::user();
+        $user = $request->user() ?: Auth::user();
         $wallet = $user ? $user->getOrCreateWallet() : null;
         $transactions = $user ? $user->transactions()->whereIn('type', ['membership_upgrade', 'membership_fee', 'deposit'])->take(5)->get() : collect();
 
@@ -50,7 +49,7 @@ class WalletController extends Controller
      */
     public function info(Request $request): JsonResponse
     {
-        $user = $request->user() ?: \Illuminate\Support\Facades\Auth::user();
+        $user = $request->user() ?: Auth::user();
         $wallet = $user->getOrCreateWallet();
 
         $transactions = $user->transactions()
@@ -62,7 +61,7 @@ class WalletController extends Controller
                     'type' => $tx->type,
                     'type_name' => $tx->type_name,
                     'amount' => (float) $tx->amount,
-                    'formatted_amount' => ($tx->is_positive ? '+' : '-') . number_format($tx->amount, 0, ',', '.') . ' đ',
+                    'formatted_amount' => ($tx->is_positive ? '+' : '-').number_format($tx->amount, 0, ',', '.').' đ',
                     'is_positive' => $tx->is_positive,
                     'status' => $tx->status,
                     'description' => $tx->description,
@@ -76,7 +75,7 @@ class WalletController extends Controller
         return response()->json([
             'success' => true,
             'balance' => (float) $wallet->balance,
-            'formatted_balance' => number_format($wallet->balance, 0, ',', '.') . ' đ',
+            'formatted_balance' => number_format($wallet->balance, 0, ',', '.').' đ',
             'membership_type' => $user->isVip() ? 'vip' : 'standard',
             'membership_tier' => $user->isVip() ? 'vip' : 'standard',
             'is_vip' => $user->isVip(),
@@ -93,13 +92,13 @@ class WalletController extends Controller
     /**
      * Trang / Tab nạp tiền vào ví điện tử (/wallet/deposit)
      */
-    public function deposit(Request $request): \Illuminate\View\View|JsonResponse|RedirectResponse
+    public function deposit(Request $request): View|JsonResponse|RedirectResponse
     {
         if ($request->isMethod('post')) {
             return $this->processDeposit($request);
         }
 
-        $user = $request->user() ?: \Illuminate\Support\Facades\Auth::user();
+        $user = $request->user() ?: Auth::user();
         $wallet = $user ? $user->getOrCreateWallet() : null;
         $transactions = $user ? $user->transactions()->where('type', 'deposit')->latest()->take(5)->get() : collect();
         if ($transactions->isEmpty() && $user) {
@@ -122,37 +121,38 @@ class WalletController extends Controller
         ]);
 
         $amount = (float) $validated['amount'];
-        $user = $request->user() ?: \Illuminate\Support\Facades\Auth::user();
+        $user = $request->user() ?: Auth::user();
         $wallet = $user->getOrCreateWallet();
 
-        $refId = 'VQR_' . date('Ymd') . '_' . strtoupper(substr(uniqid(), -6));
+        $refId = 'VQR_'.date('Ymd').'_'.strtoupper(substr(uniqid(), -6));
         $tx = $wallet->deposit(
             amount: $amount,
-            description: "Nạp tiền vào ví qua cổng thanh toán VietQR Napas 247",
+            description: 'Nạp tiền vào ví qua cổng thanh toán VietQR Napas 247',
             referenceId: $refId
         );
 
         AuditLogger::log(
             action: 'WALLET_DEPOSIT',
-            description: "Người dùng {$user->name} đã nạp " . number_format($amount, 0, ',', '.') . " VNĐ vào ví số dư.",
+            description: "Người dùng {$user->name} đã nạp ".number_format($amount, 0, ',', '.').' VNĐ vào ví số dư.',
             targetType: get_class($wallet),
             targetId: $wallet->id,
             newValues: ['amount' => $amount, 'ref_id' => $refId]
         );
 
-        $msg = "Giao dịch thành công! Đã nạp +" . number_format($amount, 0, ',', '.') . "đ vào ví";
+        $msg = 'Giao dịch thành công! Đã nạp +'.number_format($amount, 0, ',', '.').'đ vào ví';
+
         return ($request->wantsJson() || $request->ajax() || $request->isJson() || $request->expectsJson() || $request->header('Accept') === 'application/json' || $request->routeIs('wallet.deposit-mock'))
             ? response()->json([
                 'success' => true,
                 'message' => $msg,
                 'amount' => $amount,
                 'balance' => (float) $wallet->balance,
-                'formatted_balance' => number_format($wallet->balance, 0, ',', '.') . ' đ',
+                'formatted_balance' => number_format($wallet->balance, 0, ',', '.').' đ',
                 'transaction' => [
                     'id' => $tx->id,
                     'reference_id' => $tx->reference_id,
                     'amount' => $tx->amount,
-                    'formatted_amount' => '+' . number_format($tx->amount, 0, ',', '.') . ' đ',
+                    'formatted_amount' => '+'.number_format($tx->amount, 0, ',', '.').' đ',
                     'created_at' => $tx->created_at ? $tx->created_at->format('d/m/Y H:i') : now()->format('d/m/Y H:i'),
                 ],
             ])
@@ -164,7 +164,7 @@ class WalletController extends Controller
      */
     public function upgradeVip(Request $request): JsonResponse|RedirectResponse
     {
-        $user = $request->user() ?: \Illuminate\Support\Facades\Auth::user();
+        $user = $request->user() ?: Auth::user();
         $wallet = $user->getOrCreateWallet();
 
         // Xác định gói đăng ký
@@ -182,14 +182,15 @@ class WalletController extends Controller
         }
 
         if ($wallet->balance < $fee) {
-            $msg = 'Số dư ví không đủ (' . number_format($wallet->balance, 0, ',', '.') . ' đ). Bạn cần tối thiểu ' . number_format($fee, 0, ',', '.') . ' đ để kích hoạt ' . $planTitle . '!';
+            $msg = 'Số dư ví không đủ ('.number_format($wallet->balance, 0, ',', '.').' đ). Bạn cần tối thiểu '.number_format($fee, 0, ',', '.').' đ để kích hoạt '.$planTitle.'!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg, 'require_deposit' => true], 422)
                 : redirect()->back()->with('error', $msg);
         }
 
         return DB::transaction(function () use ($user, $wallet, $fee, $days, $planTitle, $expBonus, $request) {
-            $refId = 'VIP_' . strtoupper(substr(uniqid(), -6));
+            $refId = 'VIP_'.strtoupper(substr(uniqid(), -6));
             $wallet->withdraw(
                 amount: $fee,
                 type: 'membership_upgrade',
@@ -207,8 +208,6 @@ class WalletController extends Controller
                 'membership_tier' => 'vip',
                 'vip_expires_at' => $newExpiry,
                 'membership_expires_at' => $newExpiry,
-                'delivery_address' => $request->input('delivery_address', $user->delivery_address),
-                'phone_number' => $request->input('phone_number', $user->phone_number),
             ]);
 
             // Thưởng EXP công lực khi nâng cấp
@@ -224,19 +223,20 @@ class WalletController extends Controller
 
             AuditLogger::log(
                 action: 'UPGRADE_VIP',
-                description: "Độc giả {$user->name} đã kích hoạt {$planTitle} thành công với mức phí " . number_format($fee, 0, ',', '.') . " VNĐ.",
+                description: "Độc giả {$user->name} đã kích hoạt {$planTitle} thành công với mức phí ".number_format($fee, 0, ',', '.').' VNĐ.',
                 targetType: get_class($user),
                 targetId: $user->id,
                 newValues: ['membership_type' => 'vip', 'expires_at' => $newExpiry->toDateTimeString(), 'fee' => $fee]
             );
 
-            $msg = "Chúc mừng bạn đã nâng cấp thành công lên SCHOLAR VIP ({$planTitle})! Hạn dùng đến ngày " . $newExpiry->format('d/m/Y') . ". Bạn nhận được đặc quyền mượn tối đa 15 cuốn, miễn cọc 0đ, ship tận nhà và x2 EXP!";
+            $msg = "Chúc mừng bạn đã nâng cấp thành công lên SCHOLAR VIP ({$planTitle})! Hạn dùng đến ngày ".$newExpiry->format('d/m/Y').'. Bạn nhận được đặc quyền mượn tối đa 15 cuốn, miễn cọc 0đ, ship tận nhà và x2 EXP!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json([
                     'success' => true,
                     'message' => $msg,
                     'balance' => (float) $wallet->balance,
-                    'formatted_balance' => number_format($wallet->balance, 0, ',', '.') . ' đ',
+                    'formatted_balance' => number_format($wallet->balance, 0, ',', '.').' đ',
                     'is_vip' => true,
                     'membership_type' => 'vip',
                     'membership_tier' => 'vip',
@@ -255,7 +255,7 @@ class WalletController extends Controller
         $user = $request->user() ?: Auth::user();
         $record = $borrow instanceof BorrowRecord ? $borrow : (BorrowRecord::find($borrow) ?? Borrow::findOrFail($borrow));
 
-        if ($record->user_id && $record->user_id !== $user->id && !in_array($user->role, ['admin', 'librarian'])) {
+        if ($record->user_id && $record->user_id !== $user->id && ! in_array($user->role, ['admin', 'librarian'])) {
             abort(403, 'Bạn không có quyền thao tác trên khoản phạt này.');
         }
 
@@ -263,6 +263,7 @@ class WalletController extends Controller
 
         if ($fineAmount <= 0) {
             $msg = 'Phiếu mượn này không có tiền phạt cần thanh toán.';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 422)
                 : redirect()->back()->with('error', $msg);
@@ -270,18 +271,19 @@ class WalletController extends Controller
 
         $wallet = $user->getOrCreateWallet();
         if ($wallet->balance < $fineAmount) {
-            $msg = 'Số dư ví (' . number_format($wallet->balance, 0, ',', '.') . ' đ) không đủ thanh toán khoản phạt ' . number_format($fineAmount, 0, ',', '.') . ' đ. Vui lòng nạp thêm tiền!';
+            $msg = 'Số dư ví ('.number_format($wallet->balance, 0, ',', '.').' đ) không đủ thanh toán khoản phạt '.number_format($fineAmount, 0, ',', '.').' đ. Vui lòng nạp thêm tiền!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg, 'require_deposit' => true], 422)
                 : redirect()->back()->with('error', $msg);
         }
 
-        return DB::transaction(function () use ($user, $wallet, $record, $fineAmount, $request) {
-            $refId = 'FINE_PKM' . str_pad($record->id, 4, '0', STR_PAD_LEFT);
+        return DB::transaction(function () use ($wallet, $record, $fineAmount, $request) {
+            $refId = 'FINE_PKM'.str_pad($record->id, 4, '0', STR_PAD_LEFT);
             $wallet->withdraw(
                 amount: $fineAmount,
                 type: 'fine_payment',
-                description: "Nộp tiền phạt quá hạn cho phiếu mượn #PKM" . str_pad($record->id, 4, '0', STR_PAD_LEFT),
+                description: 'Nộp tiền phạt quá hạn cho phiếu mượn #PKM'.str_pad($record->id, 4, '0', STR_PAD_LEFT),
                 referenceId: $refId
             );
 
@@ -296,7 +298,7 @@ class WalletController extends Controller
             // Đồng bộ sang bảng borrows mẹ nếu là BorrowRecord
             if ($record instanceof BorrowRecord && $record->user_id) {
                 Borrow::where('user_id', $record->user_id)
-                    ->whereHas('details', fn($q) => $q->where('book_id', $record->book_id))
+                    ->whereHas('details', fn ($q) => $q->where('book_id', $record->book_id))
                     ->update([
                         'fine_amount' => $fineAmount,
                         'fine_status' => 'paid',
@@ -313,13 +315,14 @@ class WalletController extends Controller
                 'notes' => "Độc giả {$record->borrower_name} thanh toán phí phạt trễ hạn online qua ví số dư",
             ]);
 
-            $msg = "Thanh toán tiền phạt " . number_format($fineAmount, 0, ',', '.') . " VNĐ thành công!";
+            $msg = 'Thanh toán tiền phạt '.number_format($fineAmount, 0, ',', '.').' VNĐ thành công!';
+
             return $request->wantsJson() || $request->ajax()
                 ? response()->json([
                     'success' => true,
                     'message' => $msg,
                     'balance' => (float) $wallet->balance,
-                    'formatted_balance' => number_format($wallet->balance, 0, ',', '.') . ' đ',
+                    'formatted_balance' => number_format($wallet->balance, 0, ',', '.').' đ',
                 ])
                 : redirect()->back()->with('success', $msg);
         });

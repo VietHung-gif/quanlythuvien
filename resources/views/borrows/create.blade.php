@@ -56,8 +56,11 @@
                             <span class="text-rose-500">*</span> Chọn đầu sách cần mượn
                         </label>
                         @if($books->isEmpty())
-                            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800">
-                                ⚠️ Hiện tại không có đầu sách nào còn hàng trong kho để cho mượn!
+                            <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                                <span>Hiện tại không có đầu sách nào còn hàng trong kho để cho mượn!</span>
                             </div>
                         @else
                             <select id="book_id"
@@ -66,8 +69,12 @@
                                     class="w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-sm text-slate-800 py-2.5 px-3.5 transition">
                                 <option value="" class="text-slate-400">-- Chọn đầu sách trong kho --</option>
                                 @foreach($books as $b)
-                                    <option value="{{ $b->id }}" {{ old('book_id') == $b->id ? 'selected' : '' }}>
-                                        📖 {{ $b->title }} - Tác giả: {{ $b->author }} (Còn {{ $b->available_copies }} cuốn khả dụng)
+                                    @php 
+                                        $copies = (int) ($b->available_copies ?? $b->quantity ?? 0);
+                                        $isOut = $copies <= 0; 
+                                    @endphp
+                                    <option value="{{ $b->id }}" {{ old('book_id') == $b->id ? 'selected' : '' }} {{ $isOut ? 'disabled class=text-slate-400' : '' }}>
+                                        {{ $b->title }} — {{ $b->author }} [{{ $copies > 10 ? 'Còn sách' : ($copies > 0 ? 'Sắp hết' : 'Hết hàng') }} · Còn {{ $copies }} cuốn]
                                     </option>
                                 @endforeach
                             </select>
@@ -111,7 +118,7 @@
                                 <option value="" class="text-slate-400">-- Khách vãng lai (nhập thông tin bên dưới) --</option>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}">
-                                        👤 {{ $user->name }} ({{ $user->email }})
+                                        {{ $user->name }} ({{ $user->email }})
                                     </option>
                                 @endforeach
                             </select>

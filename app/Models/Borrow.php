@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,10 +17,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $borrower_name
  * @property string|null $borrower_phone
  * @property string|null $borrower_email
- * @property \Carbon\Carbon|null $borrow_date
- * @property \Carbon\Carbon|null $approved_date
- * @property \Carbon\Carbon|null $due_date
- * @property \Carbon\Carbon|null $return_date
+ * @property Carbon|null $borrow_date
+ * @property Carbon|null $approved_date
+ * @property Carbon|null $due_date
+ * @property Carbon|null $return_date
  * @property string $status
  * @property string $borrow_status
  * @property string $delivery_method
@@ -28,13 +29,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property float $deposit_amount
  * @property float $fine_amount
  * @property string $fine_status
- * @property \Carbon\Carbon|null $fine_paid_at
+ * @property Carbon|null $fine_paid_at
  * @property string|null $notes
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \App\Models\User|null $user
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BorrowDetail> $details
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User|null $user
+ * @property-read Collection<int, BorrowDetail> $details
+ * @property-read Collection<int, Book> $books
  */
 class Borrow extends Model
 {
@@ -113,7 +114,8 @@ class Borrow extends Model
     {
         $lastBorrow = self::orderByDesc('id')->first();
         $nextId = $lastBorrow ? ($lastBorrow->id + 1) : 1;
-        return 'PDK' . str_pad((string) $nextId, 5, '0', STR_PAD_LEFT);
+
+        return 'PDK'.str_pad((string) $nextId, 5, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -192,6 +194,6 @@ class Borrow extends Model
      */
     public function getFormattedFineAttribute(): string
     {
-        return number_format($this->fine_amount, 0, ',', '.') . ' đ';
+        return number_format($this->fine_amount, 0, ',', '.').' đ';
     }
 }

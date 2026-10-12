@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $categories = Category::withCount('books')
             ->when($search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%");
             })
             ->latest()
             ->paginate(12)
@@ -67,6 +67,7 @@ class CategoryController extends Controller
         if (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isLibrarian())) {
             return redirect()->route('categories.edit', $category);
         }
+
         return redirect()->route('books.index', ['category_id' => $category->id]);
     }
 
@@ -84,7 +85,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'name' => 'required|string|max:255|unique:categories,name,'.$category->id,
             'description' => 'nullable|string|max:1000',
         ], [
             'name.required' => 'Vui lòng nhập tên thể loại.',
@@ -107,6 +108,7 @@ class CategoryController extends Controller
         // Kiểm tra an toàn: nếu thể loại đang có sách thì không cho xóa trực tiếp
         if ($category->books()->exists()) {
             $bookCount = $category->books()->count();
+
             return redirect()->route('categories.index')
                 ->with('error', "Không thể xóa thể loại \"{$category->name}\" vì hiện có {$bookCount} cuốn sách đang thuộc thể loại này!");
         }

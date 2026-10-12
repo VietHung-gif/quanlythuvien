@@ -11,8 +11,8 @@ class CheckRole
     /**
      * Kiểm tra quyền hạn (Role Authorization) của người dùng trước khi truy cập Route.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  ...$roles Danh sách các quyền được phép (ví dụ: 'admin', 'librarian')
+     * @param  Closure(Request): (Response)  $next
+     * @param  string  ...$roles  Danh sách các quyền được phép (ví dụ: 'admin', 'librarian')
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {

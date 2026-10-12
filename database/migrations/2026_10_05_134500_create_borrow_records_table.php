@@ -27,8 +27,8 @@ return new class extends Migration
             $table->date('due_date'); // Hạn trả sách dự kiến
             $table->date('return_date')->nullable(); // Ngày thực tế trả sách
 
-            // Trạng thái: enum('borrowing', 'returned', 'overdue')
-            $table->enum('status', ['borrowing', 'returned', 'overdue'])->default('borrowing');
+            // Trạng thái: enum('pending', 'borrowing', 'returned', 'overdue', 'rejected')
+            $table->enum('status', ['pending', 'borrowing', 'returned', 'overdue', 'rejected'])->default('borrowing');
 
             // Tiền phạt quá hạn (decimal, mặc định 0)
             $table->decimal('fine_amount', 10, 2)->default(0);

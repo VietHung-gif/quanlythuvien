@@ -37,10 +37,28 @@
                          x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                          x-transition:leave-end="opacity-0 translate-y-2 scale-95">
                         <div class="flex items-center gap-2.5">
-                            <span class="text-sm" x-text="toast.type === 'success' ? '✓' : (toast.type === 'error' ? '✕' : 'ℹ')"></span>
+                            <template x-if="toast.type === 'success'">
+                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </template>
+                            <template x-if="toast.type === 'error'">
+                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </template>
+                            <template x-if="toast.type !== 'success' && toast.type !== 'error'">
+                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </template>
                             <span x-text="toast.message"></span>
                         </div>
-                        <button type="button" @click="removeToast(toast.id)" class="text-white/80 hover:text-white cursor-pointer ml-2">✕</button>
+                        <button type="button" @click="removeToast(toast.id)" class="text-white/80 hover:text-white cursor-pointer ml-2">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
                     </div>
                 </template>
             </div>
@@ -156,28 +174,42 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         @if($borrow->status === 'pending')
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                                                ⏳ Chờ duyệt
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
+                                                <span>Chờ duyệt</span>
                                             </span>
                                         @elseif($borrow->status === 'rejected')
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                                                ❌ Bị từ chối
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                                                <svg class="w-3 h-3 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                                <span>Bị từ chối</span>
                                             </span>
                                         @elseif($borrow->status === 'returned')
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                                ✅ Đã trả sách
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                <svg class="w-3 h-3 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                                <span>Đã trả sách</span>
                                             </span>
                                         @elseif($isOverdue)
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                                                ⚠️ Quá hạn
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                                                <svg class="w-3 h-3 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                                </svg>
+                                                <span>Quá hạn</span>
                                             </span>
                                         @elseif($renewalStatus === 'pending')
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
-                                                🔄 Chờ duyệt gia hạn
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+                                                <svg class="w-3 h-3 text-amber-700 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                                </svg>
+                                                <span>Chờ duyệt gia hạn</span>
                                             </span>
                                         @else
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                                                📖 Đang mượn
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+                                                <span>Đang mượn</span>
                                             </span>
                                         @endif
                                     </td>
@@ -194,7 +226,9 @@
                                             @if($isOverdue)
                                                 {{-- ĐÃ QUÁ HẠN: Ẩn nút gia hạn, hiện badge "ĐÃ QUÁ HẠN - KHÔNG THỂ GIA HẠN" --}}
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="Sách đã quá hạn, vui lòng mang đến quầy để hoàn trả">
-                                                    <span>⚠️</span>
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                                    </svg>
                                                     <span>ĐÃ QUÁ HẠN - KHÔNG THỂ GIA HẠN</span>
                                                 </span>
                                             @elseif($renewalStatus === 'pending')
@@ -209,13 +243,17 @@
                                             @elseif($renewalStatus === 'approved' || $hasRenewed)
                                                 {{-- ĐÃ ĐƯỢC GIA HẠN: Hiện badge "ĐÃ ĐƯỢC GIA HẠN (+7 NGÀY)" (màu xanh lá, không cho gia hạn thêm lần 2) --}}
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs" title="Đã được gia hạn 1 lần (+7 ngày), không thể gia hạn thêm">
-                                                    <span>✓</span>
+                                                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                    </svg>
                                                     <span>ĐÃ ĐƯỢC GIA HẠN (+7 NGÀY)</span>
                                                 </span>
                                             @elseif($renewalStatus === 'rejected')
                                                 {{-- BỊ TỪ CHỐI GIA HẠN --}}
                                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs" title="{{ $borrow->notes ?? 'Ban Quản Trị đã từ chối yêu cầu gia hạn' }}">
-                                                    <span>✕</span>
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
                                                     <span>YÊU CẦU GIA HẠN BỊ TỪ CHỐI</span>
                                                 </span>
                                             @else
@@ -298,7 +336,7 @@
                     const originalHtml = submitBtn ? submitBtn.innerHTML : '';
                     if (submitBtn) {
                         submitBtn.disabled = true;
-                        submitBtn.innerHTML = '⏳ Đang gửi...';
+                        submitBtn.innerHTML = '<svg class="w-4 h-4 mr-1.5 animate-spin inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Đang gửi...';
                     }
 
                     try {

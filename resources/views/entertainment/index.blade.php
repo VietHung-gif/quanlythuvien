@@ -13,16 +13,21 @@
                  class="fixed top-6 right-6 z-50 max-w-md bg-white border-2 rounded-2xl shadow-2xl p-4 flex items-center gap-3"
                  :class="toast.type === 'success' ? 'border-emerald-300 text-emerald-950' : 'border-rose-300 text-rose-950'"
                  style="display: none;">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg shrink-0"
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                      :class="toast.type === 'success' ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'">
-                    <span x-text="toast.type === 'success' ? '✓' : '✕'"></span>
+                    <template x-if="toast.type === 'success'">
+                        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                    </template>
+                    <template x-if="toast.type !== 'success'">
+                        <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </template>
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-xs font-black uppercase tracking-wider" x-text="toast.type === 'success' ? 'THÀNH CÔNG' : 'THÔNG BÁO'"></p>
                     <p class="text-xs font-semibold text-slate-700 mt-0.5" x-text="toast.message"></p>
                 </div>
-                <button type="button" @click="toast.show = false" class="text-slate-400 hover:text-slate-700 text-sm font-bold p-1 cursor-pointer">
-                    ✕
+                <button type="button" @click="toast.show = false" class="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
 
@@ -37,7 +42,8 @@
                     <!-- Bên trái: Tiêu đề & Giới thiệu -->
                     <div class="space-y-1.5 max-w-2xl">
                         <span class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-blue-200 shadow-2xs">
-                            🎖️ HỆ THỐNG CẤP BẬC & TIẾN TRÌNH ĐỘC GIẢ
+                            <svg class="w-3.5 h-3.5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                            <span>HỆ THỐNG CẤP BẬC & TIẾN TRÌNH ĐỘC GIẢ</span>
                         </span>
                         
                         <h1 class="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
@@ -53,7 +59,7 @@
                     <div class="shrink-0 flex flex-col sm:flex-row items-center gap-3">
                         @auth
                             <div class="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold px-3.5 py-2.5 rounded-2xl flex items-center gap-2">
-                                <span class="text-base">🔥</span>
+                                <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
                                 <span>Chuỗi điểm danh: <strong class="text-amber-600 font-black">{{ $streak }} ngày</strong></span>
                             </div>
 
@@ -62,21 +68,21 @@
                                         @click="doCheckin()"
                                         :disabled="isSubmitting"
                                         class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-sm hover:shadow-md transition flex items-center justify-center gap-2.5 cursor-pointer">
-                                    <span class="text-base">📅</span>
+                                    <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                     <span x-show="!isSubmitting">ĐIỂM DANH HÀNG NGÀY (+15 EXP)</span>
                                     <span x-show="isSubmitting">ĐANG XỬ LÝ...</span>
                                 </button>
                             </template>
                             <template x-if="!canCheckIn">
                                 <div class="bg-emerald-50 border-2 border-emerald-200 text-emerald-800 font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl flex items-center gap-2 shadow-2xs">
-                                    <span class="text-emerald-600 font-black text-sm">✓</span>
+                                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                     <span>HÔM NAY ĐÃ ĐIỂM DANH (+15 EXP)</span>
                                 </div>
                             </template>
                         @else
                             <a href="{{ route('login') }}" 
                                class="w-full sm:w-auto bg-slate-900 hover:bg-blue-600 text-white font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-sm transition flex items-center justify-center gap-2">
-                                <span>🔑</span>
+                                <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
                                 <span>ĐĂNG NHẬP ĐỂ ĐIỂM DANH (+15 EXP)</span>
                             </a>
                         @endauth
@@ -95,7 +101,7 @@
                                         {{ $isCurrentTier 
                                             ? 'bg-blue-50/90 border-blue-500 shadow-xs ring-1 ring-blue-400' 
                                             : ($isPassed ? 'bg-slate-50 border-slate-200' : 'bg-white border-slate-100 opacity-60') }}">
-                                <span class="text-xl shrink-0">{{ $t['icon'] }}</span>
+                                <span class="w-6 h-6 shrink-0 inline-flex items-center justify-center">{!! $t['icon'] !!}</span>
                                 <div class="min-w-0">
                                     <div class="font-black text-[11px] uppercase tracking-wider truncate {{ $isCurrentTier ? 'text-blue-950 font-black' : 'text-slate-800' }}">
                                         {{ $t['name'] }}
@@ -115,7 +121,7 @@
                                 Cấp hiện tại: 
                                 @if($user && in_array($user->role, ['admin', 'librarian']))
                                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-600 to-yellow-500 font-black uppercase tracking-tight">
-                                        [ 👑 ĐỘC CÔ CẦU BẠI - QUẢN TRỊ VIÊN ]
+                                        [ ĐỘC CÔ CẦU BẠI - QUẢN TRỊ VIÊN ]
                                     </span>
                                 @else
                                     <span class="text-blue-600 font-black uppercase tracking-tight" x-text="'[ ' + userTierName + ' ]'">
@@ -129,7 +135,8 @@
                             <div>
                                 @if($user && in_array($user->role, ['admin', 'librarian']))
                                     <span class="inline-flex items-center gap-1.5 text-amber-600 font-black uppercase tracking-wide">
-                                        <span class="animate-bounce">👑</span> ĐẲNG CẤP TỐI THƯỢNG - QUẢN TRỊ HỆ THỐNG (MAX LEVEL)
+                                        <svg class="w-4 h-4 text-amber-500 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                        <span>ĐẲNG CẤP TỐI THƯỢNG - QUẢN TRỊ HỆ THỐNG (MAX LEVEL)</span>
                                     </span>
                                 @else
                                     <template x-if="!isMaxTier">
@@ -138,8 +145,9 @@
                                         </span>
                                     </template>
                                     <template x-if="isMaxTier">
-                                        <span class="text-amber-600 font-black uppercase">
-                                            👑 ĐÃ ĐẠT CẤP ĐỘ CAO NHẤT [ ĐỘC CÔ CẦU BẠI ]
+                                        <span class="text-amber-600 font-black uppercase inline-flex items-center gap-1">
+                                            <svg class="w-4 h-4 text-amber-500 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                            <span>ĐÃ ĐẠT CẤP ĐỘ CAO NHẤT [ ĐỘC CÔ CẦU BẠI ]</span>
                                         </span>
                                     </template>
                                 @endif
@@ -168,8 +176,8 @@
             <!-- ========================================================================= -->
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/60 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 shadow-sm">
                 <div class="flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-200 flex items-center justify-center text-2xl shadow-xs shrink-0">
-                        🎁
+                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-200 flex items-center justify-center shadow-xs shrink-0">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V4a2 2 0 112 2h-2zm0 0V4a2 2 0 10-2 2h2zm-7 5h14a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2z"/></svg>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
@@ -206,7 +214,8 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
                         <div>
                             <h2 class="text-xl font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
-                                <span>🎯</span> HỆ THỐNG NHIỆM VỤ & THỬ THÁCH
+                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><circle cx="12" cy="12" r="6" stroke-width="2"/><circle cx="12" cy="12" r="2" stroke-width="2"/></svg>
+                                HỆ THỐNG NHIỆM VỤ & THỬ THÁCH
                             </h2>
                             <p class="text-xs text-slate-500 font-medium mt-0.5">
                                 Hoàn thành từ nhiệm vụ dễ đến thử thách khó để nhận EXP tương xứng
@@ -246,7 +255,8 @@
                     <div x-show="activeTab === 'all' || activeTab === 'easy'" class="space-y-3.5">
                         <div class="flex items-center justify-between">
                             <span class="bg-slate-100 text-slate-800 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-slate-300 inline-flex items-center gap-1.5 shadow-2xs">
-                                ☀️ NHIỆM VỤ HÀNG NGÀY (DỄ • 10 - 25 EXP)
+                                <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                NHIỆM VỤ HÀNG NGÀY (DỄ • 10 - 25 EXP)
                             </span>
                             <span class="text-[11px] text-slate-400 font-semibold">Tự động làm mới vào 00:00</span>
                         </div>
@@ -262,7 +272,8 @@
                     <div x-show="activeTab === 'all' || activeTab === 'medium'" class="space-y-3.5 pt-2">
                         <div class="flex items-center justify-between">
                             <span class="bg-blue-50 text-blue-800 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-blue-200 inline-flex items-center gap-1.5 shadow-2xs">
-                                📅 NHIỆM VỤ TUẦN (TRUNG BÌNH • 40 - 80 EXP)
+                                <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                NHIỆM VỤ TUẦN (TRUNG BÌNH • 40 - 80 EXP)
                             </span>
                             <span class="text-[11px] text-slate-400 font-semibold">Làm mới vào thứ Hai hàng tuần</span>
                         </div>
@@ -278,7 +289,8 @@
                     <div x-show="activeTab === 'all' || activeTab === 'hard'" class="space-y-3.5 pt-2">
                         <div class="flex items-center justify-between">
                             <span class="bg-gradient-to-r from-red-50 via-amber-50 to-orange-50 text-red-900 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-red-200 inline-flex items-center gap-1.5 shadow-2xs">
-                                ⚡ THỬ THÁCH ĐẶC BIỆT (KHÓ & ĐỘT PHÁ • 150 - 400 EXP)
+                                <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                THỬ THÁCH ĐẶC BIỆT (KHÓ & ĐỘT PHÁ • 150 - 400 EXP)
                             </span>
                             <span class="text-[11px] text-amber-700 font-bold">Thưởng lượng EXP cực lớn</span>
                         </div>
@@ -303,7 +315,10 @@
                     @auth
                         <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3.5">
                             <div class="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                <span class="flex items-center gap-1.5 text-slate-700 font-extrabold">👤 TÀI KHOẢN CỦA BẠN</span>
+                                <span class="flex items-center gap-1.5 text-slate-700 font-extrabold">
+                                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    TÀI KHOẢN CỦA BẠN
+                                </span>
                                 @if($isAdminUser)
                                     <span class="text-[10px] bg-rose-50 text-rose-700 border border-rose-200 px-2 py-0.5 rounded-md font-bold">ADMIN / THỦ THƯ</span>
                                 @else
@@ -324,7 +339,7 @@
                                         {{ $user->name }}
                                     </div>
                                     <div class="text-xs text-slate-500 font-semibold truncate flex items-center gap-1 mt-0.5">
-                                        <span>{{ $user->badge_icon }}</span>
+                                        <span>{!! $user->badge_icon !!}</span>
                                         <span class="text-blue-700 font-bold">{{ $isAdminUser ? 'Độc Cô Cầu Bại' : ($user->title_badge ?: 'Tân Thủ Nhập Môn') }}</span>
                                     </div>
                                 </div>
@@ -340,8 +355,8 @@
                                 </div>
                                 <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-2.5 text-center">
                                     <span class="text-[10px] font-bold text-emerald-700 uppercase block">Điểm đổi quà</span>
-                                    <span class="text-base font-black text-emerald-700 font-mono flex items-center justify-center gap-1">
-                                        <span>🎁</span>
+                                    <span class="text-base font-black text-emerald-700 font-mono flex items-center justify-center gap-1.5">
+                                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V4a2 2 0 112 2h-2zm0 0V4a2 2 0 10-2 2h2zm-7 4h14v9a2 2 0 01-2 2H7a2 2 0 01-2-2v-9z"/></svg>
                                         <span>{{ number_format($user->reward_points ?? 0) }}</span>
                                     </span>
                                 </div>
@@ -351,22 +366,23 @@
                             <div class="grid grid-cols-2 gap-2 pt-0.5">
                                 <a href="{{ route('books.index') }}" 
                                    class="h-10 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
-                                    <span>📚</span>
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                     <span>MƯỢN SÁCH (+50)</span>
                                 </a>
                                 <template x-if="canCheckIn">
                                     <button type="button" 
                                             @click="doCheckin()"
                                             :disabled="isSubmitting"
-                                            class="h-10 px-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center justify-center gap-1 cursor-pointer shadow-2xs">
-                                        <span>⚡</span>
+                                            class="h-10 px-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs">
+                                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                         <span x-show="!isSubmitting">ĐIỂM DANH</span>
                                         <span x-show="isSubmitting">...</span>
                                     </button>
                                 </template>
                                 <template x-if="!canCheckIn">
-                                    <div class="h-10 px-2 bg-slate-100 border border-slate-200 text-slate-500 font-bold text-[11px] uppercase tracking-wider rounded-xl flex items-center justify-center gap-1 select-none">
-                                        <span>✓ ĐÃ ĐIỂM DANH</span>
+                                    <div class="h-10 px-2 bg-slate-100 border border-slate-200 text-slate-500 font-bold text-[11px] uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 select-none">
+                                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        <span>ĐÃ ĐIỂM DANH</span>
                                     </div>
                                 </template>
                             </div>
@@ -390,7 +406,10 @@
                         <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
                             <!-- Tiêu đề nhỏ gọn ở trên -->
                             <div class="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-                                <span class="flex items-center gap-1.5 text-slate-700 font-extrabold">🛡️ BAN QUẢN TRỊ TỐI CAO</span>
+                                <span class="flex items-center gap-1.5 text-slate-700 font-extrabold">
+                                    <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                    BAN QUẢN TRỊ TỐI CAO
+                                </span>
                                 <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-semibold">Đặc quyền hệ thống • Không đua rank</span>
                             </div>
 
@@ -426,7 +445,10 @@
                                         </div>
 
                                         <div class="text-right shrink-0">
-                                            <span class="text-xs font-bold text-amber-600 font-mono">👑 TỐI THƯỢNG</span>
+                                            <span class="text-xs font-bold text-amber-600 font-mono inline-flex items-center gap-1">
+                                                <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                TỐI THƯỢNG
+                                            </span>
                                         </div>
                                     </div>
                                 @endforeach
@@ -438,18 +460,20 @@
                     <div class="bg-white border-2 border-slate-200 rounded-3xl p-6 shadow-xs sticky top-24 space-y-5">
                         
                         <div class="pb-3 border-b border-slate-100">
-                            <span class="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200">
-                                👑 CHIẾN TƯỚNG TRI THỨC
+                            <span class="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200 inline-flex items-center gap-1">
+                                <svg class="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                CHIẾN TƯỚNG TRI THỨC
                             </span>
                             <h2 class="text-xl font-black text-slate-950 uppercase tracking-tight mt-1 flex items-center gap-2">
-                                <span>🏆</span> BẢNG PHONG THẦN
+                                <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.286L13 21l-2.286-6.857L5 12l5.714-2.286L13 3z"/></svg>
+                                BẢNG PHONG THẦN
                             </h2>
                             <p class="text-xs text-slate-500 font-medium mt-0.5">
                                 Vinh danh 10 độc giả đua TOP có công lực EXP cao nhất toàn thư viện
                             </p>
                         </div>
 
-                        <!-- Danh sách Top 10 Độc Giả -->
+                        <!-- Danh sách Top 10 Độc GiẢ -->
                         <div class="space-y-2.5">
                             @forelse($topUsers as $index => $topUser)
                                 @php
@@ -471,11 +495,11 @@
                                         <!-- Thứ hạng -->
                                         <div class="w-7 text-center shrink-0">
                                             @if($isTop1)
-                                                <span class="text-2xl">🥇</span>
+                                                <span class="w-6 h-6 rounded-full bg-amber-400 text-amber-950 font-black text-xs inline-flex items-center justify-center shadow-xs">1</span>
                                             @elseif($isTop2)
-                                                <span class="text-2xl">🥈</span>
+                                                <span class="w-6 h-6 rounded-full bg-slate-300 text-slate-800 font-black text-xs inline-flex items-center justify-center shadow-xs">2</span>
                                             @elseif($isTop3)
-                                                <span class="text-2xl">🥉</span>
+                                                <span class="w-6 h-6 rounded-full bg-amber-600 text-white font-black text-xs inline-flex items-center justify-center shadow-xs">3</span>
                                             @else
                                                 <span class="text-xs font-black text-slate-400">#{{ $rank }}</span>
                                             @endif
@@ -502,8 +526,8 @@
                                                     <span class="text-[9px] text-blue-600 bg-blue-100 px-1.5 py-0.2 rounded font-black">BẠN</span>
                                                 @endif
                                             </div>
-                                            <div class="text-[10px] text-slate-500 font-bold truncate">
-                                                {{ $topUser->badge_icon }} {{ $topUser->title_badge ?: 'Tân Thủ Nhập Môn' }}
+                                            <div class="text-[10px] text-slate-500 font-bold truncate flex items-center gap-1 mt-0.5">
+                                                {!! $topUser->badge_icon !!} <span>{{ $topUser->title_badge ?: 'Tân Thủ Nhập Môn' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -529,8 +553,9 @@
                                 @if($isAdminUser)
                                     <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-center justify-between gap-3 shadow-2xs">
                                         <div class="flex items-center gap-2 min-w-0">
-                                            <span class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0">
-                                                👑 ADMIN
+                                            <span class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0 inline-flex items-center gap-1">
+                                                <svg class="w-3 h-3 text-rose-600" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                ADMIN
                                             </span>
                                             <span class="text-xs font-bold text-slate-700 truncate">Vị thế Quản trị viên (Miễn đua rank)</span>
                                         </div>

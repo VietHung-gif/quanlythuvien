@@ -380,11 +380,15 @@
                 <!-- ========================================================================= -->
                 <div class="relative z-10 mt-3 sm:mt-4 mb-2">
                     <div class="inline-flex items-center gap-2 sm:gap-3 font-black text-xs sm:text-sm md:text-base tracking-[0.2em] sm:tracking-[0.3em] uppercase">
-                        <span class="text-amber-400 text-sm sm:text-lg anim-star-twinkle">✦</span>
+                        <svg class="w-4 h-4 text-amber-400 anim-star-twinkle shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                        </svg>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-200 drop-shadow-[0_0_12px_rgba(251,191,36,0.4)]">
                             BỨC PHÁ TRI THỨC — DẪN LỐI TƯƠNG LAI
                         </span>
-                        <span class="text-amber-400 text-sm sm:text-lg anim-star-twinkle-delay">✦</span>
+                        <svg class="w-4 h-4 text-amber-400 anim-star-twinkle-delay shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                        </svg>
                     </div>
                     <p class="mt-2 text-slate-300 text-xs sm:text-sm md:text-base max-w-2xl mx-auto font-normal leading-relaxed">
                         Hệ thống thư viện số hóa thế hệ mới. Khám phá kho sách chuyên ngành tinh hoa, mượn trả minh bạch và trải nghiệm đặc quyền Scholar VIP miễn cọc 0đ.
@@ -410,7 +414,9 @@
                     <!-- NÚT 2: [ĐĂNG KÝ HỘI VIÊN VIP] (Viền mảnh, chữ đậm kèm icon vương miện) -->
                     <a href="{{ route('membership.index') }}" 
                        class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-2xl bg-slate-900/90 hover:bg-amber-950/40 text-amber-300 hover:text-amber-200 font-black text-xs sm:text-sm uppercase tracking-wider backdrop-blur-md border-2 border-amber-400/70 hover:border-amber-400 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/25 hover:scale-[1.03] active:scale-95 transition-all duration-200 cursor-pointer">
-                        <span class="text-lg">👑</span>
+                        <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+                        </svg>
                         <span>ĐĂNG KÝ HỘI VIÊN VIP</span>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-black bg-amber-400 text-slate-950 uppercase">0đ CỌC</span>
                     </a>
@@ -461,56 +467,6 @@
         </div>
     </section>
 
-    <!-- ========================================================================= -->
-    <!-- 3. KHỐI 4 THỐNG KÊ SỐ LIỆU: CHỮ SỐ ĐẬM RÕ (TEXT-SLATE-950)                 -->
-    <!-- ========================================================================= -->
-    <section class="py-10 border-y border-slate-200 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-center">
-                
-                <!-- Thống kê 1: Đầu Sách -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm">
-                    <div class="text-4xl md:text-5xl font-black text-slate-950 tracking-tight">
-                        {{ number_format(max($totalBooks, 1874), 0, ',', '.') }}+
-                    </div>
-                    <div class="text-sm font-semibold text-slate-600 mt-1">
-                        Đầu Sách Trong Kho
-                    </div>
-                </div>
-
-                <!-- Thống kê 2: Lượt Mượn -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm">
-                    <div class="text-4xl md:text-5xl font-black text-slate-950 tracking-tight">
-                        {{ number_format(max($totalBorrowRecords, 250), 0, ',', '.') }}+
-                    </div>
-                    <div class="text-sm font-semibold text-slate-600 mt-1">
-                        Lượt Độc Giả Mượn Sách
-                    </div>
-                </div>
-
-                <!-- Thống kê 3: Độc Giả -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm">
-                    <div class="text-4xl md:text-5xl font-black text-slate-950 tracking-tight">
-                        {{ number_format(max($totalUsers, 120), 0, ',', '.') }}+
-                    </div>
-                    <div class="text-sm font-semibold text-slate-600 mt-1">
-                        Độc Giả Hoạt Động
-                    </div>
-                </div>
-
-                <!-- Thống kê 4: Phê Duyệt Trực Tuyến -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm">
-                    <div class="text-4xl md:text-5xl font-black text-slate-950 tracking-tight">
-                        100%
-                    </div>
-                    <div class="text-sm font-semibold text-slate-600 mt-1">
-                        Phê Duyệt Trực Tuyến
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
 
     <!-- ========================================================================= -->
     <!-- 3.5 BẢNG TIN & THÔNG BÁO THƯ VIỆN (TỪ HỘI QUÁN TRI THỨC)                  -->
@@ -586,8 +542,12 @@
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-3 p-8 rounded-xl bg-slate-50 border border-slate-200 text-center space-y-2">
-                        <span class="text-3xl">📢</span>
+                    <div class="col-span-3 p-8 rounded-xl bg-slate-50 border border-slate-200 text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-2xs">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                            </svg>
+                        </div>
                         <div class="font-bold text-base text-slate-900">CHƯA CÓ THÔNG BÁO MỚI</div>
                         <p class="text-sm text-slate-600">Ban quản trị thư viện sẽ sớm cập nhật các thông báo hoạt động tại đây.</p>
                     </div>
@@ -621,7 +581,7 @@
                 <div class="mt-4 md:mt-0">
                     <a href="{{ route('books.index') }}" 
                        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition">
-                        <span>Xem toàn bộ {{ $totalBooks }} cuốn sách</span>
+                        <span>Xem toàn bộ {{ $totalBooks }} đầu sách tinh hoa</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
@@ -863,8 +823,8 @@
     <!-- Widget Chatbot AI (Trợ lý Thủ thư ảo) -->
     <x-chatbot-widget />
 
-    <!-- Ngăn kéo Giỏ sách & Đăng ký mượn sách -->
-    <x-cart-drawer />
+    <!-- Giỏ sách mượn đã chuyển sang trang chuyên biệt /cart chuẩn Laravel Blade -->
+    {{-- <x-cart-drawer /> --}}
 
     <!-- Cổng Nạp Tiền VietQR Napas 247 (Fintech Recharge Modal) -->
     <x-deposit-modal />

@@ -4,34 +4,36 @@
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\FinancialReportController;
-
 // 2. Nghiệp vụ sách & Mượn trả (Library)
-use App\Http\Controllers\Library\BookController;
-use App\Http\Controllers\Library\BorrowController;
-use App\Http\Controllers\Library\CartController;
-use App\Http\Controllers\Library\CategoryController;
-
-// 3. Cộng đồng & Tương tác (Community)
 use App\Http\Controllers\Community\ChatbotController;
 use App\Http\Controllers\Community\EntertainmentController;
 use App\Http\Controllers\Community\ForumController;
-
+use App\Http\Controllers\Library\BookController;
+// 3. Cộng đồng & Tương tác (Community)
+use App\Http\Controllers\Library\BorrowController;
+use App\Http\Controllers\Library\CartController;
+use App\Http\Controllers\Library\CategoryController;
 // 4. Tài khoản & Cá nhân (User)
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\WalletController;
-
+use App\Models\Book;
+use App\Models\BorrowRecord;
+use App\Models\Category;
+use App\Models\ForumPost;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 // =========================================================================
 // ROUTE CÔNG KHAI (PUBLIC ACCESS)
 // =========================================================================
 Route::get('/', function () {
-    $featuredBooks = \App\Models\Book::with('category')->latest()->take(8)->get();
-    $categories = \App\Models\Category::withCount('books')->get();
-    $totalBooks = \App\Models\Book::count();
-    $totalBorrowRecords = \App\Models\BorrowRecord::count();
-    $totalUsers = \App\Models\User::count();
-    $announcements = \App\Models\ForumPost::with('user')
+    $featuredBooks = Book::with('category')->latest()->take(8)->get();
+    $categories = Category::withCount('books')->get();
+    $totalBooks = Book::count();
+    $totalCopies = Book::sum('quantity');
+    $totalBorrowRecords = BorrowRecord::count();
+    $totalUsers = User::count();
+    $announcements = ForumPost::with('user')
         ->whereHas('category', function ($q) {
             $q->where('slug', 'thong-bao-thu-vien');
         })
@@ -39,7 +41,7 @@ Route::get('/', function () {
         ->take(3)
         ->get();
 
-    return view('welcome', compact('featuredBooks', 'categories', 'totalBooks', 'totalBorrowRecords', 'totalUsers', 'announcements'));
+    return view('welcome', compact('featuredBooks', 'categories', 'totalBooks', 'totalCopies', 'totalBorrowRecords', 'totalUsers', 'announcements'));
 })->name('home');
 Route::redirect('/home', '/');
 
@@ -70,14 +72,13 @@ Route::prefix('entertainment')->name('entertainment.')->group(function () {
 // =========================================================================
 // PHÂN HỆ: GIỎ SÁCH & ĐĂNG KÝ PHIẾU MƯỢN (BOOK CART SYSTEM)
 // =========================================================================
-Route::prefix('cart')->name('cart.')->group(function () {
-    Route::get('/', [CartController::class, 'index'])->name('index');
-    Route::post('/add', [CartController::class, 'add'])->name('add');
-    Route::post('/update-quantity', [CartController::class, 'updateQuantity'])->name('update-quantity');
-    Route::post('/toggle-select', [CartController::class, 'toggleSelect'])->name('toggle-select');
-    Route::delete('/remove/{bookId}', [CartController::class, 'remove'])->name('remove');
-    Route::post('/clear', [CartController::class, 'clear'])->name('clear');
-    Route::post('/checkout', [CartController::class, 'checkout'])->middleware('auth')->name('checkout');
+Route::middleware('auth')->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+    Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    Route::post('/borrow/create', [BorrowController::class, 'createBorrowFromCart'])->name('borrow.create');
 });
 
 // =========================================================================
@@ -192,4 +193,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-

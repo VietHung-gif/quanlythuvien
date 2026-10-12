@@ -15,13 +15,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $borrower_email
  * @property int $book_id
  * @property int $quantity
- * @property \Carbon\Carbon|null $borrow_date
- * @property \Carbon\Carbon|null $due_date
- * @property \Carbon\Carbon|null $return_date
+ * @property Carbon|null $borrow_date
+ * @property Carbon|null $due_date
+ * @property Carbon|null $return_date
  * @property string $status
  * @property string $renewal_status
  * @property int $renewed_times
- * @property \Carbon\Carbon|null $renewal_requested_at
+ * @property Carbon|null $renewal_requested_at
  * @property string $delivery_method
  * @property string|null $shipping_address
  * @property float $deposit_fee
@@ -29,12 +29,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $fine_amount
  * @property bool $is_fine_paid
  * @property string $fine_status
- * @property \Carbon\Carbon|null $fine_paid_at
+ * @property Carbon|null $fine_paid_at
  * @property string|null $notes
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \App\Models\User|null $user
- * @property-read \App\Models\Book|null $book
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User|null $user
+ * @property-read Book|null $book
  */
 class BorrowRecord extends Model
 {
@@ -161,6 +161,6 @@ class BorrowRecord extends Model
      */
     public function getFormattedFineAttribute(): string
     {
-        return number_format($this->fine_amount, 0, ',', '.') . ' đ';
+        return number_format($this->fine_amount, 0, ',', '.').' đ';
     }
 }

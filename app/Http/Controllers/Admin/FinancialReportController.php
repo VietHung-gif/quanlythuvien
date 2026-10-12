@@ -88,18 +88,18 @@ class FinancialReportController extends Controller
             'type' => 'grant_donation',
             'amount' => $validated['amount'],
             'status' => 'completed',
-            'description' => "Tiếp nhận tài trợ từ {$validated['source_name']}: " . ($validated['notes'] ?? 'Không có ghi chú'),
-            'reference_id' => 'FUND_' . $fund->id,
+            'description' => "Tiếp nhận tài trợ từ {$validated['source_name']}: ".($validated['notes'] ?? 'Không có ghi chú'),
+            'reference_id' => 'FUND_'.$fund->id,
         ]);
 
         AuditLogger::log(
             action: 'CREATE_SPONSORSHIP',
-            description: "Thủ thư {$user->name} đã ghi nhận khoản tài trợ " . number_format($validated['amount'], 0, ',', '.') . " VNĐ từ \"{$validated['source_name']}\".",
+            description: "Thủ thư {$user->name} đã ghi nhận khoản tài trợ ".number_format($validated['amount'], 0, ',', '.')." VNĐ từ \"{$validated['source_name']}\".",
             targetType: get_class($fund),
             targetId: $fund->id,
             newValues: $validated
         );
 
-        return redirect()->route('admin.finances.index')->with('success', "Ghi nhận thành công khoản tài trợ " . number_format($validated['amount'], 0, ',', '.') . " VNĐ từ \"{$validated['source_name']}\"!");
+        return redirect()->route('admin.finances.index')->with('success', 'Ghi nhận thành công khoản tài trợ '.number_format($validated['amount'], 0, ',', '.')." VNĐ từ \"{$validated['source_name']}\"!");
     }
 }

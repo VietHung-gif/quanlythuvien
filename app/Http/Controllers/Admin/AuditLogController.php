@@ -25,32 +25,32 @@ class AuditLogController extends Controller
         $query = AuditLog::with('user')->latest();
 
         // Lọc theo người thực hiện
-        if (!empty($userId)) {
+        if (! empty($userId)) {
             $query->where('user_id', $userId);
         }
 
         // Lọc theo loại hành động
-        if (!empty($action) && $action !== 'all') {
+        if (! empty($action) && $action !== 'all') {
             $query->where('action', $action);
         }
 
         // Lọc theo từ khóa mô tả
-        if (!empty($search)) {
+        if (! empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('description', 'like', "%{$search}%")
-                  ->orWhere('ip_address', 'like', "%{$search}%")
-                  ->orWhereHas('user', function ($u) use ($search) {
-                      $u->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
-                  });
+                    ->orWhere('ip_address', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($u) use ($search) {
+                        $u->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%");
+                    });
             });
         }
 
         // Lọc theo khoảng ngày
-        if (!empty($fromDate)) {
+        if (! empty($fromDate)) {
             $query->whereDate('created_at', '>=', Carbon::parse($fromDate)->toDateString());
         }
-        if (!empty($toDate)) {
+        if (! empty($toDate)) {
             $query->whereDate('created_at', '<=', Carbon::parse($toDate)->toDateString());
         }
 
@@ -62,13 +62,13 @@ class AuditLogController extends Controller
 
         // Danh sách các action có sẵn trong hệ thống
         $actionTypes = [
-            'APPROVE_BORROW' => ['label' => 'Duyệt Mượn Sách', 'icon' => '✅'],
-            'REJECT_BORROW' => ['label' => 'Từ Chối Mượn', 'icon' => '❌'],
-            'RETURN_BOOK' => ['label' => 'Xác Nhận Trả Sách', 'icon' => '🔄'],
-            'COLLECT_FINE' => ['label' => 'Thu Tiền Phạt', 'icon' => '💵'],
-            'UPDATE_STOCK' => ['label' => 'Cập Nhật Tồn Kho', 'icon' => '📦'],
-            'DELETE_BOOK' => ['label' => 'Xóa Đầu Sách', 'icon' => '🗑️'],
-            'UPDATE_USER_ROLE' => ['label' => 'Phân Quyền User', 'icon' => '👑'],
+            'APPROVE_BORROW' => ['label' => 'Duyệt Mượn Sách'],
+            'REJECT_BORROW' => ['label' => 'Từ Chối Mượn'],
+            'RETURN_BOOK' => ['label' => 'Xác Nhận Trả Sách'],
+            'COLLECT_FINE' => ['label' => 'Thu Tiền Phạt'],
+            'UPDATE_STOCK' => ['label' => 'Cập Nhật Tồn Kho'],
+            'DELETE_BOOK' => ['label' => 'Xóa Đầu Sách'],
+            'UPDATE_USER_ROLE' => ['label' => 'Phân Quyền User'],
         ];
 
         // Thống kê nhanh

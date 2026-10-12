@@ -13,8 +13,10 @@
         
         <!-- Phần 1: Nút Điểm Danh Hằng Ngày (+20 EXP) -->
         <div class="flex items-center gap-3.5 flex-1">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-2xl shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                📅
+            <div class="w-12 h-12 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
             </div>
             <div>
                 <div class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -28,13 +30,19 @@
                                     @click="performCheckIn()" 
                                     :disabled="isCheckingIn"
                                     class="px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5">
-                                <span x-show="!isCheckingIn">⚡ Điểm Danh (+20 EXP)</span>
+                                <svg x-show="!isCheckingIn" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                <span x-show="!isCheckingIn">Điểm Danh (+20 EXP)</span>
                                 <span x-show="isCheckingIn">Đang xử lý...</span>
                             </button>
                         </template>
                         <template x-if="!canCheckIn">
-                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700/80">
-                                <span>✓ Đã Điểm Danh Hôm Nay</span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700/80">
+                                <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>Đã Điểm Danh Hôm Nay</span>
                             </span>
                         </template>
                     @else
@@ -48,8 +56,10 @@
 
         <!-- Phần 2: Mượn Sách Nhận EXP (+50 EXP / Cuốn) -->
         <div class="flex items-center gap-4 sm:border-l sm:border-slate-800 sm:pl-6 flex-1">
-            <div class="w-12 h-12 rounded-2xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-2xl shrink-0 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
-                📚
+            <div class="w-12 h-12 rounded-2xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
             </div>
             <div class="flex-1">
                 <div class="flex items-center justify-between text-xs font-bold text-white uppercase tracking-wider mb-1">
@@ -99,7 +109,7 @@ function standaloneExpWidget(initialCanCheckIn, initialExp) {
                 if (data.success) {
                     this.canCheckIn = false;
                     this.userExp = data.total_exp;
-                    alert(data.message + (data.badge_upgraded ? '\n🎉 Chúc mừng bạn đã thăng cấp thành: ' + data.new_badge : ''));
+                    alert(data.message + (data.badge_upgraded ? '\n[Chúc mừng] Bạn đã thăng cấp thành: ' + data.new_badge : ''));
                 } else {
                     alert(data.message || 'Hôm nay bạn đã điểm danh rồi!');
                     if (data.already_checked_in) this.canCheckIn = false;

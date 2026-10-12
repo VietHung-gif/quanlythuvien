@@ -12,13 +12,12 @@ class AuditLogger
     /**
      * Ghi lại nhật ký kiểm toán cho các hành động nhạy cảm trong hệ thống.
      *
-     * @param string $action Loại hành động: 'APPROVE_BORROW', 'REJECT_BORROW', 'RETURN_BOOK', 'COLLECT_FINE', 'UPDATE_STOCK', 'DELETE_BOOK'...
-     * @param string $description Mô tả chi tiết hành động
-     * @param string|null $targetType Loại đối tượng bị tác động ('Borrow', 'Book', 'User'...)
-     * @param int|string|null $targetId ID đối tượng bị tác động
-     * @param array|null $oldValues Dữ liệu trước khi sửa
-     * @param array|null $newValues Dữ liệu sau khi sửa
-     * @return AuditLog|null
+     * @param  string  $action  Loại hành động: 'APPROVE_BORROW', 'REJECT_BORROW', 'RETURN_BOOK', 'COLLECT_FINE', 'UPDATE_STOCK', 'DELETE_BOOK'...
+     * @param  string  $description  Mô tả chi tiết hành động
+     * @param  string|null  $targetType  Loại đối tượng bị tác động ('Borrow', 'Book', 'User'...)
+     * @param  int|string|null  $targetId  ID đối tượng bị tác động
+     * @param  array|null  $oldValues  Dữ liệu trước khi sửa
+     * @param  array|null  $newValues  Dữ liệu sau khi sửa
      */
     public static function log(
         string $action,
@@ -46,10 +45,11 @@ class AuditLogger
             ]);
         } catch (\Throwable $e) {
             // Không để lỗi ghi log làm gián đoạn transaction chính của người dùng
-            Log::error('Lỗi khi ghi AuditLog: ' . $e->getMessage(), [
+            Log::error('Lỗi khi ghi AuditLog: '.$e->getMessage(), [
                 'action' => $action,
                 'exception' => $e,
             ]);
+
             return null;
         }
     }

@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\ForumCategory;
-use App\Models\ForumPost;
-use App\Models\ForumComment;
-use App\Models\User;
 use App\Models\Book;
+use App\Models\ForumCategory;
+use App\Models\ForumComment;
+use App\Models\ForumPost;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class ForumCategorySeeder extends Seeder
 {
@@ -20,28 +20,28 @@ class ForumCategorySeeder extends Seeder
             [
                 'name' => 'Góc Review Sách',
                 'slug' => 'review-sach',
-                'icon' => '⭐',
+                'icon' => 'star',
                 'description' => 'Cảm nhận, đánh giá và chia sẻ góc nhìn chân thực về các cuốn sách trong kho thư viện.',
                 'color' => 'cyan',
             ],
             [
                 'name' => 'Hỏi Đáp & Tìm Sách',
                 'slug' => 'hoi-dap-tim-tai-lieu',
-                'icon' => '❓',
+                'icon' => 'question',
                 'description' => 'Nơi độc giả đặt câu hỏi, tìm kiếm giáo trình, tài liệu chuyên ngành và nhờ thủ thư tư vấn.',
                 'color' => 'amber',
             ],
             [
                 'name' => 'Luận Bàn Tri Thức',
                 'slug' => 'luan-ban-tri-thuc',
-                'icon' => '💬',
+                'icon' => 'chat',
                 'description' => 'Thảo luận sâu về triết học, khoa học công nghệ, kỹ năng phát triển bản thân và cuộc sống.',
                 'color' => 'purple',
             ],
             [
                 'name' => 'Thông Báo Thư Viện',
                 'slug' => 'thong-bao-thu-vien',
-                'icon' => '📢',
+                'icon' => 'megaphone',
                 'description' => 'Cập nhật sách mới nhập kho, quy định mượn trả và các sự kiện giao lưu đặc biệt.',
                 'color' => 'pink',
             ],
@@ -66,7 +66,7 @@ class ForumCategorySeeder extends Seeder
                     'user_id' => $admin->id,
                     'category_id' => $reviewCat->id,
                     'book_id' => $book ? $book->id : null,
-                    'title' => 'Cảm nhận về cuốn sách "' . ($book ? $book->title : 'Hành Trình Tri Thức') . '" - Đọc xong như được khai sáng!',
+                    'title' => 'Cảm nhận về cuốn sách "'.($book ? $book->title : 'Hành Trình Tri Thức').'" - Đọc xong như được khai sáng!',
                     'content' => "Chào các đồng môn thư viện TIỂU ĐỘI 2P,\n\nHôm qua mình vừa hoàn thành cuốn sách này trong khu vực đọc sách Cyber Hub. Cuốn sách mang lại những góc nhìn cực kỳ sâu sắc về tư duy phát triển bản thân và hành trình chinh phục mục tiêu lớn.\n\nĐiểm mình thích nhất là lối hành văn súc tích, các ví dụ thực tiễn dễ áp dụng ngay vào đời sống học tập. Rất khuyến khích anh em mượn ngay về nghiền ngẫm!",
                     'likes_count' => 8,
                     'views_count' => 65,

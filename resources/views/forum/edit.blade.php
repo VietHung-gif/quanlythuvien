@@ -28,7 +28,8 @@
 
                     <div>
                         <h3 class="font-['Orbitron'] text-xl font-bold text-white flex items-center gap-2">
-                            <span class="text-cyan-400">✏️</span> CẬP NHẬT NỘI DUNG CHIA SẺ
+                            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                            <span>CẬP NHẬT NỘI DUNG CHIA SẺ</span>
                         </h3>
                         <p class="text-xs text-slate-400 font-mono mt-1">
                             Lưu ý: Mọi chỉnh sửa sẽ được lưu và hiển thị ngay trên bài viết ở Hội Quán.
@@ -70,7 +71,7 @@
                             <select name="category_id" required class="cyber-input w-full rounded-xl text-sm py-2.5 px-3">
                                 @foreach($categories as $cat)
                                     <option value="{{ $cat->id }}" {{ old('category_id', $post->category_id) == $cat->id ? 'selected' : '' }}>
-                                        {{ $cat->icon }} {{ $cat->name }}
+                                        {{ $cat->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -111,8 +112,9 @@
                             HỦY BỎ
                         </a>
 
-                        <button type="submit" class="cyber-btn-cyan px-6 py-2.5 rounded-xl font-['Orbitron'] font-bold text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(0,240,255,0.4)]">
-                            💾 LƯU CẬP NHẬT
+                        <button type="submit" class="cyber-btn-cyan px-6 py-2.5 rounded-xl font-['Orbitron'] font-bold text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(0,240,255,0.4)] inline-flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                            <span>LƯU CẬP NHẬT</span>
                         </button>
                     </div>
                 </form>

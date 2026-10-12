@@ -37,12 +37,12 @@
             <div class="flex items-center gap-2 shrink-0">
                 <a href="{{ route('forum.index', ['category' => $post->category->slug]) }}" 
                    class="px-3 py-1 rounded-full text-xs font-semibold {{ $catBadgeClasses }} border transition hover:opacity-90 inline-flex items-center gap-1.5">
-                    <span>{{ $post->category->icon }}</span>
                     <span>{{ $post->category->name }}</span>
                 </a>
                 @if($post->is_pinned)
                     <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 inline-flex items-center gap-1">
-                        📌 Đã ghim
+                        <svg class="w-3.5 h-3.5 text-rose-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                        <span>Đã ghim</span>
                     </span>
                 @endif
             </div>
@@ -87,23 +87,26 @@
                                         <!-- Badge vai trò quản trị thanh lịch (chỉ hiển thị 1 badge) -->
                                         @if($post->user->isAdmin())
                                             <span class="bg-indigo-50 text-indigo-700 border border-indigo-200/60 text-[11px] font-semibold px-2 py-0.5 rounded-full inline-flex items-center gap-1">
-                                                👑 Quản trị viên
+                                                <svg class="w-3 h-3 text-indigo-700 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                <span>Quản trị viên</span>
                                             </span>
                                         @elseif($post->user->isLibrarian())
                                             <span class="bg-blue-50 text-blue-700 border border-blue-200/60 text-[11px] font-semibold px-2 py-0.5 rounded-full inline-flex items-center gap-1">
-                                                📚 Thủ thư
+                                                <svg class="w-3 h-3 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                                <span>Thủ thư</span>
                                             </span>
                                         @endif
 
                                         <!-- Cấp bậc danh hiệu: màu vàng đồng nhẹ bo viền siêu mảnh -->
                                         <span class="bg-amber-50/70 text-amber-800 border border-amber-200/60 text-[11px] font-medium px-2 py-0.5 rounded-full inline-flex items-center gap-1">
-                                            <span>{{ $post->user->badge_icon }}</span>
+                                            {!! $post->user->badge_icon_svg ?? '' !!}
                                             <span>{{ $post->user->title_badge ?: 'Tân Thủ Nhập Môn' }}</span>
                                         </span>
 
                                         <!-- Tag Tác giả bài viết -->
-                                        <span class="bg-slate-100 text-slate-600 border border-slate-200/60 text-[10px] font-medium px-2 py-0.5 rounded-full">
-                                            ✍️ Tác giả bài viết
+                                        <span class="bg-slate-100 text-slate-600 border border-slate-200/60 text-[10px] font-medium px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                                            <svg class="w-2.5 h-2.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                            <span>Tác giả bài viết</span>
                                         </span>
                                     </div>
 
@@ -208,7 +211,8 @@
 
                                     <div class="space-y-2 flex-1 min-w-0">
                                         <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-100/70 text-indigo-700 border border-indigo-200/60 w-fit">
-                                            📖 Sách được nhắc tới trong bài
+                                            <svg class="w-3.5 h-3.5 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                            <span>Sách được nhắc tới trong bài</span>
                                         </div>
                                         <h4 class="text-lg font-black text-slate-900 truncate hover:text-indigo-600 transition" title="{{ $post->book->title }}">
                                             <a href="{{ route('books.show', $post->book->id) }}">
@@ -219,15 +223,24 @@
                                             Tác giả: <span class="font-medium text-slate-700">{{ $post->book->author }}</span> • NXB: {{ $post->book->publisher ?: 'Đang cập nhật' }} ({{ $post->book->publish_year ?: 'N/A' }})
                                         </p>
                                         <div>
-                                            @if($post->book->quantity > 0)
+                                            @php
+                                                $forumBookCopies = (int) ($post->book->available_copies ?? $post->book->quantity ?? 0);
+                                                $canSeeStock = Auth::check() && in_array(Auth::user()->role, ['admin', 'librarian']);
+                                            @endphp
+                                            @if($forumBookCopies > 10)
                                                 <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-full w-fit inline-flex items-center gap-1">
                                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                                    Còn {{ $post->book->quantity }} cuốn khả dụng
+                                                    <span>Còn sách{{ $canSeeStock ? " ({$forumBookCopies} cuốn)" : '' }}</span>
+                                                </span>
+                                            @elseif($forumBookCopies > 0)
+                                                <span class="text-xs font-semibold text-amber-600 bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-full w-fit inline-flex items-center gap-1">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                                    <span>Sắp hết{{ $canSeeStock ? " ({$forumBookCopies} cuốn)" : '' }}</span>
                                                 </span>
                                             @else
                                                 <span class="text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-200/60 px-2.5 py-1 rounded-full w-fit inline-flex items-center gap-1">
                                                     <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                                                    Tạm hết sách trong kho
+                                                    <span>Hết sách{{ $canSeeStock ? ' (0 cuốn)' : '' }}</span>
                                                 </span>
                                             @endif
                                         </div>
@@ -236,14 +249,17 @@
 
                                 <!-- Nhóm nút CTA -->
                                 <div class="flex flex-wrap items-center justify-center gap-2.5 shrink-0 pt-2 sm:pt-0">
-                                    <button type="button" 
-                                            onclick="if (window.addToCart) { window.addToCart({{ $post->book->id }}); } else { alert('Vui lòng đợi giỏ sách khởi tạo!'); }"
-                                            class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5 cursor-pointer">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                                        </svg>
-                                        <span>THÊM VÀO GIỎ SÁCH</span>
-                                    </button>
+                                    <form method="POST" action="{{ route('cart.add') }}" class="inline">
+                                        @csrf
+                                        <input type="hidden" name="book_id" value="{{ $post->book->id }}">
+                                        <button type="submit" 
+                                                class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                            </svg>
+                                            <span>THÊM VÀO GIỎ SÁCH</span>
+                                        </button>
+                                    </form>
 
                                     <a href="{{ route('books.show', $post->book->id) }}" 
                                        class="bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-slate-50 transition flex items-center gap-1.5 shadow-2xs">
@@ -295,10 +311,12 @@
                         
                         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                             <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                                <span>💬</span> BÌNH LUẬN & ĐÀM ĐẠO ({{ $post->comments->count() }})
+                                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                <span>BÌNH LUẬN & ĐÀM ĐẠO ({{ $post->comments->count() }})</span>
                             </h3>
-                            <span class="text-[11px] text-amber-700 font-medium bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-full">
-                                🛡️ Bình luận không cộng EXP
+                            <span class="text-[11px] text-amber-700 font-medium bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-full inline-flex items-center gap-1">
+                                <svg class="w-3 h-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                <span>Bình luận không cộng EXP</span>
                             </span>
                         </div>
 
@@ -377,23 +395,27 @@
                                                     </span>
 
                                                     @if($comment->user_id === $post->user_id)
-                                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
-                                                            ✍️ Tác giả
+                                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60 inline-flex items-center gap-1">
+                                                            <svg class="w-2.5 h-2.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                                            <span>Tác giả</span>
                                                         </span>
                                                     @endif
 
                                                     @if($comment->user->isAdmin())
-                                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200/60">
-                                                            👑 Admin
+                                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200/60 inline-flex items-center gap-1">
+                                                            <svg class="w-2.5 h-2.5 text-amber-700 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                                                            <span>Admin</span>
                                                         </span>
                                                     @elseif($comment->user->isLibrarian())
-                                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200/60">
-                                                            📚 Thủ thư
+                                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200/60 inline-flex items-center gap-1">
+                                                            <svg class="w-2.5 h-2.5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                                            <span>Thủ thư</span>
                                                         </span>
                                                     @endif
 
-                                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200/60">
-                                                        {{ $comment->user->badge_icon }} {{ $comment->user->title_badge ?: 'Tân Thủ' }}
+                                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200/60 inline-flex items-center gap-1">
+                                                        {!! $comment->user->badge_icon_svg ?? '' !!}
+                                                        <span>{{ $comment->user->title_badge ?: 'Tân Thủ' }}</span>
                                                     </span>
                                                 </div>
                                                 <div class="text-[11px] text-slate-400 mt-0.5">
@@ -443,7 +465,9 @@
                     <!-- Widget: Bài viết cùng chuyên mục -->
                     <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
                         <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2 mb-3.5">
-                            <span class="w-5 h-5 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs">📌</span>
+                            <span class="w-5 h-5 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs">
+                                <svg class="w-3 h-3 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                            </span>
                             <span>BÀI VIẾT CÙNG CHUYÊN MỤC</span>
                         </h3>
 
@@ -456,7 +480,11 @@
                                     </div>
                                     <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2">
                                         <span class="truncate max-w-[120px]">Bởi: {{ $rel->user->name }}</span>
-                                        <span class="shrink-0">❤️ {{ $rel->likes_count }} • 💬 {{ $rel->comments_count ?? $rel->comments()->count() }}</span>
+                                        <span class="shrink-0 flex items-center gap-1.5">
+                                            <span class="inline-flex items-center gap-0.5"><svg class="w-3 h-3 text-rose-500 fill-current inline" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> {{ $rel->likes_count }}</span>
+                                            <span>•</span>
+                                            <span class="inline-flex items-center gap-0.5"><svg class="w-3 h-3 text-slate-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg> {{ $rel->comments_count ?? $rel->comments()->count() }}</span>
+                                        </span>
                                     </div>
                                 </a>
                             @empty
@@ -470,24 +498,26 @@
                     <!-- Widget: Nội Quy & Văn Hóa Đàm Đạo (Nền Light sáng tinh tế) -->
                     <div class="bg-amber-50/50 border border-amber-200/80 rounded-2xl p-5 shadow-sm space-y-3">
                         <h4 class="text-amber-900 font-bold text-sm flex items-center gap-2">
-                            <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs">🛡️</span>
+                            <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs">
+                                <svg class="w-3.5 h-3.5 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            </span>
                             <span>NỘI QUY HỘI QUÁN</span>
                         </h4>
                         <ul class="text-xs text-amber-900/80 space-y-2.5 leading-relaxed font-normal">
                             <li class="flex items-start gap-2">
-                                <span class="text-amber-500 mt-0.5 shrink-0 font-bold">✓</span>
+                                <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>
                                 <span>Chia sẻ cảm nhận chân thực, văn minh và tôn trọng tác quyền.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-amber-500 mt-0.5 shrink-0 font-bold">✓</span>
+                                <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>
                                 <span>Tuyệt đối không phát tán liên kết rác, quảng cáo bán hàng bên ngoài.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-amber-500 mt-0.5 shrink-0 font-bold">✓</span>
+                                <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>
                                 <span>Gắn thẻ sách chính xác để cộng đồng độc giả dễ dàng tra cứu và mượn sách.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span class="text-amber-500 mt-0.5 shrink-0 font-bold">✓</span>
+                                <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>
                                 <span><strong class="font-bold text-amber-900">Không spam:</strong> Diễn đàn thảo luận không tích lũy điểm EXP cày cấp.</span>
                             </li>
                         </ul>

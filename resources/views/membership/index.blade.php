@@ -40,13 +40,13 @@
             <!-- THÔNG BÁO FLASH -->
             @if(session('success'))
                 <div class="p-4 bg-emerald-50 border-2 border-emerald-300 rounded-2xl flex items-center gap-3 text-emerald-900 font-bold text-sm shadow-xs">
-                    <span>✓</span>
+                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
             @if(session('error'))
                 <div class="p-4 bg-rose-50 border-2 border-rose-300 rounded-2xl flex items-center gap-3 text-rose-900 font-bold text-sm shadow-xs">
-                    <span>✕</span>
+                    <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     <span>{{ session('error') }}</span>
                 </div>
             @endif
@@ -57,7 +57,7 @@
                     <div class="p-6 bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white rounded-3xl shadow-lg border border-indigo-700/60 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
                         <div class="space-y-1.5 relative z-10">
                             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400 text-amber-950 text-xs font-black uppercase tracking-wider shadow-2xs">
-                                <span>👑</span>
+                                <svg class="w-3.5 h-3.5 text-amber-950 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                                 <span>TÀI KHOẢN ĐANG KÍCH HOẠT SCHOLAR VIP</span>
                             </div>
                             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">
@@ -119,8 +119,8 @@
                                     Dành cho bạn đọc có nhu cầu mượn sách cơ bản tại trường
                                 </p>
                             </div>
-                            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center text-2xl shrink-0">
-                                📖
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                             </div>
                         </div>
 
@@ -139,14 +139,14 @@
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-700">
-                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 font-bold">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Số lượng mượn tối đa: <strong class="text-slate-900 font-bold">3 cuốn / lần</strong>
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-700">
-                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 font-bold">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Thời hạn mượn: <strong class="text-slate-900 font-bold">14 ngày</strong> (gia hạn tối đa 1 lần)
                                 </div>
@@ -160,21 +160,21 @@
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-700">
-                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 font-bold">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Phương thức nhận sách: <strong class="text-slate-900 font-bold">Quầy tiếp nhận thông thường</strong>
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-700">
-                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 font-bold">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Tích lũy công lực: <strong class="text-slate-900 font-bold">Cơ bản (x1 EXP)</strong>
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-700">
-                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 font-bold">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Trợ lý AI Chatbot: <strong class="text-slate-900 font-bold">10 tin nhắn / ngày</strong>
                                 </div>
@@ -231,14 +231,14 @@
                                 </span>
                                 <h4 class="text-2xl font-black text-indigo-950 mt-2 tracking-tight flex items-center gap-2">
                                     <span>Scholar VIP Membership</span>
-                                    <span class="text-amber-500 text-xl">👑</span>
+                                    <svg class="w-5 h-5 text-amber-500 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                                 </h4>
                                 <p class="text-xs text-slate-500 mt-1">
                                     Giải pháp mượn sách số hóa cao cấp cho giảng viên, sinh viên & mọt sách
-                                </p>
+                                 </p>
                             </div>
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shrink-0 border border-indigo-100">
-                                🚀
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-100">
+                                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                             </div>
                         </div>
 
@@ -264,42 +264,42 @@
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-800">
-                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-black">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Hạn mức mượn mở rộng: <strong class="text-indigo-900 font-black">Tối đa 15 cuốn cùng lúc</strong> (gấp 5 lần thường)
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-800">
-                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-black">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Thời hạn giữ sách: <strong class="text-indigo-900 font-black">30 ngày</strong> (cho phép gia hạn trực tuyến 2 lần)
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-800">
-                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-black">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Miễn phí đặt cọc: <strong class="text-emerald-700 font-black">0đ tiền cọc sách</strong> (Không bị giữ vốn)
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-800">
-                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-black">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Hình thức nhận sách: Lựa chọn <strong class="text-indigo-900 font-black">"Làn ưu tiên tại Quầy"</strong> HOẶC <strong class="text-indigo-900 font-black">"Giao sách tận nhà / KTX"</strong>
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-800">
-                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-black">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Buff chỉ số EXP: <strong class="text-amber-600 font-black">Nhân đôi EXP (x2 EXP)</strong> khi trả đúng hạn & làm nhiệm vụ
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-slate-800">
-                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-black">✓</span>
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"><svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                                 <div>
                                     Trợ lý AI Chatbot: <strong class="text-indigo-900 font-black">Không giới hạn lượt hỏi</strong> 24/7 không lo hết quota
                                 </div>
@@ -342,7 +342,7 @@
             <!-- ========================================================================= -->
             <div class="bg-white border border-slate-200 rounded-3xl p-7 sm:p-9 shadow-xs space-y-6">
                 <h4 class="text-lg font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
-                    <span>💡</span>
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                     <span>CÁC CÂU HỎI THƯỜNG GẶP VỀ GÓI SCHOLAR VIP</span>
                 </h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600">
@@ -368,6 +368,29 @@
         </div>
 
         <!-- ========================================================================= -->
+        <!-- TOAST NOTIFICATION THÀNH CÔNG & LỖI (TAILWIND CSS)                       -->
+        <!-- ========================================================================= -->
+        <div id="toast-success" class="fixed top-5 right-5 hidden z-50 bg-emerald-50 border border-emerald-200 text-emerald-800 px-5 py-4 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 max-w-md pointer-events-auto">
+            <div class="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 shadow-xs">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div class="flex-1">
+                <p class="font-bold text-sm text-emerald-950">Nâng cấp VIP thành công!</p>
+                <p id="toast-success-message" class="text-xs text-emerald-700 mt-0.5 leading-relaxed"></p>
+            </div>
+        </div>
+
+        <div id="toast-error" class="fixed top-5 right-5 hidden z-50 bg-rose-50 border border-rose-200 text-rose-800 px-5 py-4 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 max-w-md pointer-events-auto">
+            <div class="w-9 h-9 rounded-xl bg-rose-100 flex items-center justify-center shrink-0 shadow-xs">
+                <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </div>
+            <div class="flex-1">
+                <p class="font-bold text-sm text-rose-950">Thông báo</p>
+                <p id="toast-error-message" class="text-xs text-rose-700 mt-0.5 leading-relaxed"></p>
+            </div>
+        </div>
+
+        <!-- ========================================================================= -->
         <!-- MODAL XÁC NHẬN NÂNG CẤP SCHOLAR VIP                                       -->
         <!-- ========================================================================= -->
         <div x-show="modalOpen" 
@@ -384,16 +407,16 @@
                     
                     <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold">
-                                👑
+                            <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-amber-500 fill-current" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                             </div>
                             <div>
                                 <h3 class="text-base font-black text-slate-900 uppercase">XÁC NHẬN NÂNG CẤP VIP</h3>
                                 <p class="text-[11px] text-slate-500 font-medium" x-text="selectedPlanTitle"></p>
                             </div>
                         </div>
-                        <button type="button" @click="modalOpen = false" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs cursor-pointer">
-                            ✕
+                        <button type="button" @click="modalOpen = false" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer">
+                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
                     </div>
 
@@ -417,7 +440,7 @@
                         <template x-if="currentBalance < selectedFee">
                             <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-2">
                                 <div class="font-bold flex items-center gap-1.5">
-                                    <span>⚠️</span>
+                                    <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                                     <span>Số dư ví không đủ thanh toán</span>
                                 </div>
                                 <p class="text-[11px] text-slate-600">
@@ -425,26 +448,12 @@
                                 </p>
                                 <a href="{{ route('wallet.deposit') }}"
                                    class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs uppercase tracking-wider transition cursor-pointer shadow-sm flex items-center justify-center gap-1.5 active:scale-95">
-                                    <span>⚡</span>
+                                    <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                     <span>Nạp Ví Qua VietQR Ngay</span>
                                 </a>
                             </div>
                         </template>
 
-                        <!-- ĐỊA CHỈ & SĐT GIAO HÀNG (TÙY CHỌN) -->
-                        <div class="space-y-2 pt-2">
-                            <label class="block text-[11px] font-bold text-slate-600 uppercase">
-                                Địa chỉ giao sách mặc định (Ký túc xá / Nhà riêng):
-                            </label>
-                            <input type="text" 
-                                   x-model="deliveryAddress" 
-                                   placeholder="Ví dụ: Phòng 402 KTX Khu B hoặc 123 Đường Nguyễn Huệ..."
-                                   class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 outline-none">
-                            <input type="text" 
-                                   x-model="phoneNumber" 
-                                   placeholder="Số điện thoại nhận sách..."
-                                   class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 outline-none">
-                        </div>
                     </div>
 
                     <div class="mt-6 flex items-center gap-3">
@@ -469,6 +478,44 @@
 
     <!-- ALPINE LOGIC CHO TRANG MEMBERSHIP -->
     <script>
+        function showSuccessToast(message) {
+            const toast = document.getElementById('toast-success');
+            const msgEl = document.getElementById('toast-success-message');
+            if (toast && msgEl) {
+                msgEl.textContent = message;
+                toast.classList.remove('hidden');
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.classList.add('hidden'), 300);
+                }, 4000);
+            }
+            if (typeof window.showToastNotification === 'function') {
+                window.showToastNotification('Nâng cấp VIP thành công!', message, true);
+            }
+        }
+
+        function showErrorToast(message) {
+            const toast = document.getElementById('toast-error');
+            const msgEl = document.getElementById('toast-error-message');
+            if (toast && msgEl) {
+                msgEl.textContent = message;
+                toast.classList.remove('hidden');
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.classList.add('hidden'), 300);
+                }, 4000);
+            }
+            if (typeof window.showToastNotification === 'function') {
+                window.showToastNotification('Thông báo', message, false);
+            }
+        }
+
         function membershipHandler() {
             return {
                 modalOpen: false,
@@ -476,8 +523,6 @@
                 selectedPlanTitle: 'Gói Tháng (49.000đ / 30 ngày)',
                 selectedFee: 49000,
                 currentBalance: {{ Auth::check() ? Auth::user()->getOrCreateWallet()->balance : 0 }},
-                deliveryAddress: '{{ Auth::check() ? (Auth::user()->delivery_address ?? '') : '' }}',
-                phoneNumber: '{{ Auth::check() ? (Auth::user()->phone_number ?? Auth::user()->phone ?? '') : '' }}',
                 isLoading: false,
 
                 formatCurrency(num) {
@@ -498,7 +543,7 @@
 
                 async confirmUpgrade() {
                     if (this.currentBalance < this.selectedFee) {
-                        alert('Số dư ví không đủ. Vui lòng nạp thêm tiền!');
+                        showErrorToast('Số dư ví không đủ. Vui lòng nạp thêm tiền!');
                         return;
                     }
 
@@ -514,20 +559,34 @@
                             },
                             body: JSON.stringify({
                                 plan: this.selectedPlan,
-                                delivery_address: this.deliveryAddress,
-                                phone_number: this.phoneNumber,
                             })
                         });
 
                         const data = await res.json();
                         if (data.success) {
-                            alert(data.message);
-                            window.location.reload();
+                            // 1. Đóng Modal ngay lập tức và reset trạng thái nút
+                            this.modalOpen = false;
+                            this.isLoading = false;
+
+                            // 2. Cập nhật số dư ví mới nếu có
+                            if (data.balance !== undefined) {
+                                this.currentBalance = data.balance;
+                            }
+
+                            // 3. Hiển thị Toast thông báo thành công
+                            showSuccessToast(data.message || 'Chúc mừng bạn đã nâng cấp thành công lên SCHOLAR VIP!');
+
+                            // 4. Tự động reload sau 2 giây để giao diện cập nhật đặc quyền VIP mượt mà
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
                         } else {
-                            alert(data.message || 'Lỗi nâng cấp gói hội viên');
+                            this.isLoading = false;
+                            showErrorToast(data.message || 'Lỗi nâng cấp gói hội viên');
                         }
                     } catch (e) {
-                        alert('Lỗi kết nối máy chủ. Vui lòng thử lại!');
+                        this.isLoading = false;
+                        showErrorToast('Lỗi kết nối máy chủ. Vui lòng thử lại!');
                     } finally {
                         this.isLoading = false;
                     }

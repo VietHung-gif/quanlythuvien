@@ -146,12 +146,12 @@
                     </svg>
                 </div>
                 <div class="max-w-[88%] bg-white border border-slate-200/90 rounded-2xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed shadow-xs text-slate-700 bot-markdown-content">
-                    Xin chào bạn! 👋 Tôi là <strong>CYBER ORACLE</strong> — Trợ lý AI của thư viện <strong>TIỂU ĐỘI 2P</strong>.<br><br>
+                    Xin chào bạn! Tôi là <strong>CYBER ORACLE</strong> — Trợ lý AI của thư viện <strong>TIỂU ĐỘI 2P</strong>.<br><br>
                     Tôi có thể đồng hành cùng bạn mọi lúc:<br>
-                    • 📚 <strong>Thư viện & Sách</strong>: Tra cứu kho sách, hướng dẫn mượn/trả, giải thích phí phạt nợ.<br>
-                    • ⚡ <strong>Gamification</strong>: Mẹo điểm danh nhận EXP, thăng cấp Danh hiệu Võ Lâm.<br>
-                    • 💡 <strong>Tâm sự & Gợi ý</strong>: Chia sẻ tâm trạng, đề xuất sách chữa lành hoặc truyền cảm hứng.<br>
-                    • 💻 <strong>Kiến thức CNTT & Đời sống</strong>: Giải đáp lập trình, viết code, làm thơ, giải bài tập...<br><br>
+                    • <strong>Thư viện & Sách</strong>: Tra cứu kho sách, hướng dẫn mượn/trả, giải thích phí phạt nợ.<br>
+                    • <strong>Gamification</strong>: Mẹo điểm danh nhận EXP, thăng cấp Danh hiệu Võ Lâm.<br>
+                    • <strong>Tâm sự & Gợi ý</strong>: Chia sẻ tâm trạng, đề xuất sách chữa lành hoặc truyền cảm hứng.<br>
+                    • <strong>Kiến thức CNTT & Đời sống</strong>: Giải đáp lập trình, viết code, làm thơ, giải bài tập...<br><br>
                     <span class="text-indigo-600 font-semibold">Hôm nay bạn muốn Oracle giải đáp điều gì?</span>
                 </div>
             </div>
@@ -162,19 +162,19 @@
         <div id="quick-prompts-container" 
              class="bg-white border-t border-slate-200/80 shrink-0 text-[11px] flex items-center gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap py-2 px-2.5 select-none">
             <button type="button" class="quick-chip flex-shrink-0 px-2.5 py-1 rounded-full bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 border border-slate-200 hover:border-indigo-200 transition shadow-2xs font-medium" data-prompt="Hôm nay tôi thấy mệt mỏi, nên đọc sách gì để thư giãn?">
-                🌿 Tâm sự & Gợi ý sách
+                Tâm sự & Gợi ý sách
             </button>
             <button type="button" class="quick-chip flex-shrink-0 px-2.5 py-1 rounded-full bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 border border-slate-200 hover:border-indigo-200 transition shadow-2xs font-medium" data-prompt="Quy định mượn sách, thời hạn và tiền phạt quá hạn như thế nào?">
-                ⏰ Quy định & Phí phạt
+                Quy định & Phí phạt
             </button>
             <button type="button" class="quick-chip flex-shrink-0 px-2.5 py-1 rounded-full bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 border border-slate-200 hover:border-indigo-200 transition shadow-2xs font-medium" data-prompt="Cách kiếm EXP để lên rank Thách Đấu Buff Bẩn?">
-                ⚡ Cày EXP Võ Lâm
+                Cày EXP Võ Lâm
             </button>
             <button type="button" class="quick-chip flex-shrink-0 px-2.5 py-1 rounded-full bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 border border-slate-200 hover:border-indigo-200 transition shadow-2xs font-medium" data-prompt="Có sách gì hay về Lập trình, AI hoặc Khoa học không?">
-                🚀 Sách Công nghệ & AI
+                Sách Công nghệ & AI
             </button>
             <button type="button" class="quick-chip flex-shrink-0 px-2.5 py-1 rounded-full bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 border border-slate-200 hover:border-indigo-200 transition shadow-2xs font-medium" data-prompt="Giải thích cho tôi cách hoạt động của Laravel Framework?">
-                💻 Hỏi kiến thức IT / Code
+                Hỏi kiến thức IT / Code
             </button>
         </div>
 
@@ -218,8 +218,11 @@
         </svg>
 
         <!-- Tooltip gợi ý (tự ẩn sau tương tác) -->
-        <span id="chatbot-tooltip" class="absolute right-16 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold whitespace-nowrap shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            💬 Hỏi Trợ lý AI Oracle
+        <span id="chatbot-tooltip" class="absolute right-16 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold whitespace-nowrap shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span>Hỏi Trợ lý AI Oracle</span>
         </span>
     </button>
 </div>
@@ -333,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </svg>
                 </div>
                 <div class="max-w-[88%] bg-white border border-slate-200/90 rounded-2xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed shadow-xs text-slate-700 bot-markdown-content">
-                    Đoạn hội thoại đã được làm mới! Tôi đã sẵn sàng tiếp nhận câu hỏi tiếp theo của bạn. ✨
+                    Đoạn hội thoại đã được làm mới! Tôi đã sẵn sàng tiếp nhận câu hỏi tiếp theo của bạn.
                 </div>
             </div>
         `;
@@ -434,12 +437,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data && data.success && responseText) {
                 typeBotMessage(responseText);
             } else {
-                typeBotMessage('⚠️ Máy chủ đang bận hoặc có sự cố kết nối. Vui lòng thử lại sau giây lát!');
+                typeBotMessage('Máy chủ đang bận hoặc có sự cố kết nối. Vui lòng thử lại sau giây lát!');
             }
         } catch (err) {
             console.error('Lỗi gửi tin nhắn chatbot:', err);
             removeTypingIndicator();
-            typeBotMessage('⚠️ Không thể kết nối đến máy chủ. Vui lòng kiểm tra đường truyền và thử lại!');
+            typeBotMessage('Không thể kết nối đến máy chủ. Vui lòng kiểm tra đường truyền và thử lại!');
         } finally {
             isSending = false;
             sendBtn.disabled = false;
