@@ -136,6 +136,7 @@ Route::middleware(['auth', 'role:admin,librarian'])->group(function () {
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books/{book}/edit', [BookController::class, 'edit'])->whereNumber('book')->name('books.edit');
     Route::put('/books/{book}', [BookController::class, 'update'])->whereNumber('book')->name('books.update');
+    Route::patch('/books/{book}/stock', [BookController::class, 'updateStock'])->whereNumber('book')->name('books.update-stock');
 
     // Quản lý Thể loại sách: Thêm, sửa (Chỉ dành cho Admin & Thủ thư)
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');

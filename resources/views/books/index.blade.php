@@ -96,14 +96,21 @@
                             </select>
                         </div>
 
-                        <!-- Dropdown lọc tình trạng tồn kho (3 phân cấp: Còn, Sắp hết, Hết) -->
-                        <div class="lg:col-span-2">
+                        <!-- Dropdown lọc tình trạng tồn kho (3 phân cấp: Còn - Xanh lá, Sắp hết - Vàng, Hết - Đỏ) -->
+                        <div class="lg:col-span-2" x-data="{ currentStock: '{{ request('stock', 'all') }}' }">
                             <select name="stock"
-                                    class="w-full rounded-xl text-sm text-slate-800 font-medium py-3 px-3.5 border border-slate-300 bg-slate-50 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 transition">
-                                <option value="all" {{ request('stock', 'all') === 'all' ? 'selected' : '' }}>Tất cả tình trạng</option>
-                                <option value="in_stock" {{ request('stock') === 'in_stock' ? 'selected' : '' }}>Còn sách (Khả dụng)</option>
-                                <option value="low_stock" {{ request('stock') === 'low_stock' ? 'selected' : '' }}>Sắp hết (Ưu tiên)</option>
-                                <option value="out_of_stock" {{ request('stock') === 'out_of_stock' ? 'selected' : '' }}>Hết sách (Tạm khóa)</option>
+                                    x-model="currentStock"
+                                    :class="{
+                                        'text-emerald-700 font-bold border-emerald-400 bg-emerald-50/60 ring-2 ring-emerald-400/20': currentStock === 'in_stock',
+                                        'text-amber-700 font-bold border-amber-400 bg-amber-50/60 ring-2 ring-amber-400/20': currentStock === 'low_stock',
+                                        'text-rose-700 font-bold border-rose-400 bg-rose-50/60 ring-2 ring-rose-400/20': currentStock === 'out_of_stock',
+                                        'text-slate-800 font-medium border-slate-300 bg-slate-50': currentStock === 'all'
+                                    }"
+                                    class="w-full rounded-xl text-sm py-3 px-3.5 border {{ request('stock') === 'in_stock' ? 'text-emerald-700 font-bold border-emerald-400 bg-emerald-50/60' : (request('stock') === 'low_stock' ? 'text-amber-700 font-bold border-amber-400 bg-amber-50/60' : (request('stock') === 'out_of_stock' ? 'text-rose-700 font-bold border-rose-400 bg-rose-50/60' : 'text-slate-800 font-medium border-slate-300 bg-slate-50')) }} focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 transition">
+                                <option value="all" class="text-slate-800 font-medium" style="color: #334155;">Tất cả tình trạng</option>
+                                <option value="in_stock" class="text-emerald-600 font-bold" style="color: #16a34a; font-weight: 700; background-color: #ffffff;">🟢 Còn sách (Khả dụng)</option>
+                                <option value="low_stock" class="text-amber-600 font-bold" style="color: #d97706; font-weight: 700; background-color: #ffffff;">🟡 Sắp hết (Ưu tiên)</option>
+                                <option value="out_of_stock" class="text-rose-600 font-bold" style="color: #dc2626; font-weight: 700; background-color: #ffffff;">🔴 Hết sách (Tạm khóa)</option>
                             </select>
                         </div>
 
@@ -178,12 +185,13 @@
                         $isOutOfStock = $copies <= 0;
                         $isLowStock = $copies > 0 && $copies <= 10;
                         $canSeeStock = Auth::check() && in_array(Auth::user()->role, ['admin', 'librarian']);
+                        $canManageBook = $canSeeStock;
                     @endphp
-                    <div class="{{ $isOutOfStock ? 'bg-slate-50/90 border border-dashed border-slate-300 rounded-xl overflow-hidden shadow-none opacity-45 grayscale-[50%] select-none cursor-not-allowed' : 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md' }} transition-all duration-300 flex flex-col group h-full relative">
+                    <div class="{{ $isOutOfStock && !$canManageBook ? 'bg-slate-50/90 border border-dashed border-slate-300 rounded-xl overflow-hidden shadow-none opacity-45 grayscale-[50%] select-none cursor-not-allowed' : ($isOutOfStock && $canManageBook ? 'bg-white border-2 border-rose-300/80 rounded-xl overflow-hidden shadow-sm hover:shadow-md ring-1 ring-rose-200' : 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md') }} transition-all duration-300 flex flex-col group h-full relative">
                         
                         <!-- 1. PHẦN HÌNH ẢNH BÌA SÁCH (TỈ LỆ DỌC CHUẨN PORTRAIT TRÊN NỀN SLATE-50) -->
-                        <a href="{{ $isOutOfStock ? 'javascript:void(0)' : route('books.show', $book->id) }}" 
-                           class="relative bg-slate-50 aspect-[3/4] p-4 flex items-center justify-center border-b border-slate-100 overflow-hidden block group/cover {{ $isOutOfStock ? 'cursor-not-allowed pointer-events-none' : 'cursor-pointer' }}"
+                        <a href="{{ ($isOutOfStock && !$canManageBook) ? 'javascript:void(0)' : route('books.show', $book->id) }}" 
+                           class="relative bg-slate-50 aspect-[3/4] p-4 flex items-center justify-center border-b border-slate-100 overflow-hidden block group/cover {{ ($isOutOfStock && !$canManageBook) ? 'cursor-not-allowed pointer-events-none' : 'cursor-pointer' }}"
                            title="{{ $book->title }}">
                             
                             <img src="{{ Str::startsWith($book->cover_image, ['http://', 'https://']) ? $book->cover_image : ($book->cover_image ? asset('storage/' . ltrim($book->cover_image, '/')) : asset('images/covers/default.jpg')) }}" 
@@ -191,7 +199,7 @@
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='{{ asset('images/covers/default.jpg') }}';"
                                  style="transform: translateZ(0); backface-visibility: hidden;"
-                                 class="w-auto h-full max-h-full object-contain rounded-sm shadow-md {{ $isOutOfStock ? 'opacity-60' : 'group-hover/cover:scale-105' }} transition-transform duration-300" />
+                                 class="w-auto h-full max-h-full object-contain rounded-sm shadow-md {{ ($isOutOfStock && !$canManageBook) ? 'opacity-60' : 'group-hover/cover:scale-105' }} transition-transform duration-300" />
 
                             <!-- Nhãn thể loại nằm góc trên bên trái -->
                             @if($book->category)
@@ -212,8 +220,8 @@
                                     <span>Sắp hết{{ $canSeeStock ? " ({$copies})" : '' }}</span>
                                 </span>
                             @else
-                                <span class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-200/90 text-slate-500 border border-slate-300 shadow-2xs flex items-center gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                <span class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/80 shadow-2xs flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
                                     <span>Hết sách{{ $canSeeStock ? ' (0)' : '' }}</span>
                                 </span>
                             @endif
@@ -222,8 +230,8 @@
                         <!-- 2. PHẦN THÔNG TIN CHI TIẾT (EDITORIAL LIGHT CONTENT) -->
                         <div class="p-4 flex-1 flex flex-col">
                             <!-- Tiêu đề sách: Rõ nét, chữ đậm vừa phải, giới hạn 2 dòng (line-clamp-2) -->
-                            <h3 class="font-semibold {{ $isOutOfStock ? 'text-slate-400' : 'text-slate-800 group-hover:text-indigo-600' }} text-base leading-snug mb-1 line-clamp-2 min-h-[2.5rem] transition-colors">
-                                <a href="{{ $isOutOfStock ? 'javascript:void(0)' : route('books.show', $book->id) }}" title="{{ $book->title }}" class="{{ $isOutOfStock ? 'cursor-not-allowed' : '' }}">
+                            <h3 class="font-semibold {{ ($isOutOfStock && !$canManageBook) ? 'text-slate-400' : 'text-slate-800 group-hover:text-indigo-600' }} text-base leading-snug mb-1 line-clamp-2 min-h-[2.5rem] transition-colors">
+                                <a href="{{ ($isOutOfStock && !$canManageBook) ? 'javascript:void(0)' : route('books.show', $book->id) }}" title="{{ $book->title }}" class="{{ ($isOutOfStock && !$canManageBook) ? 'cursor-not-allowed' : '' }}">
                                     {{ $book->title }}
                                 </a>
                             </h3>
@@ -244,7 +252,7 @@
                         </div>
 
                         <!-- 3. PHẦN NÚT TƯƠNG TÁC (ACTION BUTTON Ở CHÂN THẺ) -->
-                        <div class="p-4 pt-0 mt-auto {{ $isOutOfStock ? 'bg-transparent' : 'bg-white' }}">
+                        <div class="p-4 pt-0 mt-auto {{ ($isOutOfStock && !$canManageBook) ? 'bg-transparent' : 'bg-white' }}">
                             @if(!$isOutOfStock)
                                 <button type="button" 
                                         class="btn-add-to-cart w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors text-sm shadow-xs active:scale-[0.98] cursor-pointer" 
@@ -253,6 +261,17 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                     </svg>
                                     <span>Thêm vào giỏ mượn</span>
+                                </button>
+                            @elseif($canManageBook)
+                                <!-- DÀNH CHO ADMIN & THỦ THƯ KHI HẾT SÁCH: NÚT BỔ SUNG SỐ LƯỢNG CHO ĐỘC GIẢ MƯỢN -->
+                                <button type="button" 
+                                        @click="$dispatch('open-stock-modal', { id: {{ $book->id }}, title: '{{ addslashes($book->title) }}', currentQuantity: {{ (int)$book->quantity }}, editUrl: '{{ route('books.edit', $book->id) }}' })"
+                                        class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors text-xs sm:text-sm shadow-xs active:scale-[0.98] cursor-pointer"
+                                        title="Nhập số lượng sách để mở mượn cho độc giả">
+                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>+ Nhập số lượng sách</span>
                                 </button>
                             @else
                                 <div class="w-full py-2.5 px-4 rounded-lg bg-slate-200/70 border border-slate-300 text-slate-400 font-semibold flex items-center justify-center gap-2 text-xs select-none cursor-not-allowed pointer-events-none">
@@ -323,20 +342,21 @@
                         $isOutOfStock = $copies <= 0;
                         $isLowStock = $copies > 0 && $copies <= 10;
                         $canSeeStock = Auth::check() && in_array(Auth::user()->role, ['admin', 'librarian']);
+                        $canManageBook = $canSeeStock;
                     @endphp
-                    <div class="{{ $isOutOfStock ? 'bg-slate-50/90 border border-dashed border-slate-300 shadow-none opacity-45 grayscale-[50%] select-none cursor-not-allowed' : 'bg-white border border-slate-200/90 shadow-xs hover:shadow-md' }} rounded-2xl transition-all duration-200 p-4 sm:p-5 flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between group">
+                    <div class="{{ $isOutOfStock && !$canManageBook ? 'bg-slate-50/90 border border-dashed border-slate-300 shadow-none opacity-45 grayscale-[50%] select-none cursor-not-allowed' : ($isOutOfStock && $canManageBook ? 'bg-white border-2 border-rose-300/80 shadow-xs hover:shadow-md ring-1 ring-rose-200' : 'bg-white border border-slate-200/90 shadow-xs hover:shadow-md') }} rounded-2xl transition-all duration-200 p-4 sm:p-5 flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between group">
                         
                         <div class="flex items-start gap-4 flex-1 min-w-0">
                             <!-- Ảnh bìa sách (Click chuyển thẳng sang trang Chi tiết) -->
-                            <a href="{{ $isOutOfStock ? 'javascript:void(0)' : route('books.show', $book->id) }}"
-                               class="w-20 h-28 sm:w-24 sm:h-32 shrink-0 rounded-xl overflow-hidden relative group/cover shadow-xs block {{ $isOutOfStock ? 'cursor-not-allowed pointer-events-none' : 'cursor-pointer' }} bg-slate-50 p-1.5 border border-slate-100 flex items-center justify-center"
+                            <a href="{{ ($isOutOfStock && !$canManageBook) ? 'javascript:void(0)' : route('books.show', $book->id) }}"
+                               class="w-20 h-28 sm:w-24 sm:h-32 shrink-0 rounded-xl overflow-hidden relative group/cover shadow-xs block {{ ($isOutOfStock && !$canManageBook) ? 'cursor-not-allowed pointer-events-none' : 'cursor-pointer' }} bg-slate-50 p-1.5 border border-slate-100 flex items-center justify-center"
                                title="{{ $book->title }}">
                                 <img src="{{ Str::startsWith($book->cover_image, ['http://', 'https://']) ? $book->cover_image : ($book->cover_image ? asset('storage/' . ltrim($book->cover_image, '/')) : asset('images/covers/default.jpg')) }}"
                                      alt="{{ $book->title }}"
                                      loading="lazy"
                                      onerror="this.onerror=null; this.src='{{ asset('images/covers/default.jpg') }}';"
                                      style="transform: translateZ(0); backface-visibility: hidden;"
-                                     class="w-auto h-full max-h-full object-contain rounded-sm shadow-xs {{ $isOutOfStock ? 'opacity-60' : 'group-hover/cover:scale-105' }} transition-transform duration-300" />
+                                     class="w-auto h-full max-h-full object-contain rounded-sm shadow-xs {{ ($isOutOfStock && !$canManageBook) ? 'opacity-60' : 'group-hover/cover:scale-105' }} transition-transform duration-300" />
                             </a>
 
                             <!-- Nội dung -->
@@ -356,21 +376,21 @@
                                             <span>Sắp hết{{ $canSeeStock ? " ({$copies} cuốn)" : '' }}</span>
                                         </span>
                                     @else
-                                        <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-500 border border-slate-300 flex items-center gap-1">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                        <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
                                             <span>Hết sách{{ $canSeeStock ? ' (0 cuốn)' : '' }}</span>
                                         </span>
                                     @endif
                                 </div>
 
-                                <h3 class="font-bold {{ $isOutOfStock ? 'text-slate-400' : 'text-slate-900 hover:text-indigo-600' }} text-base sm:text-lg transition truncate">
-                                    <a href="{{ $isOutOfStock ? 'javascript:void(0)' : route('books.show', $book->id) }}" title="{{ $book->title }}" class="{{ $isOutOfStock ? 'cursor-not-allowed' : 'hover:text-indigo-600' }} transition">
+                                <h3 class="font-bold {{ ($isOutOfStock && !$canManageBook) ? 'text-slate-400' : 'text-slate-900 hover:text-indigo-600' }} text-base sm:text-lg transition truncate">
+                                    <a href="{{ ($isOutOfStock && !$canManageBook) ? 'javascript:void(0)' : route('books.show', $book->id) }}" title="{{ $book->title }}" class="{{ ($isOutOfStock && !$canManageBook) ? 'cursor-not-allowed' : 'hover:text-indigo-600' }} transition">
                                         {{ $book->title }}
                                     </a>
                                 </h3>
 
                                 <div class="text-xs sm:text-sm font-medium text-slate-400">
-                                    Tác giả: <span class="{{ $isOutOfStock ? 'text-slate-500' : 'text-slate-700 font-semibold' }}">{{ $book->author }}</span>
+                                    Tác giả: <span class="{{ ($isOutOfStock && !$canManageBook) ? 'text-slate-500' : 'text-slate-700 font-semibold' }}">{{ $book->author }}</span>
                                 </div>
 
                                 <p class="text-xs sm:text-sm text-slate-400 line-clamp-2 leading-relaxed">
@@ -388,13 +408,27 @@
                                         Chi tiết
                                     </a>
 
-                                    <button type="button"
-                                            class="btn-add-to-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl transition flex items-center gap-1.5 shadow-xs whitespace-nowrap cursor-pointer active:scale-[0.98]"
+                                    <button type="button" 
+                                            class="btn-add-to-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl transition flex items-center gap-1.5 shadow-xs whitespace-nowrap cursor-pointer active:scale-[0.98]" 
                                             data-book-id="{{ $book->id }}">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                         </svg>
                                         <span>Thêm vào giỏ mượn</span>
+                                    </button>
+                                @elseif($canManageBook)
+                                    <a href="{{ route('books.show', $book->id) }}"
+                                       class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-indigo-600 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition">
+                                        Chi tiết
+                                    </a>
+
+                                    <button type="button" 
+                                            @click="$dispatch('open-stock-modal', { id: {{ $book->id }}, title: '{{ addslashes($book->title) }}', currentQuantity: {{ (int)$book->quantity }}, editUrl: '{{ route('books.edit', $book->id) }}' })"
+                                            class="bg-amber-500 hover:bg-amber-600 text-white text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl transition flex items-center gap-1.5 shadow-xs whitespace-nowrap cursor-pointer active:scale-[0.98]">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span>+ Nhập số lượng sách</span>
                                     </button>
                                 @else
                                     <span class="bg-slate-200/70 border border-slate-300 text-slate-400 font-semibold py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs whitespace-nowrap select-none cursor-not-allowed pointer-events-none">
@@ -440,4 +474,143 @@
 
         </div>
     </div>
+
+    @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'librarian']))
+        <!-- ========================================================================= -->
+        <!-- MODAL BỔ SUNG SỐ LƯỢNG SÁCH VÀO KHO (DÀNH CHO ADMIN & THỦ THƯ)           -->
+        <!-- ========================================================================= -->
+        <div x-data="{
+                isOpen: false,
+                bookId: null,
+                bookTitle: '',
+                currentQty: 0,
+                newQuantity: 10,
+                editUrl: '',
+                open(data) {
+                    this.bookId = data.id;
+                    this.bookTitle = data.title;
+                    this.currentQty = data.currentQuantity;
+                    this.newQuantity = Math.max(10, data.currentQuantity + 10);
+                    this.editUrl = data.editUrl;
+                    this.isOpen = true;
+                    this.$nextTick(() => {
+                        if (this.$refs.qtyInput) this.$refs.qtyInput.focus();
+                    });
+                },
+                close() {
+                    this.isOpen = false;
+                }
+             }"
+             @open-stock-modal.window="open($event.detail)"
+             @keydown.escape.window="close()"
+             x-cloak>
+            
+            <!-- Backdrop -->
+            <div x-show="isOpen"
+                 x-transition:enter="ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-150"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50"></div>
+
+            <!-- Dialog Container -->
+            <div x-show="isOpen"
+                 x-transition:enter="ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
+                
+                <div @click.outside="close()"
+                     class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-md w-full overflow-hidden text-left">
+                    
+                    <!-- Header -->
+                    <div class="p-5 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200/60 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900">Bổ Sung Số Lượng Sách</h3>
+                                <p class="text-xs text-amber-800 font-medium">Quyền hạn: Admin & Thủ thư</p>
+                            </div>
+                        </div>
+                        <button type="button" @click="close()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Form -->
+                    <form :action="'{{ url('/books') }}/' + bookId + '/stock'" method="POST" class="p-5 space-y-4">
+                        @csrf
+                        @method('PATCH')
+
+                        <!-- Tên sách -->
+                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Đầu sách được chọn</span>
+                            <p class="text-sm font-semibold text-slate-800 line-clamp-2" x-text="bookTitle"></p>
+                            <p class="text-xs text-rose-600 font-medium mt-1 flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                                <span>Tình trạng hiện tại: Đã hết bản in (0 cuốn)</span>
+                            </p>
+                        </div>
+
+                        <!-- Ô nhập số lượng mới -->
+                        <div>
+                            <label for="stock_quantity_input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Số lượng tồn kho mới (cuốn) <span class="text-rose-500">*</span>
+                            </label>
+                            <input x-ref="qtyInput"
+                                   id="stock_quantity_input"
+                                   type="number"
+                                   name="quantity"
+                                   x-model.number="newQuantity"
+                                   min="1"
+                                   max="10000"
+                                   required
+                                   placeholder="Nhập số lượng sách cần bổ sung..."
+                                   class="w-full rounded-xl border-2 border-slate-200 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/20 text-base font-bold text-slate-900 py-3 px-3.5 transition" />
+                            <p class="text-[11px] text-slate-500 mt-1.5">
+                                💡 Sau khi lưu, cuốn sách sẽ chuyển sang trạng thái <strong>Còn sách</strong> để độc giả có thể tiếp tục gửi yêu cầu mượn.
+                            </p>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                            <a :href="editUrl"
+                               class="text-xs text-indigo-600 hover:text-indigo-800 font-medium hover:underline flex items-center gap-1">
+                                <span>Sửa toàn bộ thông tin</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+
+                            <div class="flex items-center gap-2">
+                                <button type="button" @click="close()"
+                                        class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+                                    Đóng
+                                </button>
+                                <button type="submit"
+                                        class="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-amber-500 hover:bg-amber-600 text-white transition shadow-sm active:scale-95 cursor-pointer flex items-center gap-1.5">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Lưu & Mở Mượn</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    @endif
 </x-app-layout>

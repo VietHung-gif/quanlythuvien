@@ -476,16 +476,18 @@
                                     <span>Quản lý mượn trả & Kho sách</span>
                                 </a>
 
-                                <a href="{{ route('admin.audit-logs.index') }}"
-                                   @click="userMenu = false"
-                                   class="hover:bg-slate-100 text-slate-800 font-semibold text-xs p-2 rounded-xl flex items-center gap-2.5 transition {{ request()->routeIs('admin.audit-logs.*') ? 'bg-emerald-50 text-emerald-700' : '' }}">
-                                    <div class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                        </svg>
-                                    </div>
-                                    <span>Nhật ký hệ thống (Audit Logs)</span>
-                                </a>
+                                @if(Auth::user()->role === 'admin')
+                                    <a href="{{ route('admin.audit-logs.index') }}"
+                                       @click="userMenu = false"
+                                       class="hover:bg-slate-100 text-slate-800 font-semibold text-xs p-2 rounded-xl flex items-center gap-2.5 transition {{ request()->routeIs('admin.audit-logs.*') ? 'bg-emerald-50 text-emerald-700' : '' }}">
+                                        <div class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                            </svg>
+                                        </div>
+                                        <span>Nhật ký hệ thống (Audit Logs)</span>
+                                    </a>
+                                @endif
 
                                 <a href="{{ route('admin.finances.index') }}"
                                    @click="userMenu = false"
@@ -671,12 +673,14 @@
                         </svg>
                         <span>QUẢN LÝ MƯỢN TRẢ & KHO</span>
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')" class="text-slate-900 text-xs font-semibold hover:bg-slate-100 flex items-center gap-2">
-                        <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                        </svg>
-                        <span>NHẬT KÝ HỆ THỐNG</span>
-                    </x-responsive-nav-link>
+                    @if(Auth::user()->role === 'admin')
+                        <x-responsive-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')" class="text-slate-900 text-xs font-semibold hover:bg-slate-100 flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                            </svg>
+                            <span>NHẬT KÝ HỆ THỐNG</span>
+                        </x-responsive-nav-link>
+                    @endif
                     <x-responsive-nav-link :href="route('admin.finances.index')" :active="request()->routeIs('admin.finances.*')" class="text-slate-900 text-xs font-semibold hover:bg-slate-100 flex items-center gap-2">
                         <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6H2.25m0 0v8.25m0 0a60.207 60.207 0 0 0 15.797 2.101c.727.198 1.453-.342 1.453-1.096V15M3 6h.75A.75.75 0 0 1 4.5 6.75v.75m0 0h15m-15 0a2.25 2.25 0 0 0-2.25 2.25v3a2.25 2.25 0 0 0 2.25 2.25m15-7.5v.75a.75.75 0 0 1 .75.75H21m0 0v3a2.25 2.25 0 0 1-2.25 2.25H4.5m16.5-5.25a2.25 2.25 0 0 0-2.25-2.25h-.75m3 3h-.75A.75.75 0 0 1 20.25 9v-.75" />

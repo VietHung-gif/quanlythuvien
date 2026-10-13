@@ -423,42 +423,264 @@
                 </div>
 
                 <!-- ========================================================================= -->
-                <!-- Ô TÌM KIẾM SÁCH TẬP TRUNG NGAY TRONG BANNER                               -->
+                <!-- Ô TÌM KIẾM SÁCH THÔNG MINH - GỢI Ý 15 TỪ KHÓA TRENDING (UX DISCOVERY)   -->
                 <!-- ========================================================================= -->
-                <div class="relative z-10 mt-8 sm:mt-10 max-w-2xl mx-auto">
-                    <form action="{{ route('books.index') }}" method="GET" class="relative flex items-center bg-slate-900/90 rounded-2xl border-2 border-slate-700 focus-within:border-indigo-400 focus-within:ring-4 focus-within:ring-indigo-500/20 shadow-xl transition-all duration-200 p-1.5 sm:p-2 backdrop-blur-md">
+                <div class="relative z-30 mt-8 sm:mt-10 max-w-3xl mx-auto"
+                     x-data="{
+                        searchQuery: '{{ request('search') }}',
+                        isOpen: false,
+                        activeTab: 'all',
+                        placeholderIdx: 0,
+                        placeholderPrefix: 'Thử tìm: ',
+                        placeholders: [
+                            'Ứng dụng AI',
+                            'Khởi nghiệp tinh gọn',
+                            'Phân tích kỹ thuật',
+                            'Manga chuyển sinh',
+                            'Lập trình Python',
+                            'Tài chính cá nhân',
+                            'Đầu tư giá trị',
+                            'Marketing thực chiến',
+                            'Cấu trúc dữ liệu',
+                            'Light Novel hot'
+                        ],
+                        timer: null,
+                        categories: [
+                            { id: 'all', name: 'Tất cả (15)', icon: '🔥' },
+                            { id: 'tech', name: 'Công nghệ', icon: '💻' },
+                            { id: 'biz', name: 'Kinh doanh', icon: '💼' },
+                            { id: 'stock', name: 'Chứng khoán', icon: '📈' },
+                            { id: 'manga', name: 'Manga / Anime', icon: '⛩️' }
+                        ],
+                        suggestions: [
+                            // 1. Công nghệ thông tin (4 từ khóa: 2 - 4 chữ)
+                            { text: 'Ứng dụng AI', cat: 'tech', catName: 'Công nghệ', icon: '🤖', hot: true },
+                            { text: 'Lập trình Python', cat: 'tech', catName: 'Công nghệ', icon: '🐍', hot: true },
+                            { text: 'Cấu trúc dữ liệu', cat: 'tech', catName: 'Công nghệ', icon: '💾', hot: false },
+                            { text: 'An ninh mạng', cat: 'tech', catName: 'Công nghệ', icon: '🛡️', hot: false },
+                            // 2. Kinh doanh & Quản trị (4 từ khóa: 2 - 4 chữ)
+                            { text: 'Khởi nghiệp tinh gọn', cat: 'biz', catName: 'Kinh doanh', icon: '🚀', hot: true },
+                            { text: 'Marketing thực chiến', cat: 'biz', catName: 'Kinh doanh', icon: '📢', hot: false },
+                            { text: 'Quản trị dự án', cat: 'biz', catName: 'Kinh doanh', icon: '📋', hot: false },
+                            { text: 'Kỹ năng đàm phán', cat: 'biz', catName: 'Kinh doanh', icon: '🤝', hot: false },
+                            // 3. Chứng khoán & Tài chính (4 từ khóa: 2 - 4 chữ)
+                            { text: 'Tài chính cá nhân', cat: 'stock', catName: 'Chứng khoán', icon: '💰', hot: true },
+                            { text: 'Phân tích kỹ thuật', cat: 'stock', catName: 'Chứng khoán', icon: '📈', hot: true },
+                            { text: 'Đầu tư giá trị', cat: 'stock', catName: 'Chứng khoán', icon: '💎', hot: false },
+                            { text: 'Báo cáo tài chính', cat: 'stock', catName: 'Chứng khoán', icon: '📊', hot: false },
+                            // 4. Truyện Manga / Anime (3 từ khóa: 2 - 4 chữ)
+                            { text: 'Manga chuyển sinh', cat: 'manga', catName: 'Manga / Anime', icon: '⚔️', hot: true },
+                            { text: 'Trinh thám phá án', cat: 'manga', catName: 'Manga / Anime', icon: '🔍', hot: false },
+                            { text: 'Light Novel hot', cat: 'manga', catName: 'Manga / Anime', icon: '📖', hot: true }
+                        ],
+                        init() {
+                            this.timer = setInterval(() => {
+                                if (!this.isOpen && !this.searchQuery) {
+                                    this.placeholderIdx = (this.placeholderIdx + 1) % this.placeholders.length;
+                                }
+                            }, 3000);
+                        },
+                        currentPlaceholder() {
+                            return this.placeholderPrefix + this.placeholders[this.placeholderIdx] + '...';
+                        },
+                        get filteredList() {
+                            let items = this.suggestions;
+                            if (this.activeTab !== 'all') {
+                                items = items.filter(s => s.cat === this.activeTab);
+                            }
+                            if (this.searchQuery && this.searchQuery.trim().length > 0) {
+                                const q = this.searchQuery.trim().toLowerCase();
+                                items = items.filter(s => s.text.toLowerCase().includes(q) || s.catName.toLowerCase().includes(q));
+                            }
+                            return items;
+                        },
+                        selectKeyword(kw) {
+                            this.searchQuery = kw;
+                            this.isOpen = false;
+                            this.$nextTick(() => {
+                                this.$refs.heroSearchForm.submit();
+                            });
+                        }
+                     }"
+                     x-on:click.outside="isOpen = false">
+
+                    <!-- Form Search Input chính -->
+                    <form x-ref="heroSearchForm" action="{{ route('books.index') }}" method="GET" 
+                          class="relative flex items-center bg-slate-900/90 rounded-2xl border-2 border-slate-700 focus-within:border-indigo-400 focus-within:ring-4 focus-within:ring-indigo-500/25 shadow-2xl transition-all duration-200 p-1.5 sm:p-2 backdrop-blur-md">
                         <div class="pl-3 sm:pl-4 text-slate-400 pointer-events-none shrink-0">
-                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
                         </div>
                         <input type="text" 
-                               name="search" 
-                               placeholder="Nhập tên sách, tác giả hoặc chuyên ngành cần tìm..." 
-                               class="w-full pl-3 pr-4 py-2.5 sm:py-3 bg-transparent border-0 text-white placeholder:text-slate-500 text-sm sm:text-base font-medium focus:outline-none focus:ring-0">
+                               name="search"
+                               x-model="searchQuery"
+                               :placeholder="currentPlaceholder()"
+                               x-on:focus="isOpen = true"
+                               x-on:click="isOpen = true"
+                               x-on:keydown.escape="isOpen = false"
+                               autocomplete="off"
+                               class="w-full pl-3 pr-3 py-2.5 sm:py-3 bg-transparent border-0 text-white placeholder:text-slate-400 text-sm sm:text-base font-medium focus:outline-none focus:ring-0">
+                        
+                        <!-- Nút Xóa nhanh khi người dùng đã gõ -->
+                        <button type="button" 
+                                x-show="searchQuery && searchQuery.length > 0"
+                                x-on:click="searchQuery = ''; $el.previousElementSibling.focus()"
+                                class="p-1.5 text-slate-400 hover:text-white rounded-lg transition mr-1"
+                                title="Xóa từ khóa">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+
+                        <!-- Nút Submit Tìm kiếm -->
                         <button type="submit" 
-                                class="px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm tracking-wide uppercase transition active:scale-[0.98] shadow-sm shrink-0">
-                            Tìm kiếm
+                                class="px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm tracking-wide uppercase transition active:scale-[0.98] shadow-md shadow-indigo-600/30 shrink-0 flex items-center gap-1.5 cursor-pointer">
+                            <span>Tìm kiếm</span>
                         </button>
                     </form>
 
-                    <!-- Gợi Ý Từ Khóa Dạng Chip Bo Góc Nổi Bật -->
-                    <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
-                        <span class="font-bold text-slate-400">Gợi ý tìm kiếm:</span>
-                        <a href="{{ route('books.index', ['search' => 'Clean Code']) }}" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition">
-                            Clean Code
+                    <!-- DROPDOWN POP-OVER: GỢI Ý 15 TỪ KHÓA THEO CHUYÊN ĐỀ (UX DISCOVERY) -->
+                    <div x-show="isOpen"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 translate-y-2 scale-98"
+                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave-end="opacity-0 translate-y-2 scale-98"
+                         x-cloak
+                         class="absolute left-0 right-0 top-full mt-2.5 p-4 sm:p-5 rounded-2xl bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 shadow-2xl shadow-black/70 z-50 text-left">
+                        
+                        <!-- Header Popover & Tabs chọn chuyên ngành -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <span class="flex h-2.5 w-2.5 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                                </span>
+                                <span class="text-xs sm:text-sm font-bold text-white tracking-wide uppercase">
+                                    Xu hướng tìm kiếm thịnh hành
+                                </span>
+                            </div>
+
+                            <!-- Tabs lọc 4 chủ đề -->
+                            <div class="flex items-center flex-wrap gap-1">
+                                <template x-for="cat in categories" :key="cat.id">
+                                    <button type="button"
+                                            x-on:click="activeTab = cat.id"
+                                            :class="activeTab === cat.id ? 'bg-indigo-600 text-white font-bold shadow-xs' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800 font-medium'"
+                                            class="px-2.5 py-1 rounded-lg text-[11px] sm:text-xs transition flex items-center gap-1 cursor-pointer">
+                                        <span x-text="cat.icon"></span>
+                                        <span x-text="cat.name"></span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Lưới hiển thị các từ khóa gợi ý -->
+                        <div class="mt-3.5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1">
+                                <template x-for="item in filteredList" :key="item.text">
+                                    <button type="button"
+                                            x-on:click="selectKeyword(item.text)"
+                                            class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-800/60 hover:bg-indigo-950/60 border border-slate-700/60 hover:border-indigo-500/60 text-slate-200 hover:text-white transition group text-left cursor-pointer">
+                                        <div class="flex items-center gap-2.5 min-w-0">
+                                            <span class="text-base shrink-0 group-hover:scale-110 transition-transform" x-text="item.icon"></span>
+                                            <div class="min-w-0">
+                                                <div class="text-xs sm:text-sm font-semibold truncate group-hover:text-indigo-300 transition-colors" x-text="item.text"></div>
+                                                <div class="text-[10px] text-slate-400 truncate" x-text="item.catName"></div>
+                                            </div>
+                                        </div>
+                                        <div class="shrink-0 flex items-center gap-1">
+                                            <span x-show="item.hot" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-tighter">
+                                                HOT
+                                            </span>
+                                            <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </template>
+                            </div>
+
+                            <!-- Trạng thái khi gõ từ khóa không nằm trong 15 gợi ý -->
+                            <div x-show="filteredList.length === 0" class="py-6 text-center text-slate-400">
+                                <p class="text-xs">Không có gợi ý trùng khớp cho "<span class="text-indigo-300 font-semibold" x-text="searchQuery"></span>"</p>
+                                <button type="button"
+                                        x-on:click="$refs.heroSearchForm.submit()"
+                                        class="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition cursor-pointer">
+                                    <span>Tìm kiếm trực tiếp trong kho sách</span>
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Footer Popover: Phím tắt & Đóng -->
+                        <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+                            <span class="flex items-center gap-1">
+                                <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono text-[10px]">Enter</kbd>
+                                <span>để tìm</span>
+                                <span class="mx-1">•</span>
+                                <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono text-[10px]">Esc</kbd>
+                                <span>để đóng</span>
+                            </span>
+                            <button type="button" 
+                                    x-on:click="isOpen = false"
+                                    class="text-slate-400 hover:text-slate-200 transition cursor-pointer font-medium">
+                                Đóng ✕
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- HÀNG CHIP GỢI Ý NHANH (QUICK TRENDING PILLS) NGAY DƯỚI THANH TÌM KIẾM -->
+                    <div class="mt-3.5 flex flex-wrap items-center justify-center gap-2 text-xs">
+                        <span class="font-bold text-slate-400 flex items-center gap-1.5 shrink-0">
+                            <span class="text-amber-400">🔥</span> Xu hướng:
+                        </span>
+                        
+                        <!-- Top 6 Từ Khóa Tiêu Biểu Cho 4 Mảng Chính -->
+                        <a href="{{ route('books.index', ['search' => 'Ứng dụng AI']) }}" 
+                           x-on:click.prevent="selectKeyword('Ứng dụng AI')"
+                           class="px-2.5 py-1 rounded-lg bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
+                            <span>🤖</span>
+                            <span class="group-hover:underline">Ứng dụng AI</span>
                         </a>
-                        <a href="{{ route('books.index', ['search' => 'Trí tuệ nhân tạo']) }}" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition">
-                            Trí tuệ nhân tạo
+
+                        <a href="{{ route('books.index', ['search' => 'Khởi nghiệp tinh gọn']) }}" 
+                           x-on:click.prevent="selectKeyword('Khởi nghiệp tinh gọn')"
+                           class="px-2.5 py-1 rounded-lg bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
+                            <span>🚀</span>
+                            <span class="group-hover:underline">Khởi nghiệp tinh gọn</span>
                         </a>
-                        <a href="{{ route('books.index', ['search' => 'Kinh tế']) }}" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition">
-                            Kinh tế
+
+                        <a href="{{ route('books.index', ['search' => 'Phân tích kỹ thuật']) }}" 
+                           x-on:click.prevent="selectKeyword('Phân tích kỹ thuật')"
+                           class="px-2.5 py-1 rounded-lg bg-amber-950/70 hover:bg-amber-900 border border-amber-500/40 text-amber-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
+                            <span>📈</span>
+                            <span class="group-hover:underline">Phân tích kỹ thuật</span>
                         </a>
-                        <a href="{{ route('books.index', ['search' => 'Thiết kế']) }}" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition">
-                            Thiết kế
+
+                        <a href="{{ route('books.index', ['search' => 'Manga chuyển sinh']) }}" 
+                           x-on:click.prevent="selectKeyword('Manga chuyển sinh')"
+                           class="px-2.5 py-1 rounded-lg bg-rose-950/70 hover:bg-rose-900 border border-rose-500/40 text-rose-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
+                            <span>⚔️</span>
+                            <span class="group-hover:underline">Manga chuyển sinh</span>
                         </a>
-                        <a href="{{ route('books.index', ['search' => 'Y học']) }}" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition">
-                            Y học
+
+                        <a href="{{ route('books.index', ['search' => 'Lập trình Python']) }}" 
+                           x-on:click.prevent="selectKeyword('Lập trình Python')"
+                           class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
+                            <span>🐍</span>
+                            <span class="group-hover:underline">Lập trình Python</span>
+                        </a>
+
+                        <a href="{{ route('books.index', ['search' => 'Tài chính cá nhân']) }}" 
+                           x-on:click.prevent="selectKeyword('Tài chính cá nhân')"
+                           class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
+                            <span>💰</span>
+                            <span class="group-hover:underline">Tài chính cá nhân</span>
                         </a>
                     </div>
                 </div>

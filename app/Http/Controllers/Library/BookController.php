@@ -246,6 +246,44 @@ class BookController extends Controller
     }
 
     /**
+     * Cập nhật nhanh số lượng tồn kho (Dành riêng cho Admin & Thủ thư khi hết sách hoặc cần bổ sung)
+     */
+    public function updateStock(Request $request, string|int $id)
+    {
+        $book = Book::findOrFail($id);
+
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $oldQuantity = (int) $book->quantity;
+        $oldAvailable = (int) ($book->available_copies ?? $book->quantity);
+        $newQuantity = (int) $validated['quantity'];
+
+        // Tính toán lại số lượng khả dụng
+        $diff = $newQuantity - $oldQuantity;
+        $newAvailable = max(0, $oldAvailable + $diff);
+
+        $book->update([
+            'quantity' => $newQuantity,
+            'available_copies' => $newAvailable,
+        ]);
+
+        $userName = auth()->user() ? auth()->user()->name : 'Thủ thư';
+        AuditLogger::log(
+            action: 'RESTOCK_BOOK',
+            description: "{$userName} đã bổ sung kho cho sách \"{$book->title}\" (Tồn kho: {$oldQuantity} -> {$newQuantity}).",
+            targetType: 'Book',
+            targetId: $book->id,
+            oldValues: ['quantity' => $oldQuantity, 'available_copies' => $oldAvailable],
+            newValues: ['quantity' => $newQuantity, 'available_copies' => $newAvailable]
+        );
+
+        return redirect()->back()
+            ->with('success', "Đã bổ sung số lượng cho cuốn sách \"{$book->title}\" thành {$newQuantity} cuốn để độc giả có thể mượn!");
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)

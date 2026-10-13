@@ -245,12 +245,23 @@
                                     <span>+ Thêm Vào Giỏ Mượn</span>
                                 </button>
                             @else
-                                <div class="w-full sm:w-auto flex-1 bg-slate-100/90 border-2 border-dashed border-slate-300 text-slate-400 font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2.5 text-sm select-none cursor-not-allowed pointer-events-none opacity-60">
-                                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                                    </svg>
-                                    <span>Hết hàng (Không thể chọn)</span>
-                                </div>
+                                @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'librarian']))
+                                    <a href="{{ route('books.edit', $book->id) }}" 
+                                       class="w-full sm:w-auto flex-1 bg-amber-500 hover:bg-amber-600 text-white font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition flex items-center justify-center gap-2 text-sm cursor-pointer"
+                                       title="Bổ sung số lượng sách vào kho để độc giả có thể mượn">
+                                        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span>+ Bổ sung số lượng tồn kho để mở mượn</span>
+                                    </a>
+                                @else
+                                    <div class="w-full sm:w-auto flex-1 bg-slate-100/90 border-2 border-dashed border-slate-300 text-slate-400 font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2.5 text-sm select-none cursor-not-allowed pointer-events-none opacity-60">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                        </svg>
+                                        <span>Hết hàng (Không thể chọn)</span>
+                                    </div>
+                                @endif
                             @endif
 
                             <a href="{{ route('books.index') }}" 
