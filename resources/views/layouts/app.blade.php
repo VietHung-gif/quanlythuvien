@@ -7,10 +7,10 @@
 
         <title>{{ config('app.name', 'TIỂU ĐỘI 2P') }} - Hệ Thống Quản Lý Thư Viện</title>
 
-        <!-- Google Fonts: Be Vietnam Pro (Chuẩn tiếng Việt 100% không lỗi dấu) -->
+        <!-- Google Fonts: Montserrat (Heavy/Black), Inter & Be Vietnam Pro -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS & Vite -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -21,6 +21,8 @@
                     extend: {
                         fontFamily: {
                             sans: ['"Be Vietnam Pro"', 'system-ui', '-apple-system', 'sans-serif'],
+                            montserrat: ['"Montserrat"', 'system-ui', '-apple-system', 'sans-serif'],
+                            inter: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
                             mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
                         },
                         colors: {

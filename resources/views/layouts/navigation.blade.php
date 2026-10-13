@@ -1,36 +1,52 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+.font-montserrat {
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif !important;
+}
+.font-inter {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+@keyframes logoAuraPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.25), 0 0 20px rgba(6, 182, 212, 0.15);
+        border-color: rgba(51, 65, 85, 0.85);
+        transform: translateY(0px);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(37, 99, 235, 0.5), 0 0 35px rgba(6, 182, 212, 0.3);
+        border-color: rgba(37, 99, 235, 0.65);
+        transform: translateY(-2px);
+    }
+}
+.anim-logo-badge {
+    animation: logoAuraPulse 3.5s ease-in-out infinite;
+}
+</style>
 <nav x-data="{ openMobile: false, openDeposit: false }" class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all duration-200 select-none">
     <!-- Header Container Full-width Thoáng Đãng Chuẩn Modern Minimalist -->
     <div class="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-20">
 
         <!-- ========================================================================= -->
-        <!-- KHỐI 1: KHỐI TRÁI - BRAND IDENTITY                                        -->
+        <!-- KHỐI 1: KHỐI TRÁI - BRAND IDENTITY (MONTSERRAT BLACK + INTER / GALACTIC)  -->
         <!-- ========================================================================= -->
         <div class="flex items-center gap-3 shrink-0">
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group select-none py-1">
-                {{-- KHỐI ICON NGÔI SAO TRI THỨC --}}
-                <div class="relative w-10 h-10 rounded-2xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-center shadow-sm group-hover:bg-indigo-100/80 group-hover:shadow transition-all shrink-0">
-                    <svg viewBox="0 0 100 100" class="w-6 h-6 transform group-hover:rotate-12 transition-transform duration-300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#4F46E5" />
-                                <stop offset="100%" stop-color="#F59E0B" />
-                            </linearGradient>
-                        </defs>
-                        <!-- Ngôi sao 4 cánh chính vuốt nhọn tinh tế -->
-                        <path d="M50 5 Q50 42 12 50 Q50 58 50 95 Q50 58 88 50 Q50 42 50 5 Z" fill="url(#starGrad)" />
-                        <!-- Tia sáng phụ 4 góc chéo -->
-                        <path d="M50 28 Q50 45 32 50 Q50 55 50 72 Q50 55 68 50 Q50 45 50 28 Z" fill="#FBBF24" opacity="0.8" />
-                        <!-- Điểm sáng trung tâm -->
-                        <circle cx="50" cy="50" r="4" fill="#FFFFFF" />
-                    </svg>
+            <a href="{{ route('home') }}" class="flex items-center gap-3 sm:gap-3.5 group select-none py-1">
+                {{-- LOGO TIỂU ĐỘI 2P (NỀN ĐEN HUYỀN BÍ, BO GÓC & HOẠT ẢNH AURA GALACTIC CYBER) --}}
+                <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-black border border-slate-800 flex items-center justify-center anim-logo-badge group-hover:scale-108 group-hover:border-blue-500/80 group-hover:shadow-[0_0_28px_rgba(37,99,235,0.6)] transition-all duration-300 shrink-0 overflow-hidden ring-1 ring-white/10">
+                    <img src="{{ asset('images/logo-2p.png') }}" 
+                         alt="Logo Tiểu Đội 2P" 
+                         class="w-full h-full object-contain select-none p-0.5 transform group-hover:scale-110 transition-transform duration-500">
                 </div>
 
-                {{-- TYPOGRAPHY THƯƠNG HIỆU --}}
-                <div class="flex flex-col">
-                    <div class="text-xl font-black italic tracking-tight text-slate-900 flex items-center leading-none">
-                        TIỂU ĐỘI<span class="text-indigo-600 ml-1.5">2P</span>
+                {{-- TYPOGRAPHY THƯƠNG HIỆU: MONTSERRAT HEAVY/BLACK & INTER --}}
+                <div class="flex flex-col justify-center">
+                    <div class="font-montserrat font-black uppercase tracking-normal text-xl sm:text-2xl flex items-center leading-tight py-0.5">
+                        <span class="text-slate-900 group-hover:text-blue-600 transition-colors">TIỂU ĐỘI</span>
+                        <span class="ml-1.5 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 font-black inline-block pr-1.5 drop-shadow-[0_0_12px_rgba(37,99,235,0.25)]">2P</span>
                     </div>
-                    <span class="text-[9px] font-bold tracking-widest text-slate-400 uppercase mt-1">
+                    <span class="font-inter text-[9px] sm:text-[10px] font-bold tracking-[0.22em] text-slate-400 uppercase mt-0.5">
                         THƯ VIỆN SỐ
                     </span>
                 </div>

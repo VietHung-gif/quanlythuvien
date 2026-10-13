@@ -8,16 +8,15 @@
             <!-- Cột Thông Tin Thương Hiệu -->
             <div class="md:col-span-2">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
+                    <div class="w-12 h-12 rounded-2xl bg-black border border-slate-800 p-1 flex items-center justify-center shadow-sm overflow-hidden shrink-0 ring-1 ring-white/10">
+                        <img src="{{ asset('images/logo-2p.png') }}" alt="Logo Tiểu Đội 2P" class="w-full h-full object-contain rounded-xl select-none hover:scale-105 transition duration-300">
                     </div>
                     <div>
-                        <span class="text-lg font-bold text-slate-900 tracking-tight">
-                            TIỂU ĐỘI <span class="text-indigo-600 font-extrabold">2P</span>
+                        <span class="font-montserrat font-black uppercase text-lg tracking-normal leading-snug py-0.5 block">
+                            <span class="text-slate-900">TIỂU ĐỘI</span>
+                            <span class="ml-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 inline-block pr-1.5 font-black">2P</span>
                         </span>
-                        <span class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                        <span class="font-inter block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">
                             Hệ Thống Quản Lý Thư Viện Số
                         </span>
                     </div>
@@ -74,8 +73,15 @@
         <!-- ========================================================================= -->
         <div class="mt-10 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
             <p>&copy; 2026 TIỂU ĐỘI 2P - Hệ thống Quản lý Thư viện Số. Toàn bộ bản quyền được bảo lưu.</p>
-            <p class="font-mono text-[11px] text-slate-500">
-                Designed & Engineered with <svg class="w-3.5 h-3.5 inline-block text-rose-500 fill-current mx-0.5 -mt-0.5" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by <span class="text-indigo-600 font-semibold">Nguyễn Hữu Việt Hưng</span> & <span class="text-sky-600 font-semibold">Ngô Hào Đào Sang</span>
+            <p class="font-mono text-[11px] text-slate-500 flex flex-wrap items-center justify-center sm:justify-end gap-1">
+                <span>Designed & Engineered with</span>
+                <svg class="w-3.5 h-3.5 inline-block text-rose-500 fill-current mx-0.5 -mt-0.5" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span>by</span>
+                <span class="text-indigo-600 font-semibold whitespace-nowrap">Nguyễn Hữu Việt Hưng</span>,
+                <span class="text-sky-600 font-semibold whitespace-nowrap">Ngô Hào Đào Sang</span>,
+                <span class="text-emerald-600 font-semibold whitespace-nowrap">Phạm Hồ Nguyên Khang</span>
+                <span>&</span>
+                <span class="text-violet-600 font-semibold whitespace-nowrap">Phạm Nguyễn Minh Hiếu</span>
             </p>
         </div>
     </div>

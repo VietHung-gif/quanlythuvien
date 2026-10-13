@@ -7,10 +7,10 @@
 
         <title>{{ config('app.name', 'TIỂU ĐỘI 2P') }} - Cổng Xác Thực</title>
 
-        <!-- Google Fonts: Be Vietnam Pro (Chuẩn tiếng Việt 100% không lỗi dấu) -->
+        <!-- Google Fonts: Montserrat (Heavy/Black), Inter & Be Vietnam Pro -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS & Vite -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -21,6 +21,8 @@
                     extend: {
                         fontFamily: {
                             sans: ['"Be Vietnam Pro"', 'system-ui', '-apple-system', 'sans-serif'],
+                            montserrat: ['"Montserrat"', 'system-ui', '-apple-system', 'sans-serif'],
+                            inter: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
                             mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
                         },
                         colors: {
@@ -78,6 +80,13 @@
                 background-color: #f8fafc;
                 color: #475569;
             }
+
+            .font-montserrat {
+                font-family: 'Montserrat', system-ui, -apple-system, sans-serif !important;
+            }
+            .font-inter {
+                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+            }
         </style>
     </head>
     <body class="font-sans antialiased text-slate-800 bg-[#f8fafc]">
@@ -88,15 +97,14 @@
             <!-- Logo Modern Minimalist Light -->
             <div class="mb-6 text-center">
                 <a href="{{ url('/') }}" class="inline-flex flex-col items-center gap-2 group">
-                    <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-subtle group-hover:bg-indigo-600 group-hover:text-white transition duration-200">
-                        <svg class="w-6 h-6 transition-transform duration-200 group-hover:scale-105" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-black border border-slate-800 p-1.5 flex items-center justify-center shadow-lg overflow-hidden shrink-0 group-hover:scale-108 group-hover:border-blue-500 group-hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] transition-all duration-300 ring-1 ring-white/10">
+                        <img src="{{ asset('images/logo-2p.png') }}" alt="Logo Tiểu Đội 2P" class="w-full h-full object-contain rounded-2xl select-none transform group-hover:scale-110 transition-transform duration-500">
                     </div>
-                    <span class="font-bold tracking-tight text-2xl text-slate-900 mt-1">
-                        TIỂU ĐỘI <span class="text-indigo-600 font-extrabold">2P</span>
-                    </span>
-                    <span class="text-[11px] font-mono tracking-widest text-slate-400 uppercase">
+                    <div class="font-montserrat font-black uppercase tracking-normal text-2xl sm:text-3xl mt-1 flex items-center leading-snug py-0.5">
+                        <span class="text-slate-900 group-hover:text-blue-600 transition-colors">TIỂU ĐỘI</span>
+                        <span class="ml-1.5 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 font-black inline-block pr-1.5 drop-shadow-[0_0_12px_rgba(37,99,235,0.3)]">2P</span>
+                    </div>
+                    <span class="font-inter text-[10px] sm:text-[11px] font-bold tracking-[0.22em] text-slate-400 uppercase">
                         HỆ THỐNG QUẢN LÝ THƯ VIỆN SỐ
                     </span>
                 </a>

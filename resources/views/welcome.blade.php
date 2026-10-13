@@ -6,10 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>TIỂU ĐỘI 2P - Hệ Thống Quản Lý Thư Viện Số Hiện Đại</title>
 
-    <!-- Google Fonts: Be Vietnam Pro (Chuẩn hiển thị tiếng Việt 100%, không lỗi dấu, cân đối) -->
+    <!-- Google Fonts: Montserrat (Heavy/Black), Inter & Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -22,6 +22,8 @@
                 extend: {
                     fontFamily: {
                         sans: ['"Be Vietnam Pro"', 'system-ui', '-apple-system', 'sans-serif'],
+                        montserrat: ['"Montserrat"', 'system-ui', '-apple-system', 'sans-serif'],
+                        inter: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
                     },
                     colors: {
                         canvas: '#f8fafc',
@@ -211,6 +213,71 @@
         .anim-star-twinkle { animation: starTwinkle 2.8s ease-in-out infinite; }
         .anim-star-twinkle-delay { animation: starTwinkle 3.2s ease-in-out infinite 1.4s; }
         .anim-float-slow { animation: floatSlow 4s ease-in-out infinite; }
+
+        .font-montserrat {
+            font-family: 'Montserrat', system-ui, -apple-system, sans-serif !important;
+        }
+        .font-inter {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        }
+
+        /* 2P Cosmic Glow & Float Animation */
+        @keyframes cosmicLogoPulse {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                box-shadow: 0 0 25px rgba(37, 99, 235, 0.4), 0 0 50px rgba(6, 182, 212, 0.25);
+            }
+            50% {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 0 45px rgba(37, 99, 235, 0.65), 0 0 80px rgba(6, 182, 212, 0.45);
+            }
+        }
+        .anim-logo-cosmic {
+            animation: cosmicLogoPulse 4.2s ease-in-out infinite;
+        }
+
+        /* Dải màu Galactic Cyber: Xanh Hoàng Gia (#2563EB) chuyển dần sang Xanh Ngọc/Cyan sáng (#06B6D4) */
+        @keyframes galacticCyberFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-brand-galactic {
+            font-family: 'Montserrat', system-ui, -apple-system, sans-serif !important;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            background: linear-gradient(
+                115deg,
+                #2563eb 0%,
+                #3b82f6 25%,
+                #0ea5e9 50%,
+                #06b6d4 75%,
+                #22d3ee 100%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: galacticCyberFlow 5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(37, 99, 235, 0.45)) drop-shadow(0 0 40px rgba(6, 182, 212, 0.35));
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.45;
+            padding-top: 0.2em;
+            padding-bottom: 0.2em;
+            padding-left: 0.15em;
+            padding-right: 0.15em;
+            overflow: visible;
+            text-align: center;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .hero-brand-galactic:hover {
+            filter: drop-shadow(0 0 30px rgba(37, 99, 235, 0.7)) drop-shadow(0 0 55px rgba(6, 182, 212, 0.6));
+            transform: scale(1.02);
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col antialiased selection:bg-blue-500/20 selection:text-blue-700">
@@ -242,7 +309,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <!-- THẺ BANNER NỀN DARK-ACCENT CAO CẤP VỚI HIỆU ỨNG ÁNH SÁNG VÀ VIỀN TỐI -->
-            <div class="relative rounded-3xl sm:rounded-[2.5rem] overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-slate-800/90 shadow-2xl p-6 sm:p-10 lg:p-14 text-center">
+            <div class="relative rounded-3xl sm:rounded-[2.5rem] overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-slate-800/90 shadow-2xl p-5 sm:p-7 lg:p-9 text-center">
                 
                 <!-- Hiệu ứng quầng sáng nền (Ambient Glow Backdrops) -->
                 <div class="absolute -top-32 -left-32 w-80 sm:w-96 h-80 sm:h-96 bg-indigo-600/25 rounded-full blur-[90px] sm:blur-[110px] pointer-events-none"></div>
@@ -253,144 +320,53 @@
                 <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#818cf8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
 
                 <!-- Badge Tiêu Đề Phụ Đầu Banner -->
-                <div class="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-xs font-bold text-slate-300 mb-4 sm:mb-6 backdrop-blur-md shadow-xs">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <div class="relative z-10 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-700/80 text-[11px] font-bold text-slate-300 mb-2 sm:mb-3 backdrop-blur-md shadow-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
                     <span class="text-emerald-400 font-mono tracking-widest uppercase">NÂNG TẦM TRI THỨC</span>
                 </div>
 
                 <!-- ========================================================================= -->
                 <!-- ĐIỂM NHẤN TRUNG TÂM: TYPOGRAPHY CHỮ LỚN "TIỂU ĐỘI 2P" PHONG CÁCH STARBOY / SPIKES -->
                 <!-- ========================================================================= -->
-                <div class="relative z-10 max-w-4xl mx-auto my-1 sm:my-2">
-                    <svg class="w-full h-auto max-h-[140px] sm:max-h-[190px] md:max-h-[220px] mx-auto filter drop-shadow-[0_0_35px_rgba(99,102,241,0.5)] select-none" 
-                         viewBox="0 0 960 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <!-- Metallic Silver / Chrome Gradient -->
-                            <linearGradient id="chromeHeroFill" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#FFFFFF"/>
-                                <stop offset="25%" stop-color="#F1F5F9"/>
-                                <stop offset="50%" stop-color="#CBD5E1"/>
-                                <stop offset="75%" stop-color="#94A3B8"/>
-                                <stop offset="100%" stop-color="#E2E8F0"/>
-                            </linearGradient>
+                <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
+                    
+                    <!-- Khung Logo Chrome 3D & Bàn Tay Kim Cương (Cân chỉnh kích cỡ tỉ lệ vàng gọn gàng w-28 h-28 sm:w-32 sm:h-32) -->
+                    <div class="relative group mb-2">
+                        <!-- Quầng sáng Ambient Glow phía sau Logo (Galactic Cyber: Royal Blue & Cyan) -->
+                        <div class="absolute -inset-1.5 bg-gradient-to-r from-blue-600/30 via-cyan-400/40 to-blue-500/30 rounded-2xl blur-xl opacity-80 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-                            <!-- Neon Stroke Outline Gradient -->
-                            <linearGradient id="strokeHeroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#818CF8"/>
-                                <stop offset="50%" stop-color="#C084FC"/>
-                                <stop offset="100%" stop-color="#FBBF24"/>
-                            </linearGradient>
+                        <!-- Khung viền tinh tế bo góc quanh Logo 2P nền đen huyền bí -->
+                        <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-black border-2 border-slate-700/80 p-2 flex items-center justify-center anim-logo-cosmic overflow-hidden ring-1 ring-white/20 transform group-hover:scale-108 transition-all duration-500">
+                            <img src="{{ asset('images/logo-2p.png') }}" 
+                                 alt="Logo Tiểu Đội 2P" 
+                                 class="w-full h-full object-contain rounded-xl select-none transform group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                    </div>
 
-                            <!-- Gold Star Gradient -->
-                            <linearGradient id="starHeroGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#FFFBEB"/>
-                                <stop offset="40%" stop-color="#FDE68A"/>
-                                <stop offset="100%" stop-color="#F59E0B"/>
-                            </linearGradient>
-
-                            <!-- Glow filter for sparkles -->
-                            <filter id="glowHeroSparkle" x="-50%" y="-50%" width="200%" height="200%">
-                                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
-                                <feMerge>
-                                    <feMergeNode in="blur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
-
-                        <!-- LỚP 1: VIỀN KÉP NGOÀI (DOUBLE OUTLINE DEEP SHADOW EFFECT) -->
-                        <text x="480" y="145" text-anchor="middle"
-                              font-family="'Be Vietnam Pro', system-ui, sans-serif"
-                              font-weight="900" font-style="italic" font-size="116" letter-spacing="-0.04em"
-                              stroke="#0f172a" stroke-width="18" stroke-linejoin="miter" stroke-miterlimit="4"
-                              fill="#0f172a">
-                            TIỂU ĐỘI 2P
-                        </text>
-
-                        <!-- LỚP 2: ĐƯỜNG VIỀN NEON KÉP (NEON DUAL OUTLINE) -->
-                        <text x="480" y="145" text-anchor="middle"
-                              font-family="'Be Vietnam Pro', system-ui, sans-serif"
-                              font-weight="900" font-style="italic" font-size="116" letter-spacing="-0.04em"
-                              stroke="url(#strokeHeroGrad)" stroke-width="8" stroke-linejoin="miter" stroke-miterlimit="4"
-                              fill="none">
-                            TIỂU ĐỘI 2P
-                        </text>
-
-                        <!-- LỚP 3: CHROME METALLIC CHÍNH DIỆN (CHROME FILL) -->
-                        <text x="480" y="145" text-anchor="middle"
-                              font-family="'Be Vietnam Pro', system-ui, sans-serif"
-                              font-weight="900" font-style="italic" font-size="116" letter-spacing="-0.04em"
-                              fill="url(#chromeHeroFill)">
-                            TIỂU ĐỘI 2P
-                        </text>
-
-                        <!-- LỚP 4: HỌA TIẾT NÉT VUỐT GAI NHỌN (SHARP SPIKES ORNAMENTS) -->
-                        <!-- Spikes trên chữ T -->
-                        <polygon points="120,40 135,70 110,65" fill="#FFFFFF" stroke="#818CF8" stroke-width="1.5"/>
-                        <polygon points="85,62 105,75 80,82" fill="#CBD5E1" stroke="#818CF8" stroke-width="1.5"/>
-
-                        <!-- Spikes trên chữ Đ -->
-                        <polygon points="360,50 375,30 380,55" fill="#FFFFFF" stroke="#818CF8" stroke-width="1.5"/>
-                        <polygon points="415,85 435,78 420,95" fill="#F1F5F9" stroke="#818CF8" stroke-width="1.5"/>
-
-                        <!-- Spikes trên số 2 -->
-                        <polygon points="690,45 710,25 715,50" fill="#FFFFFF" stroke="#818CF8" stroke-width="1.5"/>
-                        <polygon points="650,150 635,175 660,165" fill="#CBD5E1" stroke="#818CF8" stroke-width="1.5"/>
-                        <polygon points="765,150 785,140 765,160" fill="#818CF8" stroke="#FBBF24" stroke-width="1.5"/>
-
-                        <!-- Spikes trên chữ P -->
-                        <polygon points="850,45 875,35 860,65" fill="#FFFFFF" stroke="#FBBF24" stroke-width="1.5"/>
-                        <polygon points="785,165 770,195 800,175" fill="#C084FC" stroke="#818CF8" stroke-width="1.5"/>
-                        <polygon points="885,105 910,95 890,120" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.5"/>
-
-                        <!-- LỚP 5: CÁC NGÔI SAO 4 CÁNH LẤP LÁNH (SPARKLES TỎA SÁNG XUNG QUANH) -->
-                        <!-- Ngôi sao 1: Góc trên bên phải chữ '2P' (Ngôi sao chủ đạo lớn) -->
-                        <g transform="translate(870, 25)" filter="url(#glowHeroSparkle)" class="anim-star-twinkle">
-                            <path d="M 0 -22 C 0 -6 6 0 22 0 C 6 0 0 6 0 22 C 0 6 -6 0 -22 0 C -6 0 0 -6 0 -22 Z" fill="url(#starHeroGold)"/>
-                            <circle cx="0" cy="0" r="3" fill="#FFFFFF"/>
-                        </g>
-
-                        <!-- Ngôi sao 2: Góc trên bên trái chữ 'TIỂU' -->
-                        <g transform="translate(90, 45)" filter="url(#glowHeroSparkle)" class="anim-star-twinkle-delay">
-                            <path d="M 0 -16 C 0 -4.5 4.5 0 16 0 C 4.5 0 0 4.5 0 16 C 0 4.5 -4.5 0 -16 0 C -4.5 0 0 -4.5 0 -16 Z" fill="url(#starHeroGold)"/>
-                            <circle cx="0" cy="0" r="2" fill="#FFFFFF"/>
-                        </g>
-
-                        <!-- Ngôi sao 3: Ở giữa ĐỘI & 2P -->
-                        <g transform="translate(635, 60)" filter="url(#glowHeroSparkle)" class="anim-star-twinkle">
-                            <path d="M 0 -14 C 0 -4 4 0 14 0 C 4 0 0 4 0 14 C 0 4 -4 0 -14 0 C -4 0 0 -4 0 -14 Z" fill="#FBBF24"/>
-                            <circle cx="0" cy="0" r="2" fill="#FFFFFF"/>
-                        </g>
-
-                        <!-- Ngôi sao 4: Phía dưới chữ P -->
-                        <g transform="translate(895, 175)" filter="url(#glowHeroSparkle)" class="anim-star-twinkle-delay">
-                            <path d="M 0 -11 C 0 -3 3 0 11 0 C 3 0 0 3 0 11 C 0 3 -3 0 -11 0 C -3 0 0 -3 0 -11 Z" fill="url(#starHeroGold)"/>
-                            <circle cx="0" cy="0" r="1.5" fill="#FFFFFF"/>
-                        </g>
-
-                        <!-- Ngôi sao 5: Phía dưới chữ T -->
-                        <g transform="translate(160, 165)" filter="url(#glowHeroSparkle)" class="anim-star-twinkle">
-                            <path d="M 0 -9 C 0 -2.5 2.5 0 9 0 C 2.5 0 0 2.5 0 9 C 0 2.5 -2.5 0 -9 0 C -2.5 0 0 -2.5 0 -9 Z" fill="#FDE68A"/>
-                        </g>
-                    </svg>
+                    <!-- Tiêu Đề TIỂU ĐỘI 2P (Montserrat Black / Căn giữa hoàn hảo, đầy đủ dấu chữ) -->
+                    <div class="w-full flex items-center justify-center text-center my-1 sm:my-1.5 overflow-visible">
+                        <h1 class="hero-brand-galactic text-2xl sm:text-3xl md:text-4xl font-black uppercase select-none text-center">
+                            <span>TIỂU ĐỘI</span><span class="ml-2.5 sm:ml-3 inline-block">2P</span>
+                        </h1>
+                    </div>
                 </div>
 
                 <!-- ========================================================================= -->
                 <!-- KHẨU HIỆU (SLOGAN): BỨC PHÁ TRI THỨC - DẪN LỐI TƯƠNG LAI                  -->
                 <!-- ========================================================================= -->
-                <div class="relative z-10 mt-3 sm:mt-4 mb-2">
-                    <div class="inline-flex items-center gap-2 sm:gap-3 font-black text-xs sm:text-sm md:text-base tracking-[0.2em] sm:tracking-[0.3em] uppercase">
-                        <svg class="w-4 h-4 text-amber-400 anim-star-twinkle shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <div class="relative z-10 mt-1 sm:mt-1.5 mb-1 w-full text-center">
+                    <div class="font-inter inline-flex items-center justify-center gap-2 font-bold text-xs sm:text-sm tracking-[0.2em] uppercase pl-[0.2em]">
+                        <svg class="w-3.5 h-3.5 text-cyan-400 anim-star-twinkle shrink-0" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                         </svg>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-200 drop-shadow-[0_0_12px_rgba(251,191,36,0.4)]">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-white to-cyan-200 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">
                             BỨC PHÁ TRI THỨC — DẪN LỐI TƯƠNG LAI
                         </span>
-                        <svg class="w-4 h-4 text-amber-400 anim-star-twinkle-delay shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <svg class="w-3.5 h-3.5 text-cyan-400 anim-star-twinkle-delay shrink-0" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                         </svg>
                     </div>
-                    <p class="mt-2 text-slate-300 text-xs sm:text-sm md:text-base max-w-2xl mx-auto font-normal leading-relaxed">
+                    <p class="mt-1 text-slate-300 text-xs sm:text-sm max-w-xl mx-auto font-normal leading-relaxed">
                         Hệ thống thư viện số hóa thế hệ mới. Khám phá kho sách chuyên ngành tinh hoa, mượn trả minh bạch và trải nghiệm đặc quyền Scholar VIP miễn cọc 0đ.
                     </p>
                 </div>
@@ -398,38 +374,36 @@
                 <!-- ========================================================================= -->
                 <!-- CÁC NÚT KÊU GỌI HÀNH ĐỘNG (CTA BUTTONS)                                   -->
                 <!-- ========================================================================= -->
-                <div class="relative z-10 mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5">
+                <div class="relative z-10 mt-3.5 sm:mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <!-- NÚT 1: [KHÁM PHÁ KHO SÁCH] (Nền đen/indigo bo góc lớn, đổ bóng) -->
                     <a href="{{ route('books.index') }}" 
-                       class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3.5 sm:py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-indigo-600/35 hover:shadow-indigo-500/50 hover:scale-[1.03] active:scale-95 transition-all duration-200 border border-indigo-400/40 cursor-pointer">
-                        <svg class="w-5 h-5 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-2.5 sm:py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-indigo-600/35 hover:shadow-indigo-500/50 hover:scale-[1.03] active:scale-95 transition-all duration-200 border border-indigo-400/40 cursor-pointer">
+                        <svg class="w-4 h-4 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                         </svg>
                         <span>KHÁM PHÁ KHO SÁCH</span>
-                        <svg class="w-4 h-4 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                         </svg>
                     </a>
 
                     <!-- NÚT 2: [ĐĂNG KÝ HỘI VIÊN VIP] (Viền mảnh, chữ đậm kèm icon vương miện) -->
                     <a href="{{ route('membership.index') }}" 
-                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-2xl bg-slate-900/90 hover:bg-amber-950/40 text-amber-300 hover:text-amber-200 font-black text-xs sm:text-sm uppercase tracking-wider backdrop-blur-md border-2 border-amber-400/70 hover:border-amber-400 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/25 hover:scale-[1.03] active:scale-95 transition-all duration-200 cursor-pointer">
-                        <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 sm:py-3 rounded-xl bg-slate-900/90 hover:bg-amber-950/40 text-amber-300 hover:text-amber-200 font-black text-xs sm:text-sm uppercase tracking-wider backdrop-blur-md border-2 border-amber-400/70 hover:border-amber-400 shadow-md shadow-amber-500/10 hover:shadow-amber-500/25 hover:scale-[1.03] active:scale-95 transition-all duration-200 cursor-pointer">
+                        <svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
                         </svg>
                         <span>ĐĂNG KÝ HỘI VIÊN VIP</span>
-                        <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-black bg-amber-400 text-slate-950 uppercase">0đ CỌC</span>
+                        <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-black bg-amber-400 text-slate-950 uppercase">0đ CỌC</span>
                     </a>
                 </div>
 
                 <!-- ========================================================================= -->
-                <!-- Ô TÌM KIẾM SÁCH THÔNG MINH - GỢI Ý 15 TỪ KHÓA TRENDING (UX DISCOVERY)   -->
+                <!-- Ô TÌM KIẾM SÁCH TRỰC TIẾP (QUICK SEARCH BAR)                               -->
                 <!-- ========================================================================= -->
-                <div class="relative z-30 mt-8 sm:mt-10 max-w-3xl mx-auto"
+                <div class="relative z-30 mt-4 sm:mt-5 max-w-3xl mx-auto"
                      x-data="{
                         searchQuery: '{{ request('search') }}',
-                        isOpen: false,
-                        activeTab: 'all',
                         placeholderIdx: 0,
                         placeholderPrefix: 'Thử tìm: ',
                         placeholders: [
@@ -445,67 +419,20 @@
                             'Light Novel hot'
                         ],
                         timer: null,
-                        categories: [
-                            { id: 'all', name: 'Tất cả (15)', icon: '🔥' },
-                            { id: 'tech', name: 'Công nghệ', icon: '💻' },
-                            { id: 'biz', name: 'Kinh doanh', icon: '💼' },
-                            { id: 'stock', name: 'Chứng khoán', icon: '📈' },
-                            { id: 'manga', name: 'Manga / Anime', icon: '⛩️' }
-                        ],
-                        suggestions: [
-                            // 1. Công nghệ thông tin (4 từ khóa: 2 - 4 chữ)
-                            { text: 'Ứng dụng AI', cat: 'tech', catName: 'Công nghệ', icon: '🤖', hot: true },
-                            { text: 'Lập trình Python', cat: 'tech', catName: 'Công nghệ', icon: '🐍', hot: true },
-                            { text: 'Cấu trúc dữ liệu', cat: 'tech', catName: 'Công nghệ', icon: '💾', hot: false },
-                            { text: 'An ninh mạng', cat: 'tech', catName: 'Công nghệ', icon: '🛡️', hot: false },
-                            // 2. Kinh doanh & Quản trị (4 từ khóa: 2 - 4 chữ)
-                            { text: 'Khởi nghiệp tinh gọn', cat: 'biz', catName: 'Kinh doanh', icon: '🚀', hot: true },
-                            { text: 'Marketing thực chiến', cat: 'biz', catName: 'Kinh doanh', icon: '📢', hot: false },
-                            { text: 'Quản trị dự án', cat: 'biz', catName: 'Kinh doanh', icon: '📋', hot: false },
-                            { text: 'Kỹ năng đàm phán', cat: 'biz', catName: 'Kinh doanh', icon: '🤝', hot: false },
-                            // 3. Chứng khoán & Tài chính (4 từ khóa: 2 - 4 chữ)
-                            { text: 'Tài chính cá nhân', cat: 'stock', catName: 'Chứng khoán', icon: '💰', hot: true },
-                            { text: 'Phân tích kỹ thuật', cat: 'stock', catName: 'Chứng khoán', icon: '📈', hot: true },
-                            { text: 'Đầu tư giá trị', cat: 'stock', catName: 'Chứng khoán', icon: '💎', hot: false },
-                            { text: 'Báo cáo tài chính', cat: 'stock', catName: 'Chứng khoán', icon: '📊', hot: false },
-                            // 4. Truyện Manga / Anime (3 từ khóa: 2 - 4 chữ)
-                            { text: 'Manga chuyển sinh', cat: 'manga', catName: 'Manga / Anime', icon: '⚔️', hot: true },
-                            { text: 'Trinh thám phá án', cat: 'manga', catName: 'Manga / Anime', icon: '🔍', hot: false },
-                            { text: 'Light Novel hot', cat: 'manga', catName: 'Manga / Anime', icon: '📖', hot: true }
-                        ],
                         init() {
                             this.timer = setInterval(() => {
-                                if (!this.isOpen && !this.searchQuery) {
+                                if (!this.searchQuery) {
                                     this.placeholderIdx = (this.placeholderIdx + 1) % this.placeholders.length;
                                 }
                             }, 3000);
                         },
                         currentPlaceholder() {
                             return this.placeholderPrefix + this.placeholders[this.placeholderIdx] + '...';
-                        },
-                        get filteredList() {
-                            let items = this.suggestions;
-                            if (this.activeTab !== 'all') {
-                                items = items.filter(s => s.cat === this.activeTab);
-                            }
-                            if (this.searchQuery && this.searchQuery.trim().length > 0) {
-                                const q = this.searchQuery.trim().toLowerCase();
-                                items = items.filter(s => s.text.toLowerCase().includes(q) || s.catName.toLowerCase().includes(q));
-                            }
-                            return items;
-                        },
-                        selectKeyword(kw) {
-                            this.searchQuery = kw;
-                            this.isOpen = false;
-                            this.$nextTick(() => {
-                                this.$refs.heroSearchForm.submit();
-                            });
                         }
-                     }"
-                     x-on:click.outside="isOpen = false">
+                     }">
 
                     <!-- Form Search Input chính -->
-                    <form x-ref="heroSearchForm" action="{{ route('books.index') }}" method="GET" 
+                    <form action="{{ route('books.index') }}" method="GET" 
                           class="relative flex items-center bg-slate-900/90 rounded-2xl border-2 border-slate-700 focus-within:border-indigo-400 focus-within:ring-4 focus-within:ring-indigo-500/25 shadow-2xl transition-all duration-200 p-1.5 sm:p-2 backdrop-blur-md">
                         <div class="pl-3 sm:pl-4 text-slate-400 pointer-events-none shrink-0">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -516,9 +443,6 @@
                                name="search"
                                x-model="searchQuery"
                                :placeholder="currentPlaceholder()"
-                               x-on:focus="isOpen = true"
-                               x-on:click="isOpen = true"
-                               x-on:keydown.escape="isOpen = false"
                                autocomplete="off"
                                class="w-full pl-3 pr-3 py-2.5 sm:py-3 bg-transparent border-0 text-white placeholder:text-slate-400 text-sm sm:text-base font-medium focus:outline-none focus:ring-0">
                         
@@ -539,150 +463,6 @@
                             <span>Tìm kiếm</span>
                         </button>
                     </form>
-
-                    <!-- DROPDOWN POP-OVER: GỢI Ý 15 TỪ KHÓA THEO CHUYÊN ĐỀ (UX DISCOVERY) -->
-                    <div x-show="isOpen"
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 translate-y-2 scale-98"
-                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave-end="opacity-0 translate-y-2 scale-98"
-                         x-cloak
-                         class="absolute left-0 right-0 top-full mt-2.5 p-4 sm:p-5 rounded-2xl bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 shadow-2xl shadow-black/70 z-50 text-left">
-                        
-                        <!-- Header Popover & Tabs chọn chuyên ngành -->
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
-                            <div class="flex items-center gap-2">
-                                <span class="flex h-2.5 w-2.5 relative">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
-                                </span>
-                                <span class="text-xs sm:text-sm font-bold text-white tracking-wide uppercase">
-                                    Xu hướng tìm kiếm thịnh hành
-                                </span>
-                            </div>
-
-                            <!-- Tabs lọc 4 chủ đề -->
-                            <div class="flex items-center flex-wrap gap-1">
-                                <template x-for="cat in categories" :key="cat.id">
-                                    <button type="button"
-                                            x-on:click="activeTab = cat.id"
-                                            :class="activeTab === cat.id ? 'bg-indigo-600 text-white font-bold shadow-xs' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800 font-medium'"
-                                            class="px-2.5 py-1 rounded-lg text-[11px] sm:text-xs transition flex items-center gap-1 cursor-pointer">
-                                        <span x-text="cat.icon"></span>
-                                        <span x-text="cat.name"></span>
-                                    </button>
-                                </template>
-                            </div>
-                        </div>
-
-                        <!-- Lưới hiển thị các từ khóa gợi ý -->
-                        <div class="mt-3.5">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1">
-                                <template x-for="item in filteredList" :key="item.text">
-                                    <button type="button"
-                                            x-on:click="selectKeyword(item.text)"
-                                            class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-800/60 hover:bg-indigo-950/60 border border-slate-700/60 hover:border-indigo-500/60 text-slate-200 hover:text-white transition group text-left cursor-pointer">
-                                        <div class="flex items-center gap-2.5 min-w-0">
-                                            <span class="text-base shrink-0 group-hover:scale-110 transition-transform" x-text="item.icon"></span>
-                                            <div class="min-w-0">
-                                                <div class="text-xs sm:text-sm font-semibold truncate group-hover:text-indigo-300 transition-colors" x-text="item.text"></div>
-                                                <div class="text-[10px] text-slate-400 truncate" x-text="item.catName"></div>
-                                            </div>
-                                        </div>
-                                        <div class="shrink-0 flex items-center gap-1">
-                                            <span x-show="item.hot" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-tighter">
-                                                HOT
-                                            </span>
-                                            <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </template>
-                            </div>
-
-                            <!-- Trạng thái khi gõ từ khóa không nằm trong 15 gợi ý -->
-                            <div x-show="filteredList.length === 0" class="py-6 text-center text-slate-400">
-                                <p class="text-xs">Không có gợi ý trùng khớp cho "<span class="text-indigo-300 font-semibold" x-text="searchQuery"></span>"</p>
-                                <button type="button"
-                                        x-on:click="$refs.heroSearchForm.submit()"
-                                        class="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition cursor-pointer">
-                                    <span>Tìm kiếm trực tiếp trong kho sách</span>
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Footer Popover: Phím tắt & Đóng -->
-                        <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                            <span class="flex items-center gap-1">
-                                <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono text-[10px]">Enter</kbd>
-                                <span>để tìm</span>
-                                <span class="mx-1">•</span>
-                                <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono text-[10px]">Esc</kbd>
-                                <span>để đóng</span>
-                            </span>
-                            <button type="button" 
-                                    x-on:click="isOpen = false"
-                                    class="text-slate-400 hover:text-slate-200 transition cursor-pointer font-medium">
-                                Đóng ✕
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- HÀNG CHIP GỢI Ý NHANH (QUICK TRENDING PILLS) NGAY DƯỚI THANH TÌM KIẾM -->
-                    <div class="mt-3.5 flex flex-wrap items-center justify-center gap-2 text-xs">
-                        <span class="font-bold text-slate-400 flex items-center gap-1.5 shrink-0">
-                            <span class="text-amber-400">🔥</span> Xu hướng:
-                        </span>
-                        
-                        <!-- Top 6 Từ Khóa Tiêu Biểu Cho 4 Mảng Chính -->
-                        <a href="{{ route('books.index', ['search' => 'Ứng dụng AI']) }}" 
-                           x-on:click.prevent="selectKeyword('Ứng dụng AI')"
-                           class="px-2.5 py-1 rounded-lg bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
-                            <span>🤖</span>
-                            <span class="group-hover:underline">Ứng dụng AI</span>
-                        </a>
-
-                        <a href="{{ route('books.index', ['search' => 'Khởi nghiệp tinh gọn']) }}" 
-                           x-on:click.prevent="selectKeyword('Khởi nghiệp tinh gọn')"
-                           class="px-2.5 py-1 rounded-lg bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
-                            <span>🚀</span>
-                            <span class="group-hover:underline">Khởi nghiệp tinh gọn</span>
-                        </a>
-
-                        <a href="{{ route('books.index', ['search' => 'Phân tích kỹ thuật']) }}" 
-                           x-on:click.prevent="selectKeyword('Phân tích kỹ thuật')"
-                           class="px-2.5 py-1 rounded-lg bg-amber-950/70 hover:bg-amber-900 border border-amber-500/40 text-amber-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
-                            <span>📈</span>
-                            <span class="group-hover:underline">Phân tích kỹ thuật</span>
-                        </a>
-
-                        <a href="{{ route('books.index', ['search' => 'Manga chuyển sinh']) }}" 
-                           x-on:click.prevent="selectKeyword('Manga chuyển sinh')"
-                           class="px-2.5 py-1 rounded-lg bg-rose-950/70 hover:bg-rose-900 border border-rose-500/40 text-rose-200 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
-                            <span>⚔️</span>
-                            <span class="group-hover:underline">Manga chuyển sinh</span>
-                        </a>
-
-                        <a href="{{ route('books.index', ['search' => 'Lập trình Python']) }}" 
-                           x-on:click.prevent="selectKeyword('Lập trình Python')"
-                           class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
-                            <span>🐍</span>
-                            <span class="group-hover:underline">Lập trình Python</span>
-                        </a>
-
-                        <a href="{{ route('books.index', ['search' => 'Tài chính cá nhân']) }}" 
-                           x-on:click.prevent="selectKeyword('Tài chính cá nhân')"
-                           class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white font-medium transition flex items-center gap-1 shadow-xs cursor-pointer group">
-                            <span>💰</span>
-                            <span class="group-hover:underline">Tài chính cá nhân</span>
-                        </a>
-                    </div>
                 </div>
 
             </div>
@@ -837,53 +617,227 @@
     </section>
 
     <!-- ========================================================================= -->
-    <!-- 5. CHUYÊN NGÀNH & THỂ LOẠI CHỌN LỌC                                       -->
+    <!-- 5. CHUYÊN NGÀNH & THỂ LOẠI CHỌN LỌC (REDESIGNED)                          -->
     <!-- ========================================================================= -->
-    <section id="categories-section" class="py-16 bg-slate-50/70 border-t border-slate-200/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    @php
+        $categoryThemeMap = [
+            'CNTT' => [
+                'tag' => 'Công nghệ & AI',
+                'gradient' => 'from-indigo-600 via-blue-600 to-cyan-500',
+                'shadow' => 'shadow-indigo-500/25',
+                'border_hover' => 'hover:border-indigo-400/80 hover:shadow-indigo-500/10',
+                'badge' => 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
+                'accent_text' => 'text-indigo-600',
+                'desc' => 'Khoa học máy tính, lập trình hệ thống, kiến trúc phần mềm, AI & an toàn thông tin.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />'
+            ],
+            'Kinh doanh' => [
+                'tag' => 'Chiến lược & Quản trị',
+                'gradient' => 'from-emerald-600 via-teal-600 to-emerald-500',
+                'shadow' => 'shadow-emerald-500/25',
+                'border_hover' => 'hover:border-emerald-400/80 hover:shadow-emerald-500/10',
+                'badge' => 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+                'accent_text' => 'text-emerald-600',
+                'desc' => 'Quản trị chiến lược, khởi nghiệp tinh gọn, vận hành doanh nghiệp & marketing số.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />'
+            ],
+            'Chứng khoán' => [
+                'tag' => 'Tài chính & Đầu tư',
+                'gradient' => 'from-amber-500 via-orange-500 to-amber-600',
+                'shadow' => 'shadow-amber-500/25',
+                'border_hover' => 'hover:border-amber-400/80 hover:shadow-amber-500/10',
+                'badge' => 'bg-amber-50 text-amber-800 border-amber-200/80',
+                'accent_text' => 'text-amber-600',
+                'desc' => 'Phân tích kỹ thuật, đầu tư giá trị, thị trường vốn & quản trị danh mục rủi ro.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />'
+            ],
+            'Truyện Anime' => [
+                'tag' => 'Manga & Novel',
+                'gradient' => 'from-rose-500 via-pink-600 to-purple-600',
+                'shadow' => 'shadow-rose-500/25',
+                'border_hover' => 'hover:border-rose-400/80 hover:shadow-rose-500/10',
+                'badge' => 'bg-rose-50 text-rose-700 border-rose-200/80',
+                'accent_text' => 'text-rose-600',
+                'desc' => 'Tuyển tập Light Novel, Manga chuyển sinh, huyền huyễn và tiểu thuyết đồ họa đặc sắc.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />'
+            ],
+            'Học ngoại ngữ' => [
+                'tag' => 'Ngôn ngữ & Quốc tế',
+                'gradient' => 'from-sky-500 via-blue-600 to-indigo-600',
+                'shadow' => 'shadow-sky-500/25',
+                'border_hover' => 'hover:border-sky-400/80 hover:shadow-sky-500/10',
+                'badge' => 'bg-sky-50 text-sky-700 border-sky-200/80',
+                'accent_text' => 'text-sky-600',
+                'desc' => 'Giáo trình luyện thi chứng chỉ quốc tế IELTS, TOEIC, HSK, JLPT & phản xạ đa ngôn ngữ.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />'
+            ],
+            'Tâm lý học' => [
+                'tag' => 'Hành vi & Nhận thức',
+                'gradient' => 'from-purple-600 via-violet-600 to-fuchsia-600',
+                'shadow' => 'shadow-purple-500/25',
+                'border_hover' => 'hover:border-purple-400/80 hover:shadow-purple-500/10',
+                'badge' => 'bg-purple-50 text-purple-700 border-purple-200/80',
+                'accent_text' => 'text-purple-600',
+                'desc' => 'Công trình nghiên cứu kinh điển về hành vi con người, tư duy nhận thức & trí tuệ cảm xúc.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />'
+            ],
+            'Kỹ năng sống' => [
+                'tag' => 'Phát triển cá nhân',
+                'gradient' => 'from-teal-600 via-emerald-600 to-cyan-600',
+                'shadow' => 'shadow-teal-500/25',
+                'border_hover' => 'hover:border-teal-400/80 hover:shadow-teal-500/10',
+                'badge' => 'bg-teal-50 text-teal-700 border-teal-200/80',
+                'accent_text' => 'text-teal-600',
+                'desc' => 'Cẩm nang rèn luyện nhân cách, đối nhân xử thế, quản trị bản thân & tư duy thành công.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />'
+            ],
+            'Văn học' => [
+                'tag' => 'Văn học & Tinh hoa',
+                'gradient' => 'from-rose-600 via-red-600 to-amber-600',
+                'shadow' => 'shadow-rose-500/25',
+                'border_hover' => 'hover:border-rose-400/80 hover:shadow-rose-500/10',
+                'badge' => 'bg-rose-50 text-rose-700 border-rose-200/80',
+                'accent_text' => 'text-rose-600',
+                'desc' => 'Kiệt tác văn học kinh điển Việt Nam & thế giới, nuôi dưỡng tâm hồn và chiều sâu tư tưởng.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />'
+            ],
+        ];
+
+        $fallbackPalettes = [
+            [
+                'tag' => 'Chuyên ngành',
+                'gradient' => 'from-indigo-600 via-blue-600 to-sky-600',
+                'shadow' => 'shadow-indigo-500/25',
+                'border_hover' => 'hover:border-indigo-400/80 hover:shadow-indigo-500/10',
+                'badge' => 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
+                'accent_text' => 'text-indigo-600',
+                'desc' => 'Tài liệu và sách chuyên khảo chất lượng cao phục vụ học tập và nghiên cứu.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />'
+            ],
+            [
+                'tag' => 'Khoa học',
+                'gradient' => 'from-violet-600 via-purple-600 to-indigo-600',
+                'shadow' => 'shadow-violet-500/25',
+                'border_hover' => 'hover:border-violet-400/80 hover:shadow-violet-500/10',
+                'badge' => 'bg-violet-50 text-violet-700 border-violet-200/80',
+                'accent_text' => 'text-violet-600',
+                'desc' => 'Nguồn tri thức đa dạng được tuyển chọn và cập nhật liên tục.',
+                'icon_svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />'
+            ],
+        ];
+    @endphp
+
+    <section id="categories-section" class="relative py-20 bg-gradient-to-b from-slate-50 via-indigo-50/20 to-slate-50 border-t border-slate-200/80 overflow-hidden">
+        <!-- Ambient decorative blurs -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <div class="inline-flex items-center gap-2 text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
-                    CHỦ ĐỀ NGHIÊN CỨU
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/80 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
+                    <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+                    <span>CHỦ ĐỀ NGHIÊN CỨU & HỌC THUẬT</span>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
                     Khám Phá Các Chuyên Ngành Khoa Học
                 </h2>
-                <p class="mt-2 text-sm text-slate-500">
-                    Phân loại chuẩn mực giúp bạn dễ dàng tiếp cận nguồn tri thức đúng theo nhu cầu học tập và nghiên cứu.
+                <p class="mt-3 text-sm sm:text-base text-slate-500 leading-relaxed">
+                    Phân loại chuẩn mực giúp bạn dễ dàng tiếp cận nguồn tri thức đúng theo nhu cầu học tập, tra cứu và nghiên cứu chuyên sâu.
                 </p>
+                <div class="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs font-medium text-slate-500">
+                    <span class="inline-flex items-center gap-1.5"><span class="text-indigo-600 font-bold">8</span> Chuyên ngành trọng điểm</span>
+                    <span class="text-slate-300">•</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="text-emerald-600 font-bold">400+</span> Đầu sách chuẩn hóa</span>
+                    <span class="text-slate-300">•</span>
+                    <span class="inline-flex items-center gap-1.5">⚡ Tra cứu & Mượn tức thì</span>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Grid 8 cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @forelse($categories as $category)
+                    @php
+                        $theme = $categoryThemeMap[$category->name] ?? $fallbackPalettes[$loop->index % count($fallbackPalettes)];
+                        $bookCount = $category->books_count ?? $category->books()->count();
+                        $cardDesc = $category->description ?: $theme['desc'];
+                    @endphp
+
                     <a href="{{ route('books.index', ['category_id' => $category->id]) }}" 
-                       class="dark-card p-5 rounded-xl block group">
+                       class="group relative flex flex-col justify-between bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden cursor-pointer {{ $theme['border_hover'] }}">
                         
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-200/80 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                </svg>
+                        <!-- Top accent gradient line on hover -->
+                        <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r {{ $theme['gradient'] }} opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                        <!-- Ambient decorative corner tint on hover -->
+                        <div class="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br {{ $theme['gradient'] }} opacity-0 group-hover:opacity-10 rounded-full blur-xl transition-opacity duration-300 pointer-events-none"></div>
+
+                        <div>
+                            <!-- Top Row: Gradient Icon + Count Badge -->
+                            <div class="flex items-center justify-between gap-3 mb-5">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br {{ $theme['gradient'] }} flex items-center justify-center text-white shadow-md {{ $theme['shadow'] }} group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shrink-0">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        {!! $theme['icon_svg'] !!}
+                                    </svg>
+                                </div>
+                                
+                                <div class="flex flex-col items-end gap-1">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $theme['badge'] }} border shadow-2xs">
+                                        {{ $theme['tag'] }}
+                                    </span>
+                                    <span class="text-[11px] font-mono font-semibold text-slate-500 bg-slate-100/90 px-2 py-0.5 rounded-md border border-slate-200/70">
+                                        {{ $bookCount }} đầu sách
+                                    </span>
+                                </div>
                             </div>
-                            <span class="text-xs font-mono font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                                {{ $category->books_count ?? $category->books()->count() }} đầu sách
-                            </span>
+
+                            <!-- Title -->
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1 flex items-center justify-between">
+                                <span>{{ $category->name }}</span>
+                                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all duration-200 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </h3>
+
+                            <!-- Description -->
+                            <p class="mt-2 text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">
+                                {{ $cardDesc }}
+                            </p>
                         </div>
 
-                        <h3 class="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
-                            {{ $category->name }}
-                        </h3>
-
-                        <p class="mt-1.5 text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                            {{ $category->description ?? 'Tuyển tập tài liệu và sách chuyên khảo chất lượng cao phục vụ nghiên cứu.' }}
-                        </p>
+                        <!-- Bottom Action CTA -->
+                        <div class="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold {{ $theme['accent_text'] }}">
+                            <span class="group-hover:underline">Khám phá kho sách</span>
+                            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-50 group-hover:bg-indigo-50 group-hover:translate-x-0.5 transition-all text-slate-400 group-hover:text-indigo-600">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </span>
+                        </div>
                     </a>
                 @empty
-                    <div class="col-span-4 text-center py-8 text-slate-400">
-                        Chưa có thể loại nào được khởi tạo.
+                    <div class="col-span-4 text-center py-12 text-slate-400 bg-white rounded-2xl border border-slate-200">
+                        Chưa có thể loại nào được khởi tạo trong hệ thống.
                     </div>
                 @endforelse
+            </div>
+
+            <!-- Action Button below grid -->
+            <div class="mt-12 text-center">
+                <a href="{{ route('books.index') }}" 
+                   class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200/90 hover:border-indigo-300 text-slate-700 hover:text-indigo-600 text-xs sm:text-sm font-bold shadow-xs hover:shadow-md transition-all duration-200 group">
+                    <svg class="w-4 h-4 text-indigo-600 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    <span>Truy Cập Toàn Bộ Danh Mục & Bộ Lọc Nâng Cao</span>
+                    <span class="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-mono text-xs font-semibold">
+                        400+ cuốn
+                    </span>
+                    <svg class="w-4 h-4 text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
             </div>
 
         </div>
